@@ -1,0 +1,22 @@
+[
+  {
+    "label": "交付流水线",
+    "value": 127,
+    "suffix": "+"
+  },
+  {
+    "label": "节省总时数",
+    "value": 15000,
+    "suffix": "h"
+  },
+  {
+    "label": "跨系统桥接",
+    "value": 340,
+    "suffix": "+"
+  },
+  {
+    "label": "客户留存率",
+    "value": 98,
+    "suffix": "%"
+  }
+]

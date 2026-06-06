@@ -1,0 +1,196 @@
+<div class="relative bg-slate-900 sm:border border-slate-700/80 sm:rounded-[2rem] w-full sm:w-[600px] md:w-[800px] h-[90vh] sm:h-[95vh] shadow-[-20px_0_60px_rgba(0,0,0,0.8)] flex flex-col transform translate-x-full transition-transform duration-500 rounded-t-[2rem]" id="case-modal-content">
+ <!-- Modal Header -->
+ <div class="flex justify-between items-start p-6 sm:p-8 border-b border-slate-800/80 bg-slate-900/50">
+  <div>
+   <div class="flex gap-2 mb-3" id="cm-tags">
+   </div>
+   <h3 class="text-2xl sm:text-3xl font-black text-white tracking-tight leading-tight" id="cm-title">
+   </h3>
+  </div>
+  <button class="text-slate-500 hover:text-white bg-slate-800/50 hover:bg-slate-700 p-2 rounded-full transition-colors shrink-0" onclick="closeCaseModal()">
+   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+    <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    </path>
+   </svg>
+  </button>
+ </div>
+ <!-- Modal Body (Scrollable) -->
+ <div class="p-6 sm:p-8 overflow-y-auto no-scrollbar flex-1 bg-slate-900">
+  <div class="grid md:grid-cols-5 gap-8 case-modal-grid">
+   <!-- Left Col: Before & After -->
+   <div class="md:col-span-2 flex flex-col space-y-6 case-modal-left">
+    <!-- Before 模块 -->
+    <div class="bg-red-950/20 border border-red-900/30 rounded-2xl p-5 relative overflow-hidden flex-1">
+     <div class="absolute top-0 left-0 w-1 h-full bg-red-500/50">
+     </div>
+     <h4 class="text-red-400 text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse">
+      </span>
+      Before (传统人工)
+     </h4>
+     <div class="text-sm text-slate-400 leading-relaxed whitespace-pre-wrap" id="cm-before">
+     </div>
+    </div>
+    <!-- After 模块 -->
+    <div class="bg-cyan-950/20 border border-cyan-500/30 rounded-2xl p-5 relative overflow-hidden shadow-[inset_0_0_20px_rgba(6,182,212,0.05)] flex-1">
+     <div class="absolute top-0 left-0 w-1 h-full bg-cyan-400">
+     </div>
+     <h4 class="text-cyan-400 text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]">
+      </span>
+      After (SaaR 交付)
+     </h4>
+     <div class="text-sm text-slate-200 font-medium leading-relaxed whitespace-pre-wrap" id="cm-after">
+     </div>
+    </div>
+    <!-- ROI Highlight -->
+    <div class="bg-gradient-to-r from-purple-900/30 to-blue-900/30 border border-purple-500/30 rounded-2xl p-6 flex items-center justify-between">
+     <div>
+      <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">
+       量化商业收益
+      </p>
+      <p class="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 font-mono tracking-tighter" id="cm-roi">
+      </p>
+     </div>
+     <div class="text-4xl opacity-20 hover:scale-110 transition-transform cursor-default">
+      🚀
+     </div>
+    </div>
+   </div>
+   <!-- Right Col: Diagram & Geek Code -->
+   <div class="md:col-span-3 space-y-6 flex flex-col case-modal-right">
+    <!-- SVG Diagram -->
+    <div>
+     <h4 class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-purple-500">
+      </span>
+      核心架构蓝图 (Blueprint)
+     </h4>
+     <div class="bg-slate-950 border border-slate-800 rounded-2xl h-48 flex flex-col items-center justify-center relative overflow-hidden group">
+      <div class="absolute inset-0 bg-tech-grid opacity-20 group-hover:opacity-40 transition-opacity">
+      </div>
+      <div class="w-full h-full relative z-10 flex items-center justify-center">
+       <svg class="w-full h-full max-w-[350px]" viewbox="0 0 400 200">
+        <defs>
+         <lineargradient id="flowGrad" x1="0%" x2="100%" y1="0%" y2="0%">
+          <stop offset="0%" stop-color="#22d3ee" stop-opacity="0">
+          </stop>
+          <stop offset="50%" stop-color="#22d3ee" stop-opacity="1">
+          </stop>
+          <stop offset="100%" stop-color="#c084fc" stop-opacity="0">
+          </stop>
+         </lineargradient>
+         <filter height="140%" id="glow" width="140%" x="-20%" y="-20%">
+          <fegaussianblur result="blur" stddeviation="3">
+          </fegaussianblur>
+          <fecomposite in="SourceGraphic" in2="blur" operator="over">
+          </fecomposite>
+         </filter>
+        </defs>
+        <path d="M 60 100 C 120 100 140 100 180 100" fill="none" stroke="#334155" stroke-dasharray="4 4" stroke-width="2">
+        </path>
+        <path d="M 220 100 C 260 100 280 60 340 60" fill="none" stroke="#334155" stroke-dasharray="4 4" stroke-width="2">
+        </path>
+        <path d="M 220 100 C 260 100 280 140 340 140" fill="none" stroke="#334155" stroke-dasharray="4 4" stroke-width="2">
+        </path>
+        <circle fill="#22d3ee" filter="url(#glow)" r="3">
+         <animatemotion dur="2s" path="M 60 100 C 120 100 140 100 180 100" repeatcount="indefinite">
+         </animatemotion>
+        </circle>
+        <circle fill="#c084fc" filter="url(#glow)" r="3">
+         <animatemotion begin="0.5s" dur="2s" path="M 220 100 C 260 100 280 60 340 60" repeatcount="indefinite">
+         </animatemotion>
+        </circle>
+        <circle fill="#e879f9" filter="url(#glow)" r="3">
+         <animatemotion begin="1s" dur="2s" path="M 220 100 C 260 100 280 140 340 140" repeatcount="indefinite">
+         </animatemotion>
+        </circle>
+        <g transform="translate(40, 80)">
+         <rect fill="#1e293b" height="40" rx="8" stroke="#475569" stroke-width="1.5" width="40">
+         </rect>
+         <text dominant-baseline="middle" fill="#94a3b8" font-size="16" text-anchor="middle" x="20" y="24">
+          📥
+         </text>
+         <text fill="#64748b" font-family="monospace" font-size="8" text-anchor="middle" x="20" y="55">
+          Input
+         </text>
+        </g>
+        <g transform="translate(180, 75)">
+         <circle cx="20" cy="25" fill="#3b0764" filter="url(#glow)" r="25" stroke="#a855f7" stroke-width="2">
+         </circle>
+         <text dominant-baseline="middle" fill="#e879f9" font-size="20" text-anchor="middle" x="20" y="27">
+          🧠
+         </text>
+         <text fill="#a855f7" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle" x="20" y="65">
+          Agent Core
+         </text>
+        </g>
+        <g transform="translate(340, 40)">
+         <rect fill="#1e293b" height="40" rx="8" stroke="#475569" stroke-width="1.5" width="40">
+         </rect>
+         <text dominant-baseline="middle" fill="#94a3b8" font-size="16" text-anchor="middle" x="20" y="24">
+          ✉️
+         </text>
+         <text fill="#64748b" font-family="monospace" font-size="8" text-anchor="middle" x="20" y="55">
+          Action A
+         </text>
+        </g>
+        <g transform="translate(340, 120)">
+         <rect fill="#1e293b" height="40" rx="8" stroke="#475569" stroke-width="1.5" width="40">
+         </rect>
+         <text dominant-baseline="middle" fill="#94a3b8" font-size="16" text-anchor="middle" x="20" y="24">
+          📊
+         </text>
+         <text fill="#64748b" font-family="monospace" font-size="8" text-anchor="middle" x="20" y="55">
+          Action B
+         </text>
+        </g>
+       </svg>
+      </div>
+     </div>
+    </div>
+    <!-- Geek Code Block -->
+    <div class="flex-1 min-h-[160px] flex flex-col">
+     <h4 class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-green-500">
+      </span>
+      Geek's Arsenal (核心控制台)
+     </h4>
+     <div class="flex-1 bg-[#0d1117] border border-slate-700 rounded-2xl overflow-hidden flex flex-col shadow-inner group relative">
+      <div class="bg-slate-800/80 px-4 py-2 flex items-center justify-between border-b border-slate-700 z-20">
+       <div class="flex gap-1.5">
+        <div class="w-2.5 h-2.5 rounded-full bg-red-500">
+        </div>
+        <div class="w-2.5 h-2.5 rounded-full bg-yellow-500">
+        </div>
+        <div class="w-2.5 h-2.5 rounded-full bg-green-500">
+        </div>
+       </div>
+       <span class="text-[10px] font-mono text-slate-400 uppercase tracking-widest" id="cm-code-title">
+        System Node
+       </span>
+       <div class="w-10">
+       </div>
+      </div>
+      <div class="p-4 overflow-y-auto no-scrollbar relative flex-1 min-h-[160px] max-h-[200px]">
+       <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[#0d1117] pointer-events-none z-10">
+       </div>
+       <pre><code class="text-[11px] sm:text-xs font-mono text-cyan-300/90 leading-relaxed whitespace-pre-wrap break-all pb-8 relative z-0" id="cm-code-content"></code></pre>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+ <!-- Modal Footer -->
+ <div class="p-6 border-t border-slate-800/80 bg-slate-950 flex flex-col sm:flex-row items-center justify-between gap-4">
+  <p class="text-slate-500 text-sm italic">
+   准备好让您的业务同样腾飞了吗？
+  </p>
+  <div class="flex gap-3 w-full sm:w-auto">
+   <button class="flex-1 sm:flex-none px-8 py-3.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)] whitespace-nowrap" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'}); closeCaseModal();">
+    获取此方案报价
+   </button>
+  </div>
+ </div>
+</div>

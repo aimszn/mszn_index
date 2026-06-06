@@ -1,0 +1,85 @@
+{
+  "base": {
+    "brand": "麻升智能工作室",
+    "brandEn": "AIMSZN Studio",
+    "logo": "assets/images/aimszn_studio_logo.png",
+    "email": "aimszn@163.com",
+    "wechat": "AIMSZN",
+    "copyrightYear": "2026"
+  },
+  "media": {
+    "demoAudio": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    "videoB_Url": "https://www.w3schools.com/html/mov_bbb.mp4",
+    "videoB_Poster": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=800",
+    "videoC_Url": "https://www.w3schools.com/html/mov_bbb.mp4",
+    "videoC_Poster": "https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=800",
+    "wechatQrCode": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=200&auto=format&fit=crop",
+    "social": {
+      "wechat": {
+        "title": "主理人微信",
+        "desc": "扫码添加主理人，获取一对一架构咨询",
+        "icon": "💬",
+        "colorClass": "text-[#07C160]",
+        "bgClass": "bg-[#07C160]/10",
+        "borderClass": "border-[#07C160]/30",
+        "qrUrl": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=400&auto=format&fit=crop"
+      },
+      "videoChannel": {
+        "title": "微信视频号",
+        "desc": "扫码关注视频号，获取 AI 实战视频教学",
+        "icon": "🎬",
+        "colorClass": "text-[#E6A23C]",
+        "bgClass": "bg-[#E6A23C]/10",
+        "borderClass": "border-[#E6A23C]/30",
+        "qrUrl": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=400&auto=format&fit=crop"
+      },
+      "xiaohongshu": {
+        "title": "小红书主页",
+        "desc": "扫码关注小红书，看一人公司成长日记",
+        "icon": "📕",
+        "colorClass": "text-[#ff2442]",
+        "bgClass": "bg-[#ff2442]/10",
+        "borderClass": "border-[#ff2442]/30",
+        "qrUrl": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=400&auto=format&fit=crop"
+      },
+      "douyin": {
+        "title": "抖音主页",
+        "desc": "扫码关注抖音，围观 AI 自动化搞钱玩法",
+        "icon": "🎵",
+        "colorClass": "text-[#00f2fe]",
+        "bgClass": "bg-[#00f2fe]/10",
+        "borderClass": "border-[#00f2fe]/30",
+        "qrUrl": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=400&auto=format&fit=crop"
+      }
+    }
+  },
+  "api": {
+    "n8nWebhook": "http://192.168.1.58:5678/webhook/efficiency-diagnosis",
+    "newsletterWebhook": "https://your-n8n-instance.com/webhook/newsletter-subscribe"
+  },
+  "difyChatbot": {
+    "baseUrl": "https://dify.cursormax.fun",
+    "token": "p8rzCN5Yl0JnX2GJ",
+    "inputs": {
+      "current_page": "麻升智能工作室-官网交互终端"
+    }
+  },
+  "agents": {
+    "floatingCs": "https://udify.app/chat/YOUR_DIFY_CS_TOKEN",
+    "booking": "https://your-n8n-instance.com/webhook/chat/YOUR_BOOKING_TOKEN",
+    "credit": "https://udify.app/chat/YOUR_CREDIT_TOKEN",
+    "copywriter": "https://your-n8n-instance.com/webhook/chat/YOUR_COPY_TOKEN",
+    "localStore": "https://udify.app/chat/YOUR_LOCALSTORE_TOKEN",
+    "digitalHuman": "https://udify.app/chat/YOUR_HUMAN_TOKEN",
+    "poet": "https://udify.app/chat/YOUR_POET_TOKEN",
+    "qinhuai": "https://your-n8n-instance.com/webhook/chat/YOUR_QINHUAI_TOKEN",
+    "script": "https://udify.app/chat/YOUR_SCRIPT_TOKEN",
+    "tarot": "https://udify.app/chat/YOUR_TAROT_TOKEN",
+    "gameDM": "https://udify.app/chat/YOUR_GAMEDM_TOKEN",
+    "ipClone": "https://udify.app/chat/YOUR_IPCLONE_TOKEN",
+    "workplace": "https://udify.app/chat/YOUR_WORKPLACE_TOKEN",
+    "tutor": "https://udify.app/chat/YOUR_TUTOR_TOKEN",
+    "localPromo": "https://udify.app/chat/YOUR_PROMO_TOKEN",
+    "blogRag": "https://dify.cursormax.fun/chatbot/gEmcrq5aW9i0IoEf"
+  }
+}

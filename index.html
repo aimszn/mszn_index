@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>一人公司：麻升智能工作室 | 自动化与数字人文</title>
+
+    <meta name="description" content="麻升智能工作室：提供企业级 AI 自动化工作流定制与数字人文视听资产创作（墨影聆风）。">
+    <meta property="og:title" content="一人公司：麻升智能工作室 | 自动化与数字人文">
+    <meta property="og:description" content="左脑构建自动化提效齿轮，右脑创作视听数字艺术。提供创始人级别的端到端交付。">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="麻升智能工作室 | 自动化与数字人文">
+    <meta name="twitter:description" content="左脑构建自动化提效齿轮，右脑创作视听数字艺术。提供创始人级别的端到端交付。">
+
+    <!-- SEO JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "麻升智能工作室",
+      "image": "assets/images/aimszn_studio_logo.png",
+      "description": "提供基于 OpenClaw 与 n8n 的企业级 AI 智能体工作流定制与数字人文资产创作",
+      "url": "https://aimszn.studio"
+    }
+    </script>
+
+    <!-- 高级字体系统注入 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700;800&family=Noto+Serif+SC:wght@500;700;900&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind = {
+            config: {
+                safelist: [
+                    'md:grid-cols-5',
+                    'md:col-span-2',
+                    'md:col-span-3',
+                    'sm:w-[600px]',
+                    'md:w-[800px]',
+                    'lg:w-[1000px]',
+                    'xl:w-[1200px]',
+                    'sm:h-[95vh]',
+                    'z-[99999]',
+                    'z-[150]',
+                    'z-[9990]',
+                    'opacity-100',
+                    'opacity-0',
+                    'translate-x-0',
+                    'translate-x-full',
+                    'translate-y-10',
+                    'items-end',
+                    'sm:items-center',
+                    'justify-end',
+                    'p-0',
+                    'sm:p-4',
+                    'rounded-t-[2rem]',
+                    'sm:rounded-[2rem]',
+                    'hidden',
+                    'flex'
+                ]
+            }
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/confirmDate/confirmDate.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/confirmDate/confirmDate.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
+
+    <link rel="stylesheet" href="css/base.css?v=2">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/sections/cases.css">
+
+</head>
+
+<body class="selection:bg-cyan-500/30 overflow-x-hidden antialiased">
+
+    <!-- 容灾错误边界 -->
+    <div id="error-boundary"
+        class="fixed inset-0 bg-[#020617] z-[999999] flex-col items-center justify-center text-center p-6">
+        <div class="w-20 h-20 bg-red-900/30 text-red-500 rounded-3xl flex items-center justify-center text-4xl mb-6 border border-red-500/30">⚠️</div>
+        <h1 class="text-3xl font-black text-white mb-4">系统配置解析异常</h1>
+        <p class="text-slate-400 mb-8 max-w-md">后台数据加载失败，系统已触发安全降级保护。请检查配置字典的语法完整性。</p>
+        <button type="button" onclick="window.location.reload()"
+            class="px-8 py-3 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-700 transition-colors">尝试重新加载</button>
+    </div>
+
+    <!-- 全局安全防盗水印层 -->
+    <div id="security-watermark"></div>
+
+    <!-- Tailwind CDN 动态注入安全白名单 -->
+    <div class="hidden md:grid-cols-5 md:col-span-2 md:col-span-3 sm:w-[600px] md:w-[800px] lg:w-[1000px] xl:w-[1200px] sm:h-[95vh] z-[99999] z-[150] z-[9990] opacity-100 opacity-0 translate-x-0 translate-x-full translate-y-10 items-end sm:items-center justify-end p-0 sm:p-4 rounded-t-[2rem] sm:rounded-[2rem]"></div>
+
+    <script>
+        window.addEventListener('error', function(e) {
+            if (e.message && e.message.includes('ResizeObserver')) return;
+            alert("JS Error: " + e.message + " at " + e.filename + ":" + e.lineno);
+        });
+        window.addEventListener('unhandledrejection', function(e) {
+            alert("Promise Error: " + (e.reason ? e.reason.message || e.reason : 'Unknown'));
+        });
+    </script>
+
+    <!-- 导航栏 -->
+    <div id="partial-nav"></div>
+
+    <main class="min-h-screen pt-16 sm:pt-20">
+        <div id="partial-home"></div>
+        <div id="partial-masheng"></div>
+        <div id="partial-moying"></div>
+        <div id="partial-cases"></div>
+        <div id="partial-solutions"></div>
+        <div id="partial-arsenal"></div>
+        <div id="partial-blog"></div>
+        <div id="partial-dashboard"></div>
+        <div id="partial-trust"></div>
+    </main>
+
+    <section id="partial-contact"></section>
+    <footer id="partial-footer"></footer>
+    <div id="partial-modals"></div>
+
+    <!-- JavaScript 模块 -->
+    <script src="js/config.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/partials-loader.js?v=4"></script>
+    <script src="js/app.js?v=4"></script>
+    <script src="js/dify.js"></script>
+    <script src="js/workspace.js"></script>
+    <script src="js/cases.js?v=4"></script>
+
+</body>
+
+</html>

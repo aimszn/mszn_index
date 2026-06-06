@@ -1,0 +1,1339 @@
+    <section id="view-cases" class="view-section pt-24 sm:pt-32 pb-24 relative overflow-hidden">
+        <div
+            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-10 pointer-events-none">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16 relative">
+                <span
+                    class="px-4 py-1.5 rounded-full bg-purple-500/10 text-purple-400 text-sm font-bold border border-purple-500/20 inline-block mb-4 shadow-[0_0_15px_rgba(168,85,247,0.2)]">Delivery
+                    Cases</span>
+                <h2 class="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">标杆交付案例</h2>
+                <p class="text-xl text-slate-400">实打实的商业落地，看得见的降本增效。</p>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="flex flex-wrap justify-center gap-3 md:gap-4 mb-16" id="case-filters">
+                <button
+                    class="filter-btn active px-6 py-2.5 rounded-full text-sm font-bold border border-purple-500/50 bg-purple-500/20 text-white transition-all shadow-[0_0_15px_rgba(168,85,247,0.3)] hover:scale-105"
+                    data-filter="all">全域案例</button>
+                <button
+                    class="filter-btn px-6 py-2.5 rounded-full text-sm font-bold border border-slate-700 bg-slate-800 text-slate-400 hover:text-white hover:border-purple-400/50 transition-all hover:scale-105"
+                    data-filter="ecommerce">跨境电商</button>
+                <button
+                    class="filter-btn px-6 py-2.5 rounded-full text-sm font-bold border border-slate-700 bg-slate-800 text-slate-400 hover:text-white hover:border-blue-400/50 transition-all hover:scale-105"
+                    data-filter="manufacturing">智能制造</button>
+                <button
+                    class="filter-btn px-6 py-2.5 rounded-full text-sm font-bold border border-slate-700 bg-slate-800 text-slate-400 hover:text-white hover:border-amber-400/50 transition-all hover:scale-105"
+                    data-filter="enterprise">政企金融</button>
+                <button
+                    class="filter-btn px-6 py-2.5 rounded-full text-sm font-bold border border-slate-700 bg-slate-800 text-slate-400 hover:text-white hover:border-pink-400/50 transition-all hover:scale-105"
+                    data-filter="media">自媒体/泛娱乐</button>
+                <button
+                    class="filter-btn px-6 py-2.5 rounded-full text-sm font-bold border border-slate-700 bg-slate-800 text-slate-400 hover:text-white hover:border-green-400/50 transition-all hover:scale-105"
+                    data-filter="localstore">街边门店</button>
+                <button
+                    class="filter-btn px-6 py-2.5 rounded-full text-sm font-bold border border-slate-700 bg-slate-800 text-slate-400 hover:text-white hover:border-cyan-400/50 transition-all hover:scale-105"
+                    data-filter="education">教师学生</button>
+            </div>
+
+            <!-- Case Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="case-grid">
+
+                <!-- ================= 跨境电商 (E-commerce) 1-6 ================= -->
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-purple-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(168,85,247,0.15)]"
+                    data-category="ecommerce">
+                    <div class="h-48 relative overflow-hidden flex items-center justify-center bg-slate-900">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800" alt="Bot Chat Workflow"
+                            class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80">
+                        </div>
+                        <div
+                            class="absolute inset-0 flex items-center justify-center group-hover:bg-slate-950/20 transition-colors duration-500">
+                            <div
+                                class="w-12 h-12 bg-white/10 border border-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 shadow-[0_0_20px_rgba(168,85,247,0.5)]">
+                                <svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-bold rounded-full backdrop-blur-sm">跨境电商</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">n8n
+                                + LLM</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors tracking-tight">
+                            独立站客服与履约自动化系统</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">基于 n8n
+                            与大模型构建全链路自动化系统，无缝对接 Shopify 与 Zendesk，实现多语种邮件工单自动回复与跨境物流异常预警的闭环处理。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 2周</span>
+                            <span class="text-purple-400 font-bold bg-purple-950/50 px-2 py-1 rounded">处理效率
+                                +300%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-purple-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(168,85,247,0.15)]"
+                    data-category="ecommerce">
+                    <div class="h-48 relative overflow-hidden flex items-center justify-center bg-slate-900">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" alt="Workflow Setup"
+                            class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80">
+                        </div>
+                        <div
+                            class="absolute inset-0 flex items-center justify-center group-hover:bg-slate-950/20 transition-colors duration-500">
+                            <div
+                                class="w-12 h-12 bg-white/10 border border-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 shadow-[0_0_20px_rgba(168,85,247,0.5)]">
+                                <svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-bold rounded-full backdrop-blur-sm">跨境电商</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">Dify
+                                + RAG</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors tracking-tight">
+                            TikTok 爆款短视频矩阵分发器</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">利用 Dify 智能体提取竞品爆款元素，配合
+                            RAG 知识库批量生成多语种短视频脚本与本土化字幕，每天自动推送到 50+ TikTok 账号矩阵。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 3周</span>
+                            <span class="text-purple-400 font-bold bg-purple-950/50 px-2 py-1 rounded">内容产出
+                                x10倍</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-purple-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(168,85,247,0.15)]"
+                    data-category="ecommerce">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-purple-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">📊</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-bold rounded-full backdrop-blur-sm">跨境电商</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">Python
+                                Scraper</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors tracking-tight">
+                            亚马逊竞品评价情感分析大盘</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">定时抓取竞品 ASIN
+                            最近评价，通过大模型进行多维度情感判别与痛点聚类，生成选品趋势洞察并推送至企微群，指导产品迭代与备货。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 2周</span>
+                            <span class="text-purple-400 font-bold bg-purple-950/50 px-2 py-1 rounded">决策耗时
+                                -80%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-purple-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(168,85,247,0.15)]"
+                    data-category="ecommerce">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-purple-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">💬</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-bold rounded-full backdrop-blur-sm">跨境电商</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">OpenClaw</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors tracking-tight">
+                            跨平台自动询盘抓取与意图打标</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">统一聚合 WhatsApp, Facebook,
+                            IG 的客户询盘，利用自然语言处理自动判断客户意图（索评、询价、投诉），并动态打标签分配给对应销售。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 4周</span>
+                            <span class="text-purple-400 font-bold bg-purple-950/50 px-2 py-1 rounded">线索遗漏率
+                                0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-purple-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(168,85,247,0.15)]"
+                    data-category="ecommerce">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-purple-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">📝</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-bold rounded-full backdrop-blur-sm">跨境电商</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">LLM
+                                Workflow</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors tracking-tight">
+                            商品详情页 (Listing) 批量生成流水线</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">只需输入产品主图与核心卖点参数，智能体即根据
+                            SEO 规则与平台调性，一键生成含五点描述、长文本与 FAQ 的 8 种语言高质量 Listing。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 2周</span>
+                            <span class="text-purple-400 font-bold bg-purple-950/50 px-2 py-1 rounded">上架提速
+                                80%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-purple-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(168,85,247,0.15)]"
+                    data-category="ecommerce">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-purple-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">🔄</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-bold rounded-full backdrop-blur-sm">跨境电商</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">Agentic
+                                RPA</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors tracking-tight">
+                            智能退换货挽留与客诉防御系统</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">拦截客户发起的退款请求，AI
+                            根据订单金额、历史信誉与退货原因，自动提供折扣券或重发方案并进行邮件话术安抚，阻断恶性评价生成。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 3周</span>
+                            <span class="text-purple-400 font-bold bg-purple-950/50 px-2 py-1 rounded">退款挽回率
+                                22%</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ================= 智能制造 (Manufacturing) 1-6 ================= -->
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-blue-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(59,130,246,0.15)]"
+                    data-category="manufacturing">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-blue-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">⚙️</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-blue-500/20 border border-blue-500/30 text-blue-300 text-xs font-bold rounded-full backdrop-blur-sm">智能制造</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">ERP
+                                API集成</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors tracking-tight">
+                            供应链排产调度与动态优化智能体</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">深度对接企业级 ERP (SAP/用友)，利用
+                            Agentic Workflow 根据物料齐套率与设备空闲状态，自动计算并生成日滚动排产计划。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 4周</span>
+                            <span class="text-blue-400 font-bold bg-blue-950/50 px-2 py-1 rounded">排产耗时 -85%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-blue-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(59,130,246,0.15)]"
+                    data-category="manufacturing">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-blue-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">👁️</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-blue-500/20 border border-blue-500/30 text-blue-300 text-xs font-bold rounded-full backdrop-blur-sm">智能制造</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">Vision
+                                LLM</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors tracking-tight">
+                            工业图纸视觉分析与瑕疵检测大模型</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
+                            基于开源多模态大模型微调，接管产线视觉质检，自动标定 CAD 图纸缺陷与冲压实物误差，降低良率波动与返工风险。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 6周</span>
+                            <span class="text-blue-400 font-bold bg-blue-950/50 px-2 py-1 rounded">漏检率 < 0.1%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-blue-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(59,130,246,0.15)]"
+                    data-category="manufacturing">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-blue-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">🚨</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-blue-500/20 border border-blue-500/30 text-blue-300 text-xs font-bold rounded-full backdrop-blur-sm">智能制造</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">n8n
+                                Data Pipeline</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors tracking-tight">
+                            设备预测性维护与预警自动化日志流</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">实时监听 PLC
+                            数据报文与设备温升传感器日志，通过 AI 算法识别异常振动特征，并自动分级派发维护工单至钉钉/飞书车间群。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 3周</span>
+                            <span class="text-blue-400 font-bold bg-blue-950/50 px-2 py-1 rounded">非计划停机 -40%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-blue-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(59,130,246,0.15)]"
+                    data-category="manufacturing">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-blue-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">📑</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-blue-500/20 border border-blue-500/30 text-blue-300 text-xs font-bold rounded-full backdrop-blur-sm">智能制造</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">OCR
+                                + Agent</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors tracking-tight">
+                            采购比价与供应商资质自动审核系统</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">基于 OCR
+                            大模型自动提取盖章版报价单与供应商三证信息，智能横向对比历史底价，输出合规性检查表与建议采购份额。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 5周</span>
+                            <span class="text-blue-400 font-bold bg-blue-950/50 px-2 py-1 rounded">审核周期缩短 3天</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-blue-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(59,130,246,0.15)]"
+                    data-category="manufacturing">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-blue-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">📚</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-blue-500/20 border border-blue-500/30 text-blue-300 text-xs font-bold rounded-full backdrop-blur-sm">智能制造</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">RAG
+                                Knowledge</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors tracking-tight">
+                            制造工艺与 SOP 智能问答知识库</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">将数十万页 PDF
+                            工艺文件与视频培训资料切片向量化，新员工通过手机企微提问，大模型可秒级定位图文答案与参数规范。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 3周</span>
+                            <span class="text-blue-400 font-bold bg-blue-950/50 px-2 py-1 rounded">入职培训成本减半</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-blue-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(59,130,246,0.15)]"
+                    data-category="manufacturing">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-blue-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">📦</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-blue-500/20 border border-blue-500/30 text-blue-300 text-xs font-bold rounded-full backdrop-blur-sm">智能制造</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">Dify
+                                Automation</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors tracking-tight">
+                            仓储物流协同与出入库防错审核</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">扫码枪数据接入边缘节点大模型，在 WMS
+                            系统入账前自动交叉校验发货单与物流底单，发现串货或缺件即时触发拦截报警。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 2周</span>
+                            <span class="text-blue-400 font-bold bg-blue-950/50 px-2 py-1 rounded">错发现象 100%
+                                消除</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ================= 政企金融 (Enterprise & Finance) 1-6 ================= -->
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-amber-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(245,158,11,0.15)]"
+                    data-category="enterprise">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-amber-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">🛡️</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-bold rounded-full backdrop-blur-sm">政企金融</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">OpenClaw
+                                Local</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-amber-400 transition-colors tracking-tight">
+                            离线私有化研报合规审查系统</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">为券商机构部署基于 OpenClaw
+                            架构的完全离线私有化大模型，自动且安全地扫描上千页 PDF 中的敏感词、数据矛盾与逻辑硬伤。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 3周</span>
+                            <span class="text-amber-400 font-bold bg-amber-950/50 px-2 py-1 rounded">合规法务成本
+                                -70%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-amber-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(245,158,11,0.15)]"
+                    data-category="enterprise">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-amber-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">👤</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-bold rounded-full backdrop-blur-sm">政企金融</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">Avatar
+                                + TTS</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-amber-400 transition-colors tracking-tight">
+                            多模态政务大厅实时互动数字人</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
+                            结合海量政务知识库与毫秒级唇形同步渲染技术，部署大屏语音问答数字人，接管大厅基础导诊咨询，支持方言识别。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 5周</span>
+                            <span class="text-amber-400 font-bold bg-amber-950/50 px-2 py-1 rounded">人工分流 60%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-amber-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(245,158,11,0.15)]"
+                    data-category="enterprise">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-amber-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">📡</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-bold rounded-full backdrop-blur-sm">政企金融</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">Automated
+                                Spider</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-amber-400 transition-colors tracking-tight">
+                            招投标全网动态监控与商机分析系统</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">全天候监听省市公共资源交易平台与央企采购网，利用
+                            NLP 技术剥离无效招投标公告，按行业与金额精准匹配，即刻生成商机卡片推送至飞书群。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 3周</span>
+                            <span class="text-amber-400 font-bold bg-amber-950/50 px-2 py-1 rounded">商机获取提速
+                                90%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-amber-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(245,158,11,0.15)]"
+                    data-category="enterprise">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-amber-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">🎯</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-bold rounded-full backdrop-blur-sm">政企金融</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">Marketing
+                                Agent</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-amber-400 transition-colors tracking-tight">
+                            银行高净值客户个性化营销引擎</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">对接客户 CRM 画像，Agent
+                            根据不同客群的风险偏好与投资周期，调用外部宏观经济数据接口，批量生成“千人千面”的理财产品推介邮件与微信文案。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 4周</span>
+                            <span class="text-amber-400 font-bold bg-amber-950/50 px-2 py-1 rounded">转化率提升
+                                4.5倍</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-amber-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(245,158,11,0.15)]"
+                    data-category="enterprise">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-amber-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">🛎️</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-bold rounded-full backdrop-blur-sm">政企金融</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">ITSM
+                                Copilot</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-amber-400 transition-colors tracking-tight">
+                            企业内部 IT/HR 服务台自动工单系统</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">在企业微信内置服务台
+                            Copilot，员工提问后直接搜索内规解答，若遇复杂求助则自动归类故障类型，提取关键参数并路由创建 Jira 工单指派专员。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 2周</span>
+                            <span class="text-amber-400 font-bold bg-amber-950/50 px-2 py-1 rounded">服务单减少
+                                65%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-amber-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(245,158,11,0.15)]"
+                    data-category="enterprise">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-amber-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">📈</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-bold rounded-full backdrop-blur-sm">政企金融</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">Data
+                                Pipeline</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-amber-400 transition-colors tracking-tight">
+                            结构化财报与发票对账数据流</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">打破“发票糊脸”的手动录入窘境，构建高可用
+                            OCR 数据流管道，批量识别繁杂的上下游账单，自动抽取交易对手信息录入数据库以备出表对账。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 3周</span>
+                            <span class="text-amber-400 font-bold bg-amber-950/50 px-2 py-1 rounded">财务记账时效
+                                +10倍</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ================= 自媒体/泛娱乐 (Media & Entertainment) 1-6 ================= -->
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-pink-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(236,72,153,0.15)]"
+                    data-category="media">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-pink-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">📕</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-pink-500/20 border border-pink-500/30 text-pink-300 text-xs font-bold rounded-full backdrop-blur-sm">自媒体与泛娱乐</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">Midjourney
+                                + LLM</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-pink-400 transition-colors tracking-tight">
+                            小红书/公众号爆款网感图文引擎</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
+                            深度解析百万级赞藏榜单，智能体模拟“重情绪、带痛点”的特定网感口吻输出文案，并跨平台调用 Midjourney API 同步生成精美首图封面，彻底解放小编。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 2周</span>
+                            <span class="text-pink-400 font-bold bg-pink-950/50 px-2 py-1 rounded">发文频率 x5 倍</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-pink-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(236,72,153,0.15)]"
+                    data-category="media">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-pink-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">🎬</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-pink-500/20 border border-pink-500/30 text-pink-300 text-xs font-bold rounded-full backdrop-blur-sm">自媒体与泛娱乐</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">FFmpeg
+                                Automation</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-pink-400 transition-colors tracking-tight">
+                            播客与长视频一键高光切片分发流</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">只需提供长视频云盘链接，系统通过 ASR
+                            语音识别与语意高潮点计算，自动完成高光片段切割、加特效字幕，最后输出多个适配不同平台的短视频成片。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 3周</span>
+                            <span class="text-pink-400 font-bold bg-pink-950/50 px-2 py-1 rounded">后期剪辑 0 干预</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-pink-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(236,72,153,0.15)]"
+                    data-category="media">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-pink-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">🤖</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-pink-500/20 border border-pink-500/30 text-pink-300 text-xs font-bold rounded-full backdrop-blur-sm">自媒体与泛娱乐</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">Agent
+                                Character</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-pink-400 transition-colors tracking-tight">
+                            虚拟偶像粉丝私域 24H 陪伴机器人</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">注入特定 IP
+                            角色的性格特征与长期记忆模块，在微信群组或 Discord 中打造拥有独立人格的虚拟陪伴偶像，提供情感支持、签到打卡并增强粉群粘性。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 4周</span>
+                            <span class="text-pink-400 font-bold bg-pink-950/50 px-2 py-1 rounded">社群活跃度
+                                +400%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-pink-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(236,72,153,0.15)]"
+                    data-category="media">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-pink-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">✍️</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-pink-500/20 border border-pink-500/30 text-pink-300 text-xs font-bold rounded-full backdrop-blur-sm">自媒体与泛娱乐</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">Co-writing</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-pink-400 transition-colors tracking-tight">
+                            剧本杀与网文小说剧情世界观推演助手</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">作者仅需构思人物基础设定与起因，Agent
+                            辅助延展出庞大世界观与多线剧情分支树，甚至进行“玩家视角”的逻辑盲区与破绽压力测试，保障闭环。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 3周</span>
+                            <span class="text-pink-400 font-bold bg-pink-950/50 px-2 py-1 rounded">设定逻辑无硬伤</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-pink-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(236,72,153,0.15)]"
+                    data-category="media">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-pink-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">🎵</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-pink-500/20 border border-pink-500/30 text-pink-300 text-xs font-bold rounded-full backdrop-blur-sm">自媒体与泛娱乐</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">Suno/Udio
+                                API</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-pink-400 transition-colors tracking-tight">
+                            商用级配乐灵感生成与有声书自动制作</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
+                            对接音频大模型矩阵，通过工作流将品牌故事自动转化为多风格分轨 BGM，或将网文批量转制为具有生动角色情绪的广播剧音频，极大压缩外包成本。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 2周</span>
+                            <span class="text-pink-400 font-bold bg-pink-950/50 px-2 py-1 rounded">音频版权完全可控</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-pink-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(236,72,153,0.15)]"
+                    data-category="media">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-pink-900/40 relative overflow-hidden flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-50">
+                        </div>
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">🕹️</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-pink-500/20 border border-pink-500/30 text-pink-300 text-xs font-bold rounded-full backdrop-blur-sm">自媒体与泛娱乐</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">Live
+                                Stream Agent</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-pink-400 transition-colors tracking-tight">
+                            直播间弹幕情感分析与智能中控场控调度</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
+                            毫秒级截取直播间滚屏弹幕，大模型过滤黑粉言论并提取核心提问生成提词器卡片给主播，同时自动控制推流贴片与商品橱窗弹窗，实现一人控局。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 4周</span>
+                            <span class="text-pink-400 font-bold bg-pink-950/50 px-2 py-1 rounded">运营人力 -1 人</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ================= 同城门店 (Local Store) ================= -->
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-green-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(34,197,94,0.15)]"
+                    data-category="localstore">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-green-900/40 relative overflow-hidden flex items-center justify-center">
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">🏪</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-green-500/20 border border-green-500/30 text-green-300 text-xs font-bold rounded-full backdrop-blur-sm">街边门店</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">n8n
+                                + Dify</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-green-400 transition-colors tracking-tight">
+                            美团差评拦截与高情商挽回中控</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
+                            实时监听美团/大众点评评价，遇到3星及以下中差评自动触发预警，调用 Dify 生成带有情绪价值的专属安抚话术，引导添加店长企业微信进行补偿挽回，差评修改率大幅提升。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 1周</span>
+                            <span class="text-green-400 font-bold bg-green-950/50 px-2 py-1 rounded">差评挽回率
+                                +60%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-green-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(34,197,94,0.15)]"
+                    data-category="localstore">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-green-900/40 relative overflow-hidden flex items-center justify-center">
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">💅</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-green-500/20 border border-green-500/30 text-green-300 text-xs font-bold rounded-full backdrop-blur-sm">街边门店</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">LLM
+                                Agent</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-green-400 transition-colors tracking-tight">
+                            美容美发店：智能探店软文生成器</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
+                            美发师只需上传顾客做完头发前后的对比照片，输入简单的发型亮点，大模型自动提取图片特征，生成极具小红书网感、种草属性极强的千字探店软文，一键分发获客。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 2周</span>
+                            <span class="text-green-400 font-bold bg-green-950/50 px-2 py-1 rounded">营销成本
+                                -90%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-green-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(34,197,94,0.15)]"
+                    data-category="localstore">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-green-900/40 relative overflow-hidden flex items-center justify-center">
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">🥬</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-green-500/20 border border-green-500/30 text-green-300 text-xs font-bold rounded-full backdrop-blur-sm">街边门店</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">自动化营销</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-green-400 transition-colors tracking-tight">
+                            社区生鲜超市：临期打折与私域推送</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
+                            对接门店收银ERP库存，每日下午5点自动盘点生鲜临期库存，结合当日天气与节假日大模型自动生成降价促销海报与文案，一键群发至小区业主微信群，实现零损耗库存清仓。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 2周</span>
+                            <span class="text-green-400 font-bold bg-green-950/50 px-2 py-1 rounded">生鲜损耗率
+                                -85%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-green-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(34,197,94,0.15)]"
+                    data-category="localstore">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-green-900/40 relative overflow-hidden flex items-center justify-center">
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">🐕</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-green-500/20 border border-green-500/30 text-green-300 text-xs font-bold rounded-full backdrop-blur-sm">街边门店</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">RPA
+                                + Dify</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-green-400 transition-colors tracking-tight">
+                            宠物洗护门店：客户回访与疫苗管家</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
+                            建立宠物健康数字档案。在宠物洗澡、驱虫或疫苗接种后的特定周期，AI自动在企微向主人发送专属健康问候与复诊提醒，提升门店复购率与客户粘性。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 1周</span>
+                            <span class="text-green-400 font-bold bg-green-950/50 px-2 py-1 rounded">客户复购率
+                                +40%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-green-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(34,197,94,0.15)]"
+                    data-category="localstore">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-green-900/40 relative overflow-hidden flex items-center justify-center">
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">🧋</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-green-500/20 border border-green-500/30 text-green-300 text-xs font-bold rounded-full backdrop-blur-sm">街边门店</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">数据大模型</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-green-400 transition-colors tracking-tight">
+                            连锁茶饮店：店长每日经营日报助理</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">打通美团/饿了么与线下收银机数据，每日闭店后
+                            AI 自动核算当日营业额、单品销量榜单与库存消耗情况，生成清晰的数据图表与管理建议一键发送给店长与大区经理。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 3周</span>
+                            <span class="text-green-400 font-bold bg-green-950/50 px-2 py-1 rounded">店长耗时
+                                -2h/天</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-green-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(34,197,94,0.15)]"
+                    data-category="localstore">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-green-900/40 relative overflow-hidden flex items-center justify-center">
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">🌿</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-green-500/20 border border-green-500/30 text-green-300 text-xs font-bold rounded-full backdrop-blur-sm">街边门店</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">医疗知识库
+                                RAG</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-green-400 transition-colors tracking-tight">
+                            社区中医养生馆：节气养生随访私域</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
+                            基于中医基础理论知识库搭建智能导诊系统，并在二十四节气自动向曾推拿拔罐的老顾客发送对应体质的饮食起居建议与专属优惠券，建立高度信任的长期医患关系。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 2周</span>
+                            <span class="text-green-400 font-bold bg-green-950/50 px-2 py-1 rounded">进店转化率
+                                +55%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= 教师学生 (Education) ================= -->
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-cyan-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(6,182,212,0.15)]"
+                    data-category="education">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-cyan-900/40 relative overflow-hidden flex items-center justify-center">
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">🎓</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 text-xs font-bold rounded-full backdrop-blur-sm">教师学生</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">RAG
+                                + 教育模型</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors tracking-tight">
+                            学术论文伴读与知识点追问私教</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">上传 PDF 英文期刊，基于教育级 RAG
+                            架构，不仅能秒出中文对照摘要，还能以苏格拉底追问模式，对复杂的实验方法进行降维解释，极大提升留学生与科研人员的阅读效率。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 2周</span>
+                            <span class="text-cyan-400 font-bold bg-cyan-950/50 px-2 py-1 rounded">阅读效率 10x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-cyan-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(6,182,212,0.15)]"
+                    data-category="education">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-cyan-900/40 relative overflow-hidden flex items-center justify-center">
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">📋</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 text-xs font-bold rounded-full backdrop-blur-sm">教师学生</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">n8n
+                                Workflow</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors tracking-tight">
+                            教师班务全自动流转机器人</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
+                            打通飞书表格与微信/企业微信。每日自动统计未交作业名单，一键生成个性化催交通知分发给对应家长；考试后自动生成多维度班级学情分析报告，大幅减轻班主任非教学工作量。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 3周</span>
+                            <span class="text-cyan-400 font-bold bg-cyan-950/50 px-2 py-1 rounded">每周省时 8h</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-cyan-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(6,182,212,0.15)]"
+                    data-category="education">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-cyan-900/40 relative overflow-hidden flex items-center justify-center">
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">🗣️</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 text-xs font-bold rounded-full backdrop-blur-sm">教师学生</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">Voice
+                                AI</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors tracking-tight">
+                            留学生口语陪练：全真雅思模拟面试官</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
+                            利用全双工语音交互大模型构建虚拟考官，1:1还原雅思/托福口语考试流程。对话结束后自动生成发音、词汇、语法的多维度评分与改进报告，告别昂贵的外教陪练费用。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 2周</span>
+                            <span class="text-cyan-400 font-bold bg-cyan-950/50 px-2 py-1 rounded">练习成本 0元</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-cyan-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(6,182,212,0.15)]"
+                    data-category="education">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-cyan-900/40 relative overflow-hidden flex items-center justify-center">
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">📚</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 text-xs font-bold rounded-full backdrop-blur-sm">教师学生</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">长文本
+                                LLM</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors tracking-tight">
+                            毕业设计文献综述与开题报告生成器</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
+                            对接学术文献数据库，自动检索课题相关近五年核心期刊。一键提取研究背景、前沿进展与痛点空白，自动排版生成符合学术规范的开题文献综述初稿，为大四学子减负。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 1周</span>
+                            <span class="text-cyan-400 font-bold bg-cyan-950/50 px-2 py-1 rounded">开题准备提速 80%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-cyan-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(6,182,212,0.15)]"
+                    data-category="education">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-cyan-900/40 relative overflow-hidden flex items-center justify-center">
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">❤️‍🩹</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 text-xs font-bold rounded-full backdrop-blur-sm">教师学生</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">情感分析
+                                + n8n</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors tracking-tight">
+                            辅导员心理危机预警与谈话自动归档</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
+                            通过语音识别记录辅导员与学生的长篇谈心谈话音频，大模型进行情感语义抽离，快速识别潜在的抑郁、焦虑倾向并进行分级预警，随后自动格式化录入校方管理系统归档。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 3周</span>
+                            <span class="text-cyan-400 font-bold bg-cyan-950/50 px-2 py-1 rounded">档案整理耗时
+                                -95%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="openCaseModal(this)"
+                    class="case-card group cursor-pointer relative bg-slate-800/40 border border-slate-700/50 rounded-[2rem] overflow-hidden hover:border-cyan-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(6,182,212,0.15)]"
+                    data-category="education">
+                    <div
+                        class="h-48 bg-gradient-to-br from-slate-900 to-cyan-900/40 relative overflow-hidden flex items-center justify-center">
+                        <span
+                            class="text-6xl group-hover:scale-110 transition-transform duration-500 relative z-10 drop-shadow-xl">📈</span>
+                        <div class="absolute bottom-4 left-4 z-10 flex gap-2">
+                            <span
+                                class="px-3 py-1 bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 text-xs font-bold rounded-full backdrop-blur-sm">教师学生</span>
+                            <span
+                                class="px-3 py-1 bg-slate-900/50 border border-slate-700 text-slate-300 text-xs font-mono rounded-full backdrop-blur-sm">Code
+                                Interpreter</span>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3
+                            class="text-xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors tracking-tight">
+                            高校科研数据清洗与 Origin 级图表生成</h3>
+                        <p class="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
+                            研究生只需投喂杂乱的实验室设备仪器原始输出表格，调用代码解释器智能识别异常值并做平滑插值处理，直接一键生成满足 SCI 期刊发表规格的精美科研图表。</p>
+                        <div
+                            class="flex items-center justify-between text-xs font-mono pt-4 border-t border-slate-700/50">
+                            <span class="text-slate-500">周期: 2周</span>
+                            <span class="text-cyan-400 font-bold bg-cyan-950/50 px-2 py-1 rounded">作图效率 5x</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonial Slider -->
+            <section class="max-w-7xl mx-auto px-4 py-24 border-t border-slate-800/50 reveal-on-scroll">
+                <div class="text-center mb-16">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-950/50 border border-amber-500/30 text-[10px] text-amber-400 font-bold uppercase tracking-widest mb-4">
+                        <span class="text-base">💬</span> Social Proof
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">他们都在用麻升智能重构业务</h2>
+                    <p class="text-slate-400">听听那些已经迈入 AI 时代的先行者怎么说。</p>
+                </div>
+
+                <div class="relative w-full overflow-hidden" id="testimonial-slider">
+                    <div class="flex gap-6 animate-scroll-left hover:pause-animation w-max">
+                        <!-- Testimonial 1 -->
+                        <div
+                            class="w-[350px] bg-slate-900 border border-slate-800 rounded-3xl p-8 shrink-0 hover:border-slate-600 transition-colors">
+                            <div class="text-4xl text-slate-700 font-serif mb-4">"</div>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6">以前大促期间客服全员通宵，退换货错漏百出。现在 n8n
+                                智能体接管了 80% 的工单，响应时间降到了 5 秒内，这是真正的降本增效。</p>
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center text-white font-bold">
+                                    L</div>
+                                <div>
+                                    <p class="text-white text-sm font-bold">Lin 总</p>
+                                    <p class="text-slate-500 text-xs">某华南头部跨境独立站创始人</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Testimonial 2 -->
+                        <div
+                            class="w-[350px] bg-slate-900 border border-slate-800 rounded-3xl p-8 shrink-0 hover:border-slate-600 transition-colors">
+                            <div class="text-4xl text-slate-700 font-serif mb-4">"</div>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6">做工业排产这么多年，没想过 AI
+                                能把这种玄学变成精准的数学模型。日滚动排产耗时从 3 小时缩短到 15 分钟，令人震撼的工程化能力。</p>
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold">
+                                    Z</div>
+                                <div>
+                                    <p class="text-white text-sm font-bold">赵厂长</p>
+                                    <p class="text-slate-500 text-xs">浙江某精密制造企业</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Testimonial 3 -->
+                        <div
+                            class="w-[350px] bg-slate-900 border border-slate-800 rounded-3xl p-8 shrink-0 hover:border-slate-600 transition-colors">
+                            <div class="text-4xl text-slate-700 font-serif mb-4">"</div>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6">市面上的套壳 AI
+                                公司太多了，但麻升是真正在做底层的数据打通和意图识别。私有化部署后，我们的合规审查团队释放了极大的生产力。</p>
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold">
+                                    C</div>
+                                <div>
+                                    <p class="text-white text-sm font-bold">陈总监</p>
+                                    <p class="text-slate-500 text-xs">某合规数据服务平台</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Duplicate for infinite scroll -->
+                        <div
+                            class="w-[350px] bg-slate-900 border border-slate-800 rounded-3xl p-8 shrink-0 hover:border-slate-600 transition-colors">
+                            <div class="text-4xl text-slate-700 font-serif mb-4">"</div>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6">以前大促期间客服全员通宵，退换货错漏百出。现在 n8n
+                                智能体接管了 80% 的工单，响应时间降到了 5 秒内，这是真正的降本增效。</p>
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center text-white font-bold">
+                                    L</div>
+                                <div>
+                                    <p class="text-white text-sm font-bold">Lin 总</p>
+                                    <p class="text-slate-500 text-xs">某华南头部跨境独立站创始人</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </section>
+
+            <!-- Lead Magnet CTA Banner -->
+            <div class="mt-20 max-w-5xl mx-auto reveal-on-scroll">
+                <div
+                    class="glass-card rounded-[32px] p-10 sm:p-14 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10 border border-purple-500/30 shadow-[0_30px_60px_rgba(168,85,247,0.15)]">
+                    <div
+                        class="absolute -top-32 -left-32 w-80 h-80 bg-purple-600/20 blur-[100px] rounded-full pointer-events-none">
+                    </div>
+                    <div
+                        class="absolute -bottom-32 -right-32 w-80 h-80 bg-blue-600/20 blur-[100px] rounded-full pointer-events-none">
+                    </div>
+
+                    <div class="relative z-10 md:w-3/5">
+                        <div
+                            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-950/50 border border-purple-500/30 text-[10px] text-purple-400 font-bold uppercase tracking-widest mb-4">
+                            <span class="text-lg">🎁</span> 免费白皮书资源
+                        </div>
+                        <h3 class="text-3xl sm:text-4xl font-black text-white mb-4 tracking-tight">想获取上述系统的底层源码？
+                        </h3>
+                        <p class="text-slate-400 text-base leading-relaxed">免费下载《2026 四大行业 AI 自动化实战白皮书》，内含以上 24
+                            个商业落地案例的详细 <strong class="text-purple-400 font-bold">工作流连线架构图</strong> 与 <strong
+                                class="text-purple-400 font-bold">Prompt 核心源码包</strong>。</p>
+                    </div>
+
+                    <div
+                        class="relative z-10 md:w-2/5 w-full bg-slate-900/60 p-6 rounded-3xl border border-slate-700 shadow-inner">
+                        <form id="case-lead-form" class="flex flex-col gap-3" onsubmit="submitCaseLead(event)">
+                            <label class="text-[10px] text-slate-500 font-bold uppercase tracking-widest pl-2">接收邮箱
+                                (Work Email)</label>
+                            <input type="email" id="case-lead-email" required placeholder="aimszn@163.com"
+                                class="w-full bg-slate-950/80 border border-slate-700 p-4 rounded-xl text-white outline-none focus:border-purple-500 transition-colors text-sm font-mono shadow-inner">
+                            <button type="submit" id="case-lead-btn"
+                                class="w-full mt-1 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 text-white font-black text-sm hover:scale-[1.02] transition-transform shadow-[0_10px_20px_rgba(168,85,247,0.3)] flex justify-center items-center">
+                                <span id="case-lead-text">立即发送至邮箱</span>
+                                <svg id="case-lead-loader" class="hidden animate-spin h-5 w-5 text-white absolute"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                    </path>
+                                </svg>
+                            </button>
+                            <div id="case-lead-msg" class="hidden text-center text-xs font-bold mt-2"></div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+

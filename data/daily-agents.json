@@ -1,0 +1,62 @@
+[
+  {
+    "title": "高情商职场「嘴替」",
+    "icon": "👔",
+    "target": "在职白领",
+    "desc": "职场生存神器。输入你的直白诉求或吐槽，Agent 自动转化为高情商、滴水不漏的沟通话术或精美的周报大纲。",
+    "tags": [
+      "职场沟通",
+      "文档润色"
+    ],
+    "urlKey": "workplace",
+    "theme": {
+      "text": "text-blue-400",
+      "bg": "bg-blue-950/30",
+      "border": "border-blue-500/30",
+      "hoverBorder": "hover:border-blue-500/60",
+      "hoverText": "group-hover:text-blue-400",
+      "hoverIconBorder": "group-hover:border-blue-500/50",
+      "btn": "hover:bg-blue-600 hover:border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)]"
+    }
+  },
+  {
+    "title": "苏格拉底启发式导师",
+    "icon": "🎓",
+    "target": "学生 / 教育者",
+    "desc": "拒绝死记硬背。上传学术论文或课件，它不会直接给答案，而是通过层层反问引导你独立思考，掌握核心逻辑链条。",
+    "tags": [
+      "深度学习",
+      "文档解析"
+    ],
+    "urlKey": "tutor",
+    "theme": {
+      "text": "text-amber-400",
+      "bg": "bg-amber-950/30",
+      "border": "border-amber-500/30",
+      "hoverBorder": "hover:border-amber-500/60",
+      "hoverText": "group-hover:text-amber-400",
+      "hoverIconBorder": "group-hover:border-amber-500/50",
+      "btn": "hover:bg-amber-600 hover:border-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.3)]"
+    }
+  },
+  {
+    "title": "街边店爆款营销大脑",
+    "icon": "🏪",
+    "target": "独立店主",
+    "desc": "实体小微企业的宣发杠杆。拍一张咖啡或新品照片发给它，自动生成 5 种不同风格（诱人、幽默、文艺）且带 Emoji 的朋友圈文案。",
+    "tags": [
+      "本地生活",
+      "私域促活"
+    ],
+    "urlKey": "localPromo",
+    "theme": {
+      "text": "text-emerald-400",
+      "bg": "bg-emerald-950/30",
+      "border": "border-emerald-500/30",
+      "hoverBorder": "hover:border-emerald-500/60",
+      "hoverText": "group-hover:text-emerald-400",
+      "hoverIconBorder": "group-hover:border-emerald-500/50",
+      "btn": "hover:bg-emerald-600 hover:border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+    }
+  }
+]

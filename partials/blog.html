@@ -1,0 +1,138 @@
+    <section id="view-blog" class="view-section pb-32">
+        <div
+            class="py-24 sm:py-32 px-4 text-center border-b border-amber-900/20 mb-16 bg-gradient-to-b from-amber-950/20 to-transparent relative overflow-hidden">
+            <div
+                class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-amber-500/10 blur-[100px] rounded-full pointer-events-none">
+            </div>
+            <div
+                class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-amber-800 to-amber-950 text-4xl mb-8 border border-amber-600/30 shadow-[0_20px_50px_rgba(245,158,11,0.15)] relative z-10">
+                📖</div>
+            <h1 class="text-5xl sm:text-6xl font-black mb-6 text-white tracking-tight relative z-10">AI 智能体前沿研究</h1>
+            <p class="text-amber-100/60 text-lg relative z-10 font-light max-w-2xl mx-auto">深度解析 Multi-Agent 架构与 AGI
+                落地实践。海量真实商业案例，毫无保留的技术复盘。</p>
+
+            <!-- 🌟 高转化交互：知识库 RAG 问答入口 -->
+            <div class="max-w-3xl mx-auto mt-12 relative z-10 reveal-on-scroll">
+                <div
+                    class="bg-slate-900/80 border border-slate-700 p-2 rounded-2xl flex flex-col sm:flex-row items-center gap-2 shadow-2xl backdrop-blur-xl focus-within:border-amber-500/50 transition-colors">
+                    <div class="flex items-center flex-1 w-full pl-4">
+                        <span class="text-amber-500 text-xl animate-pulse">✨</span>
+                        <input type="text" placeholder="向专属知识库 Agent 提问，例如：企业如何低成本部署 Multi-Agent？"
+                            class="flex-1 bg-transparent border-none text-white outline-none px-4 py-3 text-sm font-light w-full">
+                    </div>
+                    <button type="button" data-action="open-agent" data-title="博客专属 RAG 知识库问答"
+                        data-url-key="blogRag"
+                        class="w-full sm:w-auto bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 text-white px-8 py-3 rounded-xl font-bold text-sm transition-all shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] flex items-center justify-center gap-2 focus:outline-none">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        召唤 AI 检索
+                    </button>
+                </div>
+                <!-- 针对长尾客群的场景化诱导搜索词 -->
+                <div
+                    class="mt-5 flex flex-wrap justify-center gap-3 text-[11px] sm:text-xs text-slate-400 font-medium">
+                    <span class="text-amber-500/80 font-mono font-bold mr-1">💡 试着搜索：</span>
+                    <button type="button"
+                        class="hover:text-amber-400 transition-colors border-b border-transparent hover:border-amber-400/30">实体店怎样用AI引流？</button>
+                    <span class="text-slate-700 hidden sm:inline">|</span>
+                    <button type="button"
+                        class="hover:text-amber-400 transition-colors border-b border-transparent hover:border-amber-400/30">打工人怎样秒写周报？</button>
+                    <span class="text-slate-700 hidden sm:inline">|</span>
+                    <button type="button"
+                        class="hover:text-amber-400 transition-colors border-b border-transparent hover:border-amber-400/30">学生能用智能体干嘛？</button>
+                    <span class="text-slate-700 hidden sm:inline">|</span>
+                    <button type="button"
+                        class="hover:text-amber-400 transition-colors border-b border-transparent hover:border-amber-400/30">自媒体爆款工作流</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4">
+            <div id="blog-filters" class="flex flex-wrap justify-center gap-3 mb-16"></div>
+            <div id="blog-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
+
+            <!-- 🌟 留资诱饵池：高价值资源库 (Lead Magnets) -->
+            <div class="mt-32 mb-16 reveal-on-scroll">
+                <div
+                    class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 border-b border-slate-800/80 pb-6 gap-4">
+                    <div>
+                        <h3
+                            class="text-2xl sm:text-3xl font-bold text-white flex items-center gap-3 tracking-tight">
+                            <span class="text-amber-500">🎁</span> 内部私有资产库 <span
+                                class="bg-amber-950/50 text-amber-400 text-[9px] px-2 py-1 rounded border border-amber-500/30 tracking-widest uppercase font-mono shadow-sm">Premium</span>
+                        </h3>
+                        <p class="text-slate-400 text-sm mt-2 font-light">获取我们内部使用的生产力工具包、工作流源码及闭门研报。</p>
+                    </div>
+                    <span
+                        class="text-[10px] text-slate-500 font-mono uppercase tracking-widest whitespace-nowrap hidden sm:block">Unlock
+                        High-Value Assets</span>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="resources-grid"></div>
+            </div>
+
+            <!-- 通讯订阅模块 -->
+            <div
+                class="mt-28 glass-card p-10 sm:p-16 rounded-[40px] border border-cyan-500/20 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12 reveal-on-scroll shadow-2xl">
+                <div
+                    class="absolute -top-32 -left-32 w-80 h-80 bg-cyan-500/10 blur-[100px] rounded-full pointer-events-none">
+                </div>
+                <div
+                    class="absolute -bottom-32 -right-32 w-80 h-80 bg-pink-500/10 blur-[100px] rounded-full pointer-events-none">
+                </div>
+
+                <div class="relative z-10 md:w-1/2 text-center md:text-left">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/50 border border-cyan-500/30 text-[10px] text-cyan-400 font-bold uppercase tracking-widest mb-6">
+                        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span> Newsletter
+                    </div>
+                    <h3 class="text-3xl sm:text-4xl font-black text-white mb-5 tracking-tight">订阅《一人公司工程通讯》</h3>
+                    <p class="text-slate-400 text-base leading-relaxed mb-8 font-light">每周一封。我将毫无保留地分享 n8n
+                        自动化实战脚本、Dify 工作流调优经验以及 AI 驱动商业增长的硬核洞察。</p>
+                    <div
+                        class="flex flex-wrap items-center justify-center md:justify-start gap-5 text-[11px] font-mono text-cyan-400 uppercase tracking-widest font-bold">
+                        <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg> 拒绝水文</span>
+                        <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg> 包含源码</span>
+                        <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg> 随时退订</span>
+                    </div>
+                </div>
+
+                <div
+                    class="relative z-10 w-full md:w-1/2 max-w-md bg-slate-900/50 p-8 rounded-[32px] border border-slate-700 shadow-inner">
+                    <form id="newsletter-form" class="flex flex-col gap-4">
+                        <label class="text-xs text-slate-400 font-bold uppercase tracking-widest pl-1">工作邮箱 Work
+                            Email</label>
+                        <input type="email" id="nl-email" required placeholder="hello@example.com"
+                            class="w-full bg-slate-950/80 border border-slate-700 p-4 rounded-2xl text-white outline-none focus:border-cyan-500 transition-colors text-sm shadow-inner font-mono">
+                        <button type="submit" id="nl-submit-btn"
+                            class="w-full mt-2 py-4 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black text-sm hover:scale-[1.02] transition-transform shadow-[0_10px_20px_rgba(6,182,212,0.3)] relative flex justify-center items-center border border-cyan-400/30">
+                            <span id="nl-btn-text">免费订阅通讯</span>
+                            <svg id="nl-btn-loader" class="hidden animate-spin h-5 w-5 text-white absolute"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                        </button>
+                    </form>
+                    <div id="nl-msg" class="hidden mt-4 transition-all duration-300"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+

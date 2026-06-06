@@ -1,0 +1,92 @@
+    <section id="contact" class="py-32 px-4 bg-[#02040a] border-t border-slate-800/80 relative overflow-hidden">
+        <div
+            class="absolute bottom-0 right-0 w-[800px] h-[800px] bg-cyan-900/10 blur-[150px] rounded-full pointer-events-none">
+        </div>
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-20 relative z-10">
+            <div class="reveal-on-scroll">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-700 bg-slate-800/50 mb-8 text-[11px] font-mono text-slate-300">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    Available for New Projects
+                </div>
+                <h2 class="text-6xl font-black text-white mb-10 tracking-tighter leading-[1.1]">将您的后背<br /><span
+                        class="text-gradient-cyan">交给自动化。</span></h2>
+                <p class="text-slate-400 text-lg mb-8 font-light leading-relaxed">每季度仅开放 10
+                    个深度交付名额。剔除传统外包的沟通内耗，直接获取创始人级别的极客工程交付。</p>
+                    
+                <!-- POC Hook -->
+                <div class="bg-gradient-to-r from-cyan-900/40 to-blue-900/20 border border-cyan-500/30 p-6 rounded-2xl relative overflow-hidden group mb-10 shadow-[0_0_30px_rgba(6,182,212,0.1)] hover:shadow-[0_0_40px_rgba(6,182,212,0.2)] transition-shadow">
+                    <div class="absolute inset-0 bg-cyan-400/5 group-hover:bg-cyan-400/10 transition-colors"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="relative flex h-3 w-3">
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                              <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
+                            </span>
+                            <h4 class="text-lg font-bold text-cyan-300 tracking-wide">48小时极速 POC 挑战</h4>
+                        </div>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                            决策链路太长？没关系。带上您最头疼的“脏数据”或复杂的业务痛点，我们为您提供 <strong class="text-white font-bold">48 小时极速 POC（概念验证）打样</strong>。先验真伪，再谈合作。
+                        </p>
+                        <button onclick="document.getElementById('contact-desc').value='【申请 48h POC 打样】\n我的业务痛点是：\n我期望的测试效果是：'; document.getElementById('contact-name').focus();" class="inline-flex items-center gap-2 text-cyan-400 font-bold text-sm hover:text-cyan-300 transition-colors group/btn">
+                            立即申请打样 <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="space-y-6 text-slate-300">
+                    <div
+                        class="flex items-center gap-5 bg-slate-900/80 p-5 rounded-3xl border border-slate-800 shadow-inner group hover:border-cyan-500/30 transition-colors">
+                        <span
+                            class="w-12 h-12 rounded-2xl bg-cyan-950/50 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform text-cyan-400">✉️</span>
+                        <span id="footer-email" class="font-mono text-lg"></span>
+                    </div>
+                    <div
+                        class="flex items-center gap-5 bg-slate-900/80 p-5 rounded-3xl border border-slate-800 shadow-inner group hover:border-pink-500/30 transition-colors">
+                        <span
+                            class="w-12 h-12 rounded-2xl bg-pink-950/50 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform text-pink-400">💬</span>
+                        <span id="footer-wechat" class="font-mono text-lg"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="glass-card p-10 sm:p-14 rounded-[40px] shadow-2xl relative reveal-on-scroll border border-slate-700">
+                <h3 class="text-3xl font-black text-white mb-8 tracking-tight">商务合作咨询</h3>
+                <form id="contact-form" class="space-y-6 relative z-10">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <input required type="text" id="contact-name" name="name" placeholder="您的称呼"
+                            class="bg-slate-900/80 border border-slate-700 p-5 rounded-2xl text-white outline-none focus:border-cyan-500 transition-colors shadow-inner text-sm">
+                        <input required type="text" id="contact-contact" name="contact" placeholder="微信号/电话/邮箱"
+                            class="bg-slate-900/80 border border-slate-700 p-5 rounded-2xl text-white outline-none focus:border-cyan-500 transition-colors shadow-inner text-sm">
+                    </div>
+                    <select id="contact-type" name="type"
+                        class="w-full bg-slate-900/80 border border-slate-700 p-5 rounded-2xl text-slate-300 outline-none focus:border-cyan-500 transition-colors shadow-inner text-sm font-bold appearance-none">
+                        <option value="ToB">🤖 麻升智能 (企业架构提效定制)</option>
+                        <option value="ToC">🎨 墨影聆风 (数字视听与IP定制)</option>
+                    </select>
+                    <textarea required id="contact-desc" name="desc" rows="5" placeholder="简述您的合作需求或业务场景痛点..."
+                        class="w-full bg-slate-900/80 border border-slate-700 p-5 rounded-2xl text-white outline-none resize-none focus:border-cyan-500 transition-colors shadow-inner text-sm leading-relaxed"></textarea>
+                    <button id="contact-submit-btn" type="submit"
+                        class="w-full py-5 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-700 text-white font-black text-lg relative flex justify-center items-center hover:scale-[1.02] transition-transform shadow-[0_10px_30px_rgba(6,182,212,0.3)] border border-cyan-400/30 mt-4 disabled:opacity-50 disabled:hover:scale-100 focus:outline-none">
+                        <span id="contact-btn-text">发送合作意向</span>
+                        <svg id="contact-btn-loader" class="hidden animate-spin h-5 w-5 text-white absolute right-6"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                    </button>
+                </form>
+                <div id="contact-msg"
+                    class="hidden mt-6 transition-all duration-300 text-sm text-center font-bold p-4 rounded-xl bg-green-500/20 text-green-400 border border-green-500/30">
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+

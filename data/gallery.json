@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "title": "东方朋克分镜",
+    "category": "概念设定",
+    "image": "https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=1200&auto=format&fit=crop",
+    "colSpan": 2,
+    "rowSpan": 2,
+    "engine": "Midjourney v6.0",
+    "prompt": "Cinematic wide shot, cyberpunk ancient Chinese city, neon lanterns... --ar 16:9",
+    "params": "AR 16:9 | Stylize 250"
+  },
+  {
+    "id": 2,
+    "title": "国风超写实立绘",
+    "category": "角色立绘",
+    "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?q=80&w=800&auto=format&fit=crop",
+    "colSpan": 1,
+    "rowSpan": 1,
+    "engine": "Midjourney v6.0",
+    "prompt": "Portrait of a beautiful Chinese woman in Hanfu... --ar 3:4",
+    "params": "AR 3:4 | RAW Mode"
+  },
+  {
+    "id": 3,
+    "title": "商业产品3D渲染",
+    "category": "商业产品",
+    "image": "https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=800&auto=format&fit=crop",
+    "colSpan": 1,
+    "rowSpan": 1,
+    "engine": "Stable Diffusion / C4D",
+    "prompt": "A futuristic tech product glowing on a dark minimalist podium... --ar 1:1",
+    "params": "Studio Lighting | Macro"
+  },
+  {
+    "id": 4,
+    "title": "国风专辑视觉封面",
+    "category": "国风视觉",
+    "image": "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=1200&auto=format&fit=crop",
+    "colSpan": 2,
+    "rowSpan": 1,
+    "engine": "Midjourney v6.0",
+    "prompt": "Abstract Chinese ink wash painting merging with digital glitch art... --ar 2:1",
+    "params": "AR 2:1 | Chaos 50"
+  },
+  {
+    "id": 5,
+    "title": "虚拟偶像人设图",
+    "category": "角色立绘",
+    "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop",
+    "colSpan": 1,
+    "rowSpan": 1,
+    "engine": "Niji Journey v6",
+    "prompt": "Anime style, a cool vtuber girl with silver hair and neon headphones... --ar 3:4",
+    "params": "Niji 6 | Expressive"
+  },
+  {
+    "id": 6,
+    "title": "禅意空间概念",
+    "category": "场景概念",
+    "image": "https://images.unsplash.com/photo-1528722828814-77b9b83aafb2?q=80&w=800&auto=format&fit=crop",
+    "colSpan": 1,
+    "rowSpan": 1,
+    "engine": "Midjourney v6.0",
+    "prompt": "Minimalist Zen garden inside a modern glass architecture... --ar 1:1",
+    "params": "AR 1:1 | Stylize 100"
+  }
+]

@@ -1,0 +1,462 @@
+{
+  "manifesto": {
+    "title": "不仅是代码，更是业务增长引擎",
+    "content": "我们拒绝为了做系统而做系统。传统外包低效且昂贵，笨重的 SaaS 软件又形成数据孤岛。<br/><br/>这就是麻升智能工作室诞生的意义：<b>基于极客架构，交付端到端的真实商业结果。</b><br/><br/>左脑搭建冷酷无情的 n8n 与 OpenClaw 自动化流水线，榨干机器的每一滴效率；右脑调教生成式大模型，触达数字艺术的人文灵魂。将您的后背交给我，您只管去冲锋陷阵。",
+    "signature": "—— 麻升智能工作室 创始人"
+  },
+  "metrics": [
+    {
+      "label": "交付流水线",
+      "value": 127,
+      "suffix": "+"
+    },
+    {
+      "label": "节省总时数",
+      "value": 15000,
+      "suffix": "h"
+    },
+    {
+      "label": "跨系统桥接",
+      "value": 340,
+      "suffix": "+"
+    },
+    {
+      "label": "客户留存率",
+      "value": 98,
+      "suffix": "%"
+    }
+  ],
+  "painPoints": [
+    {
+      "icon": "📉",
+      "title": "人力成本黑洞",
+      "desc": "团队每天耗费大量时间在多平台间复制粘贴数据、回复高度重复的咨询，效率低下且人员流失率极高。"
+    },
+    {
+      "icon": "🏝️",
+      "title": "系统信息孤岛",
+      "desc": "购买了一堆昂贵的 SaaS 软件但数据互不相通。线索流转迟缓，夜间或周末高意向客户频繁流失。"
+    },
+    {
+      "icon": "💸",
+      "title": "高昂制作门槛",
+      "desc": "想要打造高级感的品牌片或数字分身，却被传统外包几万起步的报价和漫长的改稿周期劝退。"
+    },
+    {
+      "icon": "🧠",
+      "title": "灵感落地断层",
+      "desc": "脑海中有绝佳创意，但在 AI 时代苦于没有懂行的人将其快速转化为可变现的数字工作流。"
+    }
+  ],
+  "guarantees": [
+    {
+      "icon": "📦",
+      "title": "100% 源码交付",
+      "desc": "交接所有 n8n JSON 文件与提示词工程，绝不实施技术绑架，资产完全属于您。"
+    },
+    {
+      "icon": "🔒",
+      "title": "企业隐私隔离",
+      "desc": "基于 API 严格权限管控，私有核心数据绝不会被用于投喂任何公共大模型。"
+    },
+    {
+      "icon": "🎯",
+      "title": "跑通才验收",
+      "desc": "以最终稳定输出的真实线索或业务转化率作为唯一验收标准。"
+    },
+    {
+      "icon": "🛠️",
+      "title": "首月保姆陪跑",
+      "desc": "赠送 30 天的系统负载监控与核心 Agent Prompt 微调优化。"
+    }
+  ],
+  "blueprints": [
+    {
+      "title": "全网竞品监控与洞察矩阵",
+      "desc": "24小时自动抓取竞品动态并生成结构化行业日报，消除信息差。",
+      "nodes": [
+        {
+          "icon": "🌐",
+          "name": "RSS/网页爬虫"
+        },
+        {
+          "icon": "🧠",
+          "name": "DeepSeek 清洗"
+        },
+        {
+          "icon": "📊",
+          "name": "飞书多维表格"
+        },
+        {
+          "icon": "📨",
+          "name": "企微日报推送"
+        }
+      ],
+      "roi": "每周节省 12 小时调研时间"
+    },
+    {
+      "title": "跨域多语言销售 SDR",
+      "desc": "打通海外社交媒体，实时意图识别并跨时区自动分配高意向线索。",
+      "nodes": [
+        {
+          "icon": "💬",
+          "name": "WhatsApp API"
+        },
+        {
+          "icon": "🧠",
+          "name": "Dify 意图分类"
+        },
+        {
+          "icon": "🤖",
+          "name": "自动多语种回复"
+        },
+        {
+          "icon": "🗄️",
+          "name": "HubSpot 录入"
+        }
+      ],
+      "roi": "线索流失率降低 65%"
+    },
+    {
+      "title": "研发代码自动审查引擎",
+      "desc": "每次代码提交自动触发大模型审查，发现安全漏洞并自动补全单测。",
+      "nodes": [
+        {
+          "icon": "🐙",
+          "name": "GitHub Webhook"
+        },
+        {
+          "icon": "🧠",
+          "name": "Claude 3.5 Sonnet"
+        },
+        {
+          "icon": "📝",
+          "name": "自动生成 PR Comment"
+        }
+      ],
+      "roi": "Bug 遗留率降低 40%"
+    },
+    {
+      "title": "自媒体爆款内容车间",
+      "desc": "从热点挖掘到图文生成全自动管线，一人掌控矩阵化新媒体分发。",
+      "nodes": [
+        {
+          "icon": "🔥",
+          "name": "微博热搜抓取"
+        },
+        {
+          "icon": "✍️",
+          "name": "大模型爆款仿写"
+        },
+        {
+          "icon": "🎨",
+          "name": "MJ 视觉生成"
+        },
+        {
+          "icon": "🚀",
+          "name": "小红书/抖音发布"
+        }
+      ],
+      "roi": "内容产出效率提升 500%"
+    }
+  ],
+  "cBlueprints": [
+    {
+      "title": "无人出镜短视频矩阵",
+      "desc": "自动抽取爆款文案，接入情感 TTS 引擎配音，并调用自动化剪辑接口生成带货视频，解放人工剪辑流。",
+      "nodes": [
+        {
+          "icon": "📝",
+          "name": "文案提取"
+        },
+        {
+          "icon": "🎙️",
+          "name": "情感配音"
+        },
+        {
+          "icon": "🎬",
+          "name": "混剪合成"
+        }
+      ],
+      "roi": "日产 50+ 条视频"
+    },
+    {
+      "title": "互动图文/短剧孵化流",
+      "desc": "输入一句话大纲，Agent 自动裂变生成剧本分镜、角色立绘及场景底图，降维打击传统网文连载模式。",
+      "nodes": [
+        {
+          "icon": "📖",
+          "name": "大纲裂变"
+        },
+        {
+          "icon": "🎨",
+          "name": "MJ 出图"
+        },
+        {
+          "icon": "📱",
+          "name": "矩阵分发"
+        }
+      ],
+      "roi": "制作成本缩减 90%"
+    },
+    {
+      "title": "私域情感占卜自动化",
+      "desc": "将公域引流的客户接入您的企微，由配置了心理学和玄学知识库的智能体自动接待、共情并引导付费服务。",
+      "nodes": [
+        {
+          "icon": "🔮",
+          "name": "命理RAG"
+        },
+        {
+          "icon": "💬",
+          "name": "共情对话"
+        },
+        {
+          "icon": "💰",
+          "name": "引导打赏"
+        }
+      ],
+      "roi": "转化率提升 300%"
+    }
+  ],
+  "resources": [
+    {
+      "icon": "📦",
+      "type": "JSON 源码",
+      "title": "n8n 自动化抓取工作流模板",
+      "desc": "开发与极客必备。包含企微推送、RSS监控及 DeepSeek 意图清洗节点配置。",
+      "downloads": "1,208",
+      "color": "cyan"
+    },
+    {
+      "icon": "📘",
+      "type": "行业白皮书",
+      "title": "2026 实体门店私域 AI 爆破指南",
+      "desc": "餐饮/零售店主专供。万字长文复盘：如何利用大模型将本地生活客单价提高 45%。",
+      "downloads": "3,450",
+      "color": "blue"
+    },
+    {
+      "icon": "🪄",
+      "type": "极客提示词",
+      "title": "Midjourney V6.0 商用摄影级 Prompt 字典",
+      "desc": "设计师与美术统筹必备。100+ 覆盖人像、产品渲染、室内设计的精确参数。",
+      "downloads": "5,892",
+      "color": "pink"
+    },
+    {
+      "icon": "☕",
+      "type": "自动化工作流",
+      "title": "本地门店：大众点评差评自动回复防线",
+      "desc": "实体店老板专属。包含美团/点评自动监听、高情商回复生成及微信发券企微工作流。",
+      "downloads": "4,210",
+      "color": "emerald"
+    },
+    {
+      "icon": "🎓",
+      "type": "精调 Prompt",
+      "title": "教育/学术伴学：苏格拉底式导师架构",
+      "desc": "老师和家长必备。限制 AI 直接给答案，一步步引导学生思考的万字精调指令库。",
+      "downloads": "2,855",
+      "color": "amber"
+    },
+    {
+      "icon": "🚀",
+      "type": "全套 SOP",
+      "title": "自媒体「一人公司」爆款内容矩阵 SOP",
+      "desc": "IP 创作者专属。从选题到分发，包含自动化洗稿防判定规则，多平台同步发布的秘籍。",
+      "downloads": "8,902",
+      "color": "purple"
+    }
+  ],
+  "dailyAgents": [
+    {
+      "title": "高情商职场「嘴替」",
+      "icon": "👔",
+      "target": "在职白领",
+      "desc": "职场生存神器。输入你的直白诉求或吐槽，Agent 自动转化为高情商、滴水不漏的沟通话术或精美的周报大纲。",
+      "tags": [
+        "职场沟通",
+        "文档润色"
+      ],
+      "urlKey": "workplace",
+      "theme": {
+        "text": "text-blue-400",
+        "bg": "bg-blue-950/30",
+        "border": "border-blue-500/30",
+        "hoverBorder": "hover:border-blue-500/60",
+        "hoverText": "group-hover:text-blue-400",
+        "hoverIconBorder": "group-hover:border-blue-500/50",
+        "btn": "hover:bg-blue-600 hover:border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.3)]"
+      }
+    },
+    {
+      "title": "苏格拉底启发式导师",
+      "icon": "🎓",
+      "target": "学生 / 教育者",
+      "desc": "拒绝死记硬背。上传学术论文或课件，它不会直接给答案，而是通过层层反问引导你独立思考，掌握核心逻辑链条。",
+      "tags": [
+        "深度学习",
+        "文档解析"
+      ],
+      "urlKey": "tutor",
+      "theme": {
+        "text": "text-amber-400",
+        "bg": "bg-amber-950/30",
+        "border": "border-amber-500/30",
+        "hoverBorder": "hover:border-amber-500/60",
+        "hoverText": "group-hover:text-amber-400",
+        "hoverIconBorder": "group-hover:border-amber-500/50",
+        "btn": "hover:bg-amber-600 hover:border-amber-500 shadow-[0_0_20px_rgba(245,158,11,0.3)]"
+      }
+    },
+    {
+      "title": "街边店爆款营销大脑",
+      "icon": "🏪",
+      "target": "独立店主",
+      "desc": "实体小微企业的宣发杠杆。拍一张咖啡或新品照片发给它，自动生成 5 种不同风格（诱人、幽默、文艺）且带 Emoji 的朋友圈文案。",
+      "tags": [
+        "本地生活",
+        "私域促活"
+      ],
+      "urlKey": "localPromo",
+      "theme": {
+        "text": "text-emerald-400",
+        "bg": "bg-emerald-950/30",
+        "border": "border-emerald-500/30",
+        "hoverBorder": "hover:border-emerald-500/60",
+        "hoverText": "group-hover:text-emerald-400",
+        "hoverIconBorder": "group-hover:border-emerald-500/50",
+        "btn": "hover:bg-emerald-600 hover:border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+      }
+    }
+  ],
+  "digitalEmployees": [
+    {
+      "title": "小红书爆款编导",
+      "icon": "✍️",
+      "metric": "30+ 爆文/天",
+      "desc": "根据热点自动抓取、撰写并多账号分发。完全接管新媒体运营管线。",
+      "tags": [
+        "Dify Agent",
+        "社交媒体API"
+      ],
+      "urlKey": "copywriter",
+      "color": "pink"
+    },
+    {
+      "title": "跨国电商跟单SDR",
+      "icon": "🌐",
+      "metric": "24h 全天候",
+      "desc": "打通 WhatsApp 与独立站，多语种自动安抚客户、开具工单与线索录入。",
+      "tags": [
+        "n8n Workflow",
+        "多语种RAG"
+      ],
+      "urlKey": "booking",
+      "color": "blue"
+    },
+    {
+      "title": "财报分析审查员",
+      "icon": "📊",
+      "metric": "5 mins / 份",
+      "desc": "赋予 OpenClaw 数据库查询权限，针对财报长文本自动复现结构化分析。",
+      "tags": [
+        "OpenClaw",
+        "DB读写"
+      ],
+      "urlKey": "credit",
+      "color": "cyan"
+    },
+    {
+      "title": "门店客诉大管家",
+      "icon": "🏪",
+      "metric": "秒级预警",
+      "desc": "自动化监控美团/大众点评评价。遭遇差评秒级预警并自动发券挽回。",
+      "tags": [
+        "爬虫追踪",
+        "情感分析"
+      ],
+      "urlKey": "localStore",
+      "color": "amber"
+    }
+  ],
+  "pricing": {
+    "b_basic": {
+      "title": "云端敏捷工作流",
+      "price": "2,999",
+      "desc": "/ 一次性交付",
+      "features": [
+        "Dify / n8n 云端轻量部署",
+        "锁定 3 个核心平台抓取",
+        "专属 Prompt 业务打磨",
+        "单节点自动化流闭环"
+      ]
+    },
+    "b_pro": {
+      "title": "OpenClaw 私有化",
+      "price": "8,999",
+      "desc": "+ ¥899/月 运维",
+      "features": [
+        "服务器本地隔离部署",
+        "赋予宿主机文件/系统权限",
+        "企业级混合 RAG 知识库",
+        "多智能体 (Multi-Agent) 协同"
+      ]
+    },
+    "c_basic": {
+      "title": "单源视听概念",
+      "price": "199",
+      "desc": "/ 首支定制",
+      "features": [
+        "1对1分镜共创支持",
+        "MJ/Runway 高清源文件",
+        "非商用授权限制"
+      ]
+    },
+    "c_pro": {
+      "title": "历史 IP 全案复刻",
+      "price": "1,999",
+      "desc": "/ 终身商用",
+      "features": [
+        "百万字古籍知识库精调",
+        "专属声纹情感克隆 (TTS)",
+        "多模态完整视听作品交付"
+      ]
+    }
+  },
+  "faqs": [
+    {
+      "q": "采用 OpenClaw 私有化部署和普通的 Dify 机器人有什么区别？",
+      "a": "普通大模型被困在聊天框中，只能输出建议；而基于 OpenClaw 部署的「数字员工」拥有系统的执行权限。它可以真正帮您自动操作本地文件、读写企业内部数据库、运行脚本，是真正能干活的自动化引擎。"
+    },
+    {
+      "q": "一人公司交付周期大概是多久？",
+      "a": "这取决于业务复杂度。通常轻量级的敏捷自动化工作流 (n8n+Dify) MVP 交付仅需 3-5 个工作日；而涉及本地部署及多 Agent 协同的架构需要 2-3 周。"
+    },
+    {
+      "q": "我完全不懂代码，能接手这些系统吗？",
+      "a": "完全可以！我们的设计模式遵循“人类在环 (Human-in-the-Loop)”。交付给您的是已经配置好的飞书表格面板或微信机器人，您只需要在审批环节点击“同意”，底层所有复杂的运行都会自动完成。"
+    }
+  ],
+  "testimonials": [
+    {
+      "content": "之前客服每天花4小时处理退换货咨询。搭建全自动意图识别库后，释放了 2 名全职客服，响应时间降到秒级。",
+      "author": "Sarah Li",
+      "title": "跨境电商运营总监",
+      "color": "cyan"
+    },
+    {
+      "content": "我不懂代码部署，麻升智能直接把每天全网跑通的爆款数据推送到我飞书里，生成摘要，开箱即用，简直是神器。",
+      "author": "王总",
+      "title": "连锁品牌创始人",
+      "color": "blue"
+    },
+    {
+      "content": "做国风短剧最缺灵感和画师。这套 MJ 联合工作流让产能翻了 3 倍，角色一致性极高，东方美学拿捏得很准。",
+      "author": "张导",
+      "title": "独立国风制作人",
+      "color": "pink"
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+    <section id="view-arsenal" class="view-section pt-24 sm:pt-32 pb-24 relative overflow-hidden">
+        <div
+            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+')] opacity-20 pointer-events-none">
+        </div>
+        <div
+            class="absolute top-1/4 left-1/4 w-[40vw] h-[40vw] bg-pink-600/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16 relative">
+                <span
+                    class="px-4 py-1.5 rounded-full bg-pink-500/10 text-pink-400 text-sm font-bold border border-pink-500/20 inline-block mb-4 shadow-[0_0_15px_rgba(236,72,153,0.2)]">AI
+                    Arsenal Sandbox</span>
+                <h2 class="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">AI 兵器谱实机沙盒</h2>
+                <p class="text-xl text-slate-400">告别空谈，直接上手体验麻升智能为您打造的专属智能体应用。</p>
+            </div>
+
+            
+            <!-- Arsenal Filter Tabs -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12 relative z-20">
+                <button class="arsenal-filter-btn active px-5 py-2 rounded-full border border-pink-500/50 bg-pink-500/20 text-white text-sm font-bold shadow-[0_0_15px_rgba(236,72,153,0.3)] transition-all" data-filter="all">全部武器</button>
+                <button class="arsenal-filter-btn px-5 py-2 rounded-full border border-slate-700/80 bg-slate-800/50 text-slate-400 hover:text-white hover:border-pink-500/30 transition-all text-sm font-bold" data-filter="marketing">流量与营销</button>
+                <button class="arsenal-filter-btn px-5 py-2 rounded-full border border-slate-700/80 bg-slate-800/50 text-slate-400 hover:text-white hover:border-pink-500/30 transition-all text-sm font-bold" data-filter="data">数据与分析</button>
+                <button class="arsenal-filter-btn px-5 py-2 rounded-full border border-slate-700/80 bg-slate-800/50 text-slate-400 hover:text-white hover:border-pink-500/30 transition-all text-sm font-bold" data-filter="efficiency">效率与服务</button>
+                <button class="arsenal-filter-btn px-5 py-2 rounded-full border border-slate-700/80 bg-slate-800/50 text-slate-400 hover:text-white hover:border-pink-500/30 transition-all text-sm font-bold" data-filter="hr">组织与协同</button>
+                <button class="arsenal-filter-btn px-5 py-2 rounded-full border border-slate-700/80 bg-slate-800/50 text-slate-400 hover:text-white hover:border-pink-500/30 transition-all text-sm font-bold" data-filter="industry">垂直行业专供</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10" id="arsenal-grid">
+                <!-- Cards will be rendered via JS here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================= AI 兵器谱沉浸式沙盒 Modal ======================= -->
+    <div id="sandbox-modal" class="fixed inset-0 z-[99999] hidden opacity-0 transition-opacity duration-500">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-slate-950/90 backdrop-blur-xl" onclick="closeSandbox()"></div>
+
+        <!-- Modal Content -->
+        <div class="absolute inset-0 sm:inset-10 lg:inset-x-32 lg:inset-y-16 bg-slate-900 border border-slate-700/80 sm:rounded-[2rem] shadow-[-20px_0_100px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden transform scale-95 transition-transform duration-500"
+            id="sandbox-modal-content">
+            <!-- Header -->
+            <div
+                class="h-16 border-b border-slate-800/80 bg-slate-900/50 flex items-center justify-between px-6 z-10 relative">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.6)]">
+                    </div>
+                    <span class="font-bold text-white text-lg tracking-wide" id="sandbox-title"></span>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="hidden sm:flex items-center gap-2 text-xs font-mono text-slate-500">
+                        Endpoint: <span id="sandbox-endpoint"
+                            class="bg-slate-800 px-2 py-1 rounded text-pink-400 border border-slate-700"></span>
+                    </div>
+                    <button onclick="closeSandbox()"
+                        class="text-slate-500 hover:text-white bg-slate-800/50 hover:bg-slate-700 p-2 rounded-full transition-colors shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Background effects -->
+            <div
+                class="absolute top-0 right-0 w-[500px] h-[500px] bg-pink-500/5 rounded-full blur-[100px] pointer-events-none">
+            </div>
+
+            <!-- Chat / Output Area -->
+            <div class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar relative z-10" id="sandbox-output">
+                <!-- Initial Greeting will be injected via JS -->
+            </div>
+
+            <!-- Loading Overlay -->
+            <div id="sandbox-loading"
+                class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm z-20 flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 hidden">
+                <div class="relative w-20 h-20 mb-6">
+                    <svg class="animate-spin w-full h-full text-pink-500/30" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+                            fill="none"></circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center text-3xl">⚡</div>
+                </div>
+                <span class="text-base font-bold tracking-widest text-pink-400 animate-pulse"
+                    id="sandbox-loading-text">调用核心大模型中...</span>
+                <span class="text-xs text-slate-500 mt-2 font-mono" id="sandbox-loading-detail"></span>
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-4 sm:p-6 bg-slate-900/80 border-t border-slate-800 z-10 relative backdrop-blur-md">
+                <form id="sandbox-form" class="relative max-w-4xl mx-auto">
+                    <textarea id="sandbox-input" rows="2"
+                        class="w-full bg-slate-950/80 border border-slate-700/80 rounded-2xl px-6 py-4 text-sm text-white focus:outline-none focus:border-pink-500/50 resize-none transition-colors shadow-inner pr-16"
+                        placeholder=""></textarea>
+                    <button type="submit"
+                        class="absolute bottom-4 right-4 bg-pink-600 hover:bg-pink-500 text-white p-3 rounded-xl transition-all shadow-[0_0_20px_rgba(236,72,153,0.4)] hover:shadow-[0_0_30px_rgba(236,72,153,0.6)] flex items-center justify-center group">
+                        <svg class="w-5 h-5 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+

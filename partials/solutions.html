@@ -1,0 +1,208 @@
+    <section id="view-solutions" class="view-section pt-24 sm:pt-32 pb-24 relative overflow-hidden">
+        <div
+            class="absolute top-1/2 right-0 w-1/2 h-1/2 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen">
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16 relative">
+                <span
+                    class="px-4 py-1.5 rounded-full bg-blue-500/10 text-blue-400 text-sm font-bold border border-blue-500/20 inline-block mb-4 shadow-[0_0_15px_rgba(59,130,246,0.2)]">Industry
+                    Solutions</span>
+                <h2 class="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">AI 赋能行业级解决方案</h2>
+                <p class="text-xl text-slate-400">针对垂直领域的专属工作流编排，直击业务痛点。</p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
+                <!-- Left Col: Industry Selection Tabs -->
+                <div class="lg:w-1/3 space-y-4 max-h-[650px] overflow-y-auto pr-2 custom-scrollbar"
+                    id="solution-tabs">
+                    <button
+                        class="sol-tab-btn active w-full text-left px-6 py-4 rounded-2xl border border-blue-500/50 bg-gradient-to-r from-blue-500/20 to-transparent text-white font-bold transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.05)] border-l-4 border-l-blue-500 relative overflow-hidden group scale-[1.02]"
+                        data-sol="ecommerce">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">🛒</span>
+                            <span class="text-sm">跨境电商与零售</span>
+                        </div>
+                    </button>
+                    <button
+                        class="sol-tab-btn w-full text-left px-6 py-4 rounded-2xl border border-slate-700/50 bg-slate-800/30 text-slate-400 hover:text-white hover:border-blue-400/30 hover:bg-slate-800/80 font-bold transition-all duration-300 relative overflow-hidden group hover:translate-x-1"
+                        data-sol="manufacturing">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">⚙️</span>
+                            <span class="text-sm">智能制造与供应链</span>
+                        </div>
+                    </button>
+                    <button
+                        class="sol-tab-btn w-full text-left px-6 py-4 rounded-2xl border border-slate-700/50 bg-slate-800/30 text-slate-400 hover:text-white hover:border-blue-400/30 hover:bg-slate-800/80 font-bold transition-all duration-300 relative overflow-hidden group hover:translate-x-1"
+                        data-sol="enterprise">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">🏢</span>
+                            <span class="text-sm">政企服务与金融</span>
+                        </div>
+                    </button>
+                    <button
+                        class="sol-tab-btn w-full text-left px-6 py-4 rounded-2xl border border-slate-700/50 bg-slate-800/30 text-slate-400 hover:text-white hover:border-blue-400/30 hover:bg-slate-800/80 font-bold transition-all duration-300 relative overflow-hidden group hover:translate-x-1"
+                        data-sol="media">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">📱</span>
+                            <span class="text-sm">自媒体与泛娱乐</span>
+                        </div>
+                    </button>
+                    <button
+                        class="sol-tab-btn w-full text-left px-6 py-4 rounded-2xl border border-slate-700/50 bg-slate-800/30 text-slate-400 hover:text-white hover:border-blue-400/30 hover:bg-slate-800/80 font-bold transition-all duration-300 relative overflow-hidden group hover:translate-x-1"
+                        data-sol="campus">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">🎓</span>
+                            <span class="text-sm">校园科研与学习</span>
+                        </div>
+                    </button>
+                    <button
+                        class="sol-tab-btn w-full text-left px-6 py-4 rounded-2xl border border-slate-700/50 bg-slate-800/30 text-slate-400 hover:text-white hover:border-blue-400/30 hover:bg-slate-800/80 font-bold transition-all duration-300 relative overflow-hidden group hover:translate-x-1"
+                        data-sol="localstore">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">🏪</span>
+                            <span class="text-sm">街边实体门店</span>
+                        </div>
+                    </button>
+                    <button
+                        class="sol-tab-btn w-full text-left px-6 py-4 rounded-2xl border border-slate-700/50 bg-slate-800/30 text-slate-400 hover:text-white hover:border-blue-400/30 hover:bg-slate-800/80 font-bold transition-all duration-300 relative overflow-hidden group hover:translate-x-1"
+                        data-sol="office">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">💼</span>
+                            <span class="text-sm">职场超级助手</span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Right Col: Dynamic Content & ROI -->
+                <div class="lg:w-2/3 bg-slate-800/40 border border-slate-700/80 rounded-3xl p-8 backdrop-blur-md relative overflow-hidden flex flex-col transition-all duration-500"
+                    id="solution-content">
+                    <!-- BG Glow -->
+                    <div class="absolute -top-32 -right-32 w-64 h-64 bg-blue-500/20 blur-[80px] pointer-events-none transition-colors duration-500"
+                        id="sol-bg-glow"></div>
+
+                    <div class="grid md:grid-cols-2 gap-8 mb-10 flex-1 relative z-10">
+                        <!-- Pain & Solution List -->
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-2xl font-black text-white mb-2 tracking-tight" id="sol-title">
+                                    跨境电商全链路 AI 引擎</h3>
+                                <p class="text-sm text-slate-400 leading-relaxed" id="sol-desc">
+                                    打破语言壁垒与时差限制，实现从获客、售后到履约的全自动化流转。</p>
+                            </div>
+
+                            <div class="bg-slate-900/50 border border-slate-700/50 rounded-2xl p-5">
+                                <h4
+                                    class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-pink-500"></span> 传统痛点
+                                </h4>
+                                <ul class="text-sm text-slate-300 space-y-2" id="sol-pain-list">
+                                    <li class="flex gap-2"><span class="text-slate-600">-</span> 多语种客服人力成本高，响应慢</li>
+                                    <li class="flex gap-2"><span class="text-slate-600">-</span> 跨国物流状态追踪异常排查繁琐</li>
+                                    <li class="flex gap-2"><span class="text-slate-600">-</span> 多平台商品上架文案撰写耗时</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-blue-900/10 border border-blue-500/20 rounded-2xl p-5">
+                                <h4
+                                    class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-cyan-500"></span> 麻升解法
+                                </h4>
+                                <ul class="text-sm text-white space-y-2" id="sol-solution-list">
+                                    <li class="flex gap-2 items-start"><svg
+                                            class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5 13l4 4L19 7"></path>
+                                        </svg> 部署多语种独立站客服智能体 (支持 50+ 语言)</li>
+                                    <li class="flex gap-2 items-start"><svg
+                                            class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5 13l4 4L19 7"></path>
+                                        </svg> n8n 接管 Shopify 订单流与物流预警</li>
+                                    <li class="flex gap-2 items-start"><svg
+                                            class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5 13l4 4L19 7"></path>
+                                        </svg> 结合 RAG 批量生成本土化营销文案</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Architecture / Diagram -->
+                        <div
+                            class="bg-slate-950 border border-slate-800 rounded-2xl h-full min-h-[250px] flex items-center justify-center relative overflow-hidden group">
+                            <div class="absolute inset-0 bg-tech-grid opacity-20"></div>
+                            <div class="relative z-10 w-full h-full flex items-center justify-center p-4"
+                                id="sol-diagram">
+                                <!-- Dynamic SVG injected here -->
+                            </div>
+                            <div
+                                class="absolute bottom-3 right-4 text-[10px] font-mono text-slate-500 bg-slate-900/80 px-2 py-1 rounded border border-slate-800">
+                                [专属业务架构图]
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ROI Calculator Embedded -->
+                    <div class="border-t border-slate-700/80 pt-8 mt-auto relative z-10">
+                        <div class="flex items-center gap-2 mb-6">
+                            <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            <h4 class="text-lg font-bold text-white">场景化 ROI 动态测算</h4>
+                        </div>
+
+                        <div class="grid md:grid-cols-5 gap-8 items-center">
+                            <div class="md:col-span-3 space-y-6">
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <label class="text-sm font-bold text-slate-400">目前投入该业务流程的人数</label>
+                                        <span class="text-cyan-400 font-mono font-bold" id="sol-roi-emp-val">5
+                                            人</span>
+                                    </div>
+                                    <input type="range" id="sol-roi-emp" min="1" max="50" value="5"
+                                        class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400 transition-all">
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <label class="text-sm font-bold text-slate-400">对应岗位平均月薪 (¥)</label>
+                                        <span class="text-cyan-400 font-mono font-bold"
+                                            id="sol-roi-sal-val">8,000</span>
+                                    </div>
+                                    <input type="range" id="sol-roi-sal" min="3000" max="30000" step="1000"
+                                        value="8000"
+                                        class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400 transition-all">
+                                </div>
+                            </div>
+                            <div
+                                class="md:col-span-2 bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 p-6 rounded-2xl text-center shadow-inner">
+                                <div class="text-xs text-slate-500 mb-1">本方案预估每年节省纯人力成本</div>
+                                <div class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-mono"
+                                    id="sol-roi-result" data-value="144000">¥ 144,000</div>
+                                <div class="text-[10px] text-slate-500 mt-2">* 依据行业标准 <span
+                                        id="sol-roi-multiplier">30%</span> 提效比率推算</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 flex flex-col sm:flex-row justify-end gap-4">
+                            <button type="button" data-action="scroll-contact"
+                                class="px-8 py-3.5 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] flex items-center justify-center gap-2">
+                                <span>获取此场景专属方案报价</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+

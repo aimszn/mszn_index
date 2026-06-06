@@ -1,0 +1,402 @@
+{
+  "all": {
+    "stats": {
+      "concur": "124,592",
+      "peak": "99.8%"
+    },
+    "rev": {
+      "labels": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr"
+      ],
+      "datasets": [
+        {
+          "label": "中大型企业提效(To B)",
+          "data": [
+            1200,
+            1800,
+            2400,
+            3100,
+            4800,
+            6200
+          ],
+          "backgroundColor": "#06b6d4",
+          "borderRadius": 4,
+          "borderSkipped": false
+        },
+        {
+          "label": "自媒体/独立店主杠杆(小B)",
+          "data": [
+            400,
+            800,
+            1200,
+            2500,
+            4200,
+            6500
+          ],
+          "backgroundColor": "#ec4899",
+          "borderRadius": 4,
+          "borderSkipped": false
+        },
+        {
+          "label": "职场与学生日常辅助(To C)",
+          "data": [
+            100,
+            300,
+            500,
+            1200,
+            2800,
+            5400
+          ],
+          "backgroundColor": "#3b82f6",
+          "borderRadius": 4,
+          "borderSkipped": false
+        }
+      ]
+    },
+    "alloc": {
+      "labels": [
+        "企业级自动化流",
+        "自媒体矩阵分发",
+        "私域与店面营销",
+        "知识库与职场助手"
+      ],
+      "data": [
+        35,
+        25,
+        20,
+        20
+      ],
+      "colors": [
+        "#06b6d4",
+        "#ec4899",
+        "#8b5cf6",
+        "#3b82f6"
+      ]
+    }
+  },
+  "local": {
+    "stats": {
+      "concur": "34,812",
+      "peak": "98.2%"
+    },
+    "rev": {
+      "labels": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr"
+      ],
+      "datasets": [
+        {
+          "label": "私域引流转化(h)",
+          "data": [
+            300,
+            600,
+            1100,
+            1800,
+            2900,
+            4500
+          ],
+          "backgroundColor": "#10b981",
+          "borderRadius": 4,
+          "borderSkipped": false
+        },
+        {
+          "label": "门店客诉拦截(h)",
+          "data": [
+            150,
+            320,
+            580,
+            950,
+            1400,
+            2100
+          ],
+          "backgroundColor": "#14b8a6",
+          "borderRadius": 4,
+          "borderSkipped": false
+        },
+        {
+          "label": "自动营销发券(h)",
+          "data": [
+            200,
+            450,
+            800,
+            1400,
+            2200,
+            3800
+          ],
+          "backgroundColor": "#06b6d4",
+          "borderRadius": 4,
+          "borderSkipped": false
+        }
+      ]
+    },
+    "alloc": {
+      "labels": [
+        "点评客诉自动回复",
+        "微信私域智能群发",
+        "意图识别引流发券",
+        "多平台门店数据汇总"
+      ],
+      "data": [
+        40,
+        25,
+        20,
+        15
+      ],
+      "colors": [
+        "#10b981",
+        "#14b8a6",
+        "#06b6d4",
+        "#6366f1"
+      ]
+    }
+  },
+  "creator": {
+    "stats": {
+      "concur": "48,912",
+      "peak": "99.4%"
+    },
+    "rev": {
+      "labels": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr"
+      ],
+      "datasets": [
+        {
+          "label": "文案裂变与洗稿(h)",
+          "data": [
+            500,
+            900,
+            1500,
+            2800,
+            4500,
+            6800
+          ],
+          "backgroundColor": "#ec4899",
+          "borderRadius": 4,
+          "borderSkipped": false
+        },
+        {
+          "label": "多模态海报生成(h)",
+          "data": [
+            200,
+            400,
+            800,
+            1600,
+            2900,
+            4700
+          ],
+          "backgroundColor": "#8b5cf6",
+          "borderRadius": 4,
+          "borderSkipped": false
+        },
+        {
+          "label": "视频混剪与分发(h)",
+          "data": [
+            100,
+            250,
+            600,
+            1200,
+            2400,
+            4100
+          ],
+          "backgroundColor": "#d946ef",
+          "borderRadius": 4,
+          "borderSkipped": false
+        }
+      ]
+    },
+    "alloc": {
+      "labels": [
+        "自媒体选题爆款仿写",
+        "AI 绘图海报生成",
+        "音视频混剪排版",
+        "多账号一键同步分发"
+      ],
+      "data": [
+        30,
+        35,
+        20,
+        15
+      ],
+      "colors": [
+        "#ec4899",
+        "#8b5cf6",
+        "#d946ef",
+        "#f43f5e"
+      ]
+    }
+  },
+  "workedu": {
+    "stats": {
+      "concur": "18,504",
+      "peak": "97.5%"
+    },
+    "rev": {
+      "labels": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr"
+      ],
+      "datasets": [
+        {
+          "label": "周报/公文智能撰写(h)",
+          "data": [
+            400,
+            750,
+            1200,
+            1900,
+            3100,
+            4800
+          ],
+          "backgroundColor": "#f59e0b",
+          "borderRadius": 4,
+          "borderSkipped": false
+        },
+        {
+          "label": "启发式对话伴学(h)",
+          "data": [
+            150,
+            300,
+            600,
+            1100,
+            1800,
+            2900
+          ],
+          "backgroundColor": "#f97316",
+          "borderRadius": 4,
+          "borderSkipped": false
+        },
+        {
+          "label": "会议纪要自动提炼(h)",
+          "data": [
+            100,
+            200,
+            450,
+            850,
+            1400,
+            2300
+          ],
+          "backgroundColor": "#eab308",
+          "borderRadius": 4,
+          "borderSkipped": false
+        }
+      ]
+    },
+    "alloc": {
+      "labels": [
+        "高情商职场邮件/嘴替",
+        "苏格拉底文献精读",
+        "录音转会议纪要SOP",
+        "日常知识库管理(RAG)"
+      ],
+      "data": [
+        35,
+        30,
+        20,
+        15
+      ],
+      "colors": [
+        "#f59e0b",
+        "#f97316",
+        "#eab308",
+        "#d97706"
+      ]
+    }
+  },
+  "enterprise": {
+    "stats": {
+      "concur": "22,364",
+      "peak": "99.9%"
+    },
+    "rev": {
+      "labels": [
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr"
+      ],
+      "datasets": [
+        {
+          "label": "跨域系统API集成(h)",
+          "data": [
+            800,
+            1400,
+            2200,
+            3500,
+            5200,
+            7800
+          ],
+          "backgroundColor": "#3b82f6",
+          "borderRadius": 4,
+          "borderSkipped": false
+        },
+        {
+          "label": "多智能体沙盒审计(h)",
+          "data": [
+            300,
+            600,
+            1100,
+            1900,
+            3100,
+            4900
+          ],
+          "backgroundColor": "#06b6d4",
+          "borderRadius": 4,
+          "borderSkipped": false
+        },
+        {
+          "label": "数据清洗与ETL工作流(h)",
+          "data": [
+            200,
+            400,
+            800,
+            1500,
+            2500,
+            3900
+          ],
+          "backgroundColor": "#6366f1",
+          "borderRadius": 4,
+          "borderSkipped": false
+        }
+      ]
+    },
+    "alloc": {
+      "labels": [
+        "n8n跨系统接口桥接",
+        "OpenClaw宿主机安全审计",
+        "飞书/SaaS数据自动流转",
+        "代码提交自动CR与测试"
+      ],
+      "data": [
+        40,
+        20,
+        25,
+        15
+      ],
+      "colors": [
+        "#3b82f6",
+        "#06b6d4",
+        "#6366f1",
+        "#1d4ed8"
+      ]
+    }
+  }
+}

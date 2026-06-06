@@ -1,0 +1,16 @@
+/* ============================================
+   案例页专属样式
+   ============================================ */
+
+@keyframes scrollLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-350px * 3 - 1.5rem * 3)); }
+}
+
+.animate-scroll-left {
+    animation: scrollLeft 20s linear infinite;
+}
+
+.pause-animation {
+    animation-play-state: paused;
+}

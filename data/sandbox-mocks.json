@@ -1,0 +1,26 @@
+[
+  {
+    "keywords": [
+      "赛博武侠",
+      "霓虹体积光"
+    ],
+    "resultImg": "https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=1200&auto=format&fit=crop",
+    "prompt": "A cyberpunk wuxia warrior standing on a neon-lit temple roof, volumetric neon lighting cutting through dense fog, cinematic lighting, 8k, photorealistic --ar 16:9"
+  },
+  {
+    "keywords": [
+      "汉服少女",
+      "丁达尔晨光"
+    ],
+    "resultImg": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?q=80&w=800&auto=format&fit=crop",
+    "prompt": "Beautiful Chinese girl in delicate traditional Hanfu, morning Tyndall effect light shining through bamboo forest, soft rim lighting, ethereal, masterpiece, 85mm lens --ar 3:4"
+  },
+  {
+    "keywords": [
+      "禅意茶室",
+      "胶片颗粒感"
+    ],
+    "resultImg": "https://images.unsplash.com/photo-1528722828814-77b9b83aafb2?q=80&w=800&auto=format&fit=crop",
+    "prompt": "Minimalist Zen tea room, bonsai tree, soft ambient light, analog film photography, 35mm, subtle film grain, nostalgic and calm vibe --style raw --ar 1:1"
+  }
+]

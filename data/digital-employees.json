@@ -1,0 +1,50 @@
+[
+  {
+    "title": "小红书爆款编导",
+    "icon": "✍️",
+    "metric": "30+ 爆文/天",
+    "desc": "根据热点自动抓取、撰写并多账号分发。完全接管新媒体运营管线。",
+    "tags": [
+      "Dify Agent",
+      "社交媒体API"
+    ],
+    "urlKey": "copywriter",
+    "color": "pink"
+  },
+  {
+    "title": "跨国电商跟单SDR",
+    "icon": "🌐",
+    "metric": "24h 全天候",
+    "desc": "打通 WhatsApp 与独立站，多语种自动安抚客户、开具工单与线索录入。",
+    "tags": [
+      "n8n Workflow",
+      "多语种RAG"
+    ],
+    "urlKey": "booking",
+    "color": "blue"
+  },
+  {
+    "title": "财报分析审查员",
+    "icon": "📊",
+    "metric": "5 mins / 份",
+    "desc": "赋予 OpenClaw 数据库查询权限，针对财报长文本自动复现结构化分析。",
+    "tags": [
+      "OpenClaw",
+      "DB读写"
+    ],
+    "urlKey": "credit",
+    "color": "cyan"
+  },
+  {
+    "title": "门店客诉大管家",
+    "icon": "🏪",
+    "metric": "秒级预警",
+    "desc": "自动化监控美团/大众点评评价。遭遇差评秒级预警并自动发券挽回。",
+    "tags": [
+      "爬虫追踪",
+      "情感分析"
+    ],
+    "urlKey": "localStore",
+    "color": "amber"
+  }
+]

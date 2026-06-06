@@ -1,0 +1,34 @@
+{
+  "founder": {
+    "name": "IronEngine",
+    "role": "全栈自动化架构师 / 独立主理人",
+    "avatar": "assets/images/aimszn_studio_logo.png",
+    "philosophy": "在这个算力不再稀缺的时代，真正稀缺的是将前沿技术转化为真实利润的『工程判断力』。我坚信小团队+极客工具将战胜臃肿的传统架构。",
+    "techStack": [
+      "OpenClaw",
+      "n8n Workflow",
+      "Dify LLMOps",
+      "Python",
+      "LangChain",
+      "Feishu API",
+      "Midjourney V6"
+    ]
+  },
+  "security": [
+    {
+      "icon": "🛡️",
+      "title": "API 物理隔离",
+      "desc": "所有节点调用基于您的私有 API Key 进行物理隔离部署。"
+    },
+    {
+      "icon": "🚫",
+      "title": "零数据投喂",
+      "desc": "我们在系统层强制屏蔽任何核心商业数据被用于公共大模型的训练。"
+    },
+    {
+      "icon": "⚡",
+      "title": "容灾与限流",
+      "desc": "内置 API 速率限制、指数退避重试与降级机制，确保高并发下的系统存活率。"
+    }
+  ]
+}
