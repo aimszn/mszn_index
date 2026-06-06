@@ -921,25 +921,6 @@ function openCaseModal(cardElement) {
             if(content) {
                 content.classList.remove('translate-x-full');
                 content.classList.add('translate-x-0');
-                
-                // FORCE grid layout via JS to bypass ANY CSS caching or Tailwind CDN issues
-                if (window.innerWidth >= 768) {
-                    content.style.setProperty('width', '800px', 'important');
-                    const gridEl = content.querySelector('.case-modal-grid') || content.querySelector('.gap-8');
-                    if (gridEl) {
-                        gridEl.style.setProperty('display', 'grid', 'important');
-                        gridEl.style.setProperty('grid-template-columns', 'repeat(5, minmax(0, 1fr))', 'important');
-                    }
-                    const leftCol = content.querySelector('.case-modal-left') || (gridEl ? gridEl.children[0] : null);
-                    if (leftCol) {
-                        leftCol.style.setProperty('grid-column', 'span 2 / span 2', 'important');
-                    }
-                    const rightCol = content.querySelector('.case-modal-right') || (gridEl ? gridEl.children[1] : null);
-                    if (rightCol) {
-                        rightCol.style.setProperty('grid-column', 'span 3 / span 3', 'important');
-                        rightCol.style.setProperty('display', 'flex', 'important');
-                    }
-                }
             }
         }, 10);
 
