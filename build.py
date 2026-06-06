@@ -24,7 +24,7 @@ def build():
 
     # 2. 移除 partials-loader.js 的 script 标签（生产环境不需要）
     html = re.sub(
-        r'\s*<script src="js/partials-loader\.js"></script>\s*\n?',
+        r'\s*<script src="js/partials-loader\.js(?:\?[^"]*)?"></script>\s*\n?',
         '\n',
         html
     )
@@ -75,13 +75,17 @@ def build():
         html
     )
 
-    # 4. 合并 CSS 为内联（可选，减少请求）
+    # 4. 合并 CSS 为内联（使用正则匹配，容忍 ?v=x 等版本参数）
     css_files = ['css/base.css', 'css/components.css', 'css/sections/cases.css']
     css_combined = '\n'.join(read_file(os.path.join(ROOT, f)) for f in css_files)
-    html = html.replace(
-        '    <link rel="stylesheet" href="css/base.css">\n    <link rel="stylesheet" href="css/components.css">\n    <link rel="stylesheet" href="css/sections/cases.css">',
-        f'    <style>\n{css_combined}\n    </style>'
-    )
+    css_pattern = r'\s*<link rel="stylesheet" href="css/base\.css(?:\?[^"]*)?">\s*\n?\s*<link rel="stylesheet" href="css/components\.css(?:\?[^"]*)?">\s*\n?\s*<link rel="stylesheet" href="css/sections/cases\.css(?:\?[^"]*)?">'
+    html, count = re.subn(css_pattern, lambda m, c=css_combined: f'\n    <style>\n{c}\n    </style>\n', html)
+    if count == 0:
+        # Fallback if regular expression fails due to structure changes
+        html = html.replace(
+            '    <link rel="stylesheet" href="css/base.css">\n    <link rel="stylesheet" href="css/components.css">\n    <link rel="stylesheet" href="css/sections/cases.css">',
+            f'    <style>\n{css_combined}\n    </style>'
+        )
 
     # 5. 内联 JSON 数据为同步脚本（生产环境不需要 fetch）
     import json as _json
@@ -140,13 +144,23 @@ def build():
     html = html.replace('    <script src="js/config.js"></script>', json_inline + '\n' + local_cms_assembly)
     html = html.replace('    <script src="js/data.js"></script>\n', '')
 
-    # 6. 内联其余 JS 文件
+    # 6. 内联其余 JS 文件 (使用正则匹配，容忍 ?v=x 等版本参数)
     js_files = ['js/partials-loader.js', 'js/app.js', 'js/dify.js', 'js/workspace.js', 'js/cases.js']
     for f in js_files:
-        content = read_file(os.path.join(ROOT, f))
-        tag = f'    <script src="{f}"></script>'
-        if tag in html:
-            html = html.replace(tag, f'    <script>\n{content}\n    </script>', 1)
+        full_path = os.path.join(ROOT, f)
+        if not os.path.exists(full_path):
+            continue
+        content = read_file(full_path)
+        
+        escaped_f = re.escape(f)
+        pattern = r'\s*<script src="' + escaped_f + r'(?:\?[^"]*)?"></script>\s*\n?'
+        
+        html, count = re.subn(pattern, lambda m, c=content: f'\n    <script>\n{c}\n    </script>\n', html, count=1)
+        if count == 0:
+            # Fallback if no query string was matched
+            tag = f'    <script src="{f}"></script>'
+            if tag in html:
+                html = html.replace(tag, f'    <script>\n{content}\n    </script>', 1)
 
     # 6. 输出到 dist/
     os.makedirs(DIST, exist_ok=True)

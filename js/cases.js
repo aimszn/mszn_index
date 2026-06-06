@@ -883,112 +883,511 @@ let currentArsenal = 'seo';
 // 案例详细数据字典 (极端 Before/After 对比与硬核代码)
 const CASE_DETAILS_DATA = {
     "独立站客服与履约自动化系统": {
-        "before": "3 名专职客服，需在 Zendesk、Shopify 与物流平台间低效切换。单笔退换货处理平均耗时 20 分钟。跨时区响应不及时，周末客诉率高达 8%。",
-        "after": "0 人工介入。n8n 实时捕获邮件意图并翻译，调用大模型分析。系统自动执行 Shopify 退款/发券/拦截操作。全链路仅需 15 秒，客诉率骤降至 1% 以下。",
-        "codeTitle": "n8n Webhook & LLM Node.json",
-        "code": "{
-  \"name\": \"Zendesk Ticket Trigger\",
-  \"type\": \"n8n-nodes-base.webhook\",
-  \"parameters\": {
-    \"path\": \"zendesk-refund\",
-    \"options\": {
-      \"responseMode\": \"lastNode\"
+        before: `3 名专职客服，需在 Zendesk、Shopify 与物流平台间低效切换。单笔退换货处理平均耗时 20 分钟。跨时区响应不及时，周末客诉率高达 8%。`,
+        after: `0 人工介入。n8n 实时捕获邮件意图并翻译，调用大模型分析。系统自动执行 Shopify 退换/发券/拦截操作。全链路仅需 15 秒，客诉率骤降至 1% 以下。`,
+        codeTitle: `n8n Webhook & LLM Node.json`,
+        code: `{
+  "name": "Zendesk Ticket Trigger",
+  "type": "n8n-nodes-base.webhook",
+  "parameters": {
+    "path": "zendesk-refund",
+    "options": {
+      "responseMode": "lastNode"
     }
   }
 }
 ...
 // LLM Intent Classification:
-if (intent === \"refund\" && sentiment_score < 0.3) {
+if (intent === "refund" && sentiment_score < 0.3) {
   await executeShopifyRefund(orderId, {
     reason: summary,
     notifyCustomer: true
   });
-}",
-        "blueprint": "<svg viewBox=\"0 0 400 200\" class=\"w-full h-full max-w-[350px]\"><defs><linearGradient id=\"flowGrad1\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#22d3ee\" stop-opacity=\"0\" /><stop offset=\"50%\" stop-color=\"#22d3ee\" stop-opacity=\"1\" /><stop offset=\"100%\" stop-color=\"#c084fc\" stop-opacity=\"0\" /></linearGradient><filter id=\"glow1\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"140%\"><feGaussianBlur stdDeviation=\"3\" result=\"blur\" /><feComposite in=\"SourceGraphic\" in2=\"blur\" operator=\"over\" /></filter></defs><path d=\"M 60 100 C 120 100 140 100 180 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 220 100 C 260 100 280 60 340 60\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 220 100 C 260 100 280 140 340 140\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><circle r=\"3\" fill=\"#22d3ee\" filter=\"url(#glow1)\"><animateMotion dur=\"2s\" repeatCount=\"indefinite\" path=\"M 60 100 C 120 100 140 100 180 100\" /></circle><circle r=\"3\" fill=\"#c084fc\" filter=\"url(#glow1)\"><animateMotion dur=\"2s\" repeatCount=\"indefinite\" path=\"M 220 100 C 260 100 280 60 340 60\" /></circle><circle r=\"3\" fill=\"#c084fc\" filter=\"url(#glow1)\"><animateMotion dur=\"2.5s\" repeatCount=\"indefinite\" path=\"M 220 100 C 260 100 280 140 340 140\" /></circle><rect x=\"20\" y=\"80\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#3b82f6\" stroke-width=\"2\" /><text x=\"40\" y=\"105\" fill=\"#94a3b8\" font-size=\"12\" text-anchor=\"middle\" font-family=\"sans-serif\">Zendesk</text><circle cx=\"200\" cy=\"100\" r=\"25\" fill=\"#2e1065\" stroke=\"#a855f7\" stroke-width=\"2\" filter=\"url(#glow1)\" /><text x=\"200\" y=\"104\" fill=\"#e879f9\" font-size=\"10\" text-anchor=\"middle\" font-weight=\"bold\" font-family=\"sans-serif\">Agent Swarm</text><rect x=\"320\" y=\"40\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#10b981\" stroke-width=\"2\" /><text x=\"340\" y=\"65\" fill=\"#94a3b8\" font-size=\"12\" text-anchor=\"middle\" font-family=\"sans-serif\">Shopify</text><rect x=\"320\" y=\"120\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#f59e0b\" stroke-width=\"2\" /><text x=\"340\" y=\"145\" fill=\"#94a3b8\" font-size=\"12\" text-anchor=\"middle\" font-family=\"sans-serif\">Logistics</text></svg>"
+}`,
+        blueprint: `<svg viewBox="0 0 400 200" class="w-full h-full max-w-[350px]">
+    <defs>
+        <filter id="glow1" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+    </defs>
+    <path d="M 60 100 C 130 50, 130 150, 200 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <path d="M 200 100 C 270 50, 270 50, 340 60" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <path d="M 200 100 C 270 150, 270 150, 340 140" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <circle r="4" fill="#06b6d4" filter="url(#glow1)"><animateMotion dur="2.5s" repeatCount="indefinite" path="M 60 100 C 130 50, 130 150, 200 100" /></circle>
+    <circle r="3.5" fill="#3b82f6" filter="url(#glow1)"><animateMotion dur="2s" repeatCount="indefinite" path="M 200 100 C 270 50, 270 50, 340 60" begin="0.5s" /></circle>
+    <circle r="3.5" fill="#8b5cf6" filter="url(#glow1)"><animateMotion dur="2s" repeatCount="indefinite" path="M 200 100 C 270 150, 270 150, 340 140" begin="1s" /></circle>
+    <g transform="translate(40, 80)"><rect width="40" height="40" rx="10" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5" /><text x="20" y="24" text-anchor="middle" fill="#94a3b8" font-size="16" dominant-baseline="middle">📥</text><text x="20" y="54" text-anchor="middle" fill="#64748b" font-size="8" font-family="monospace">Zendesk</text></g>
+    <g transform="translate(175, 75)"><circle cx="25" cy="25" r="25" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="2" filter="url(#glow1)" /><text x="25" y="27" text-anchor="middle" fill="#c4b5fd" font-size="20" dominant-baseline="middle">🧠</text><text x="25" y="65" text-anchor="middle" fill="#a855f7" font-size="9" font-family="sans-serif" font-weight="bold">n8n Router</text></g>
+    <g transform="translate(320, 40)"><rect width="40" height="40" rx="10" fill="#0f172a" stroke="#0ea5e9" stroke-width="1.5" /><text x="20" y="22" text-anchor="middle" fill="#94a3b8" font-size="16" dominant-baseline="middle">🛍️</text><text x="20" y="54" text-anchor="middle" fill="#64748b" font-size="8" font-family="monospace">Shopify</text></g>
+    <g transform="translate(320, 120)"><rect width="40" height="40" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.5" /><text x="20" y="22" text-anchor="middle" fill="#94a3b8" font-size="16" dominant-baseline="middle">📦</text><text x="20" y="54" text-anchor="middle" fill="#64748b" font-size="8" font-family="monospace">Logistics</text></g>
+</svg>`,
+        metrics: {
+            confidence: 98.4,
+            level: "L5",
+            nodes: 8,
+            latencyBefore: "20分钟",
+            latencyAfter: "15秒",
+            savedHours: 35
+        },
+        logs: [
+            "[INFO] Initializing Zendesk Webhook Trigger...",
+            "[INFO] Ticket #29104 received: \"Item damaged during shipping\"",
+            "[INFO] Running LLM sentiment analysis: score=0.18 (Dissatisfied)",
+            "[INFO] Parsing Shopify order ID: SH-883921... Order Found.",
+            "[ACTION] Initiating auto-refund & generating compensation coupon.",
+            "[SUCCESS] Shopify API Refund processed. SMS apology sent."
+        ]
     },
     "TikTok 爆款短视频矩阵分发器": {
-        "before": "2 名运营每天花费 4 小时刷榜，3 小时写脚本，人工同步多账号。每天产出视频上限为 5-8 条。",
-        "after": "通过 Dify Agent 每天定时抓取爆款趋势，自动调用大模型生成 50 套符合账号人设的短视频脚本并自动分发，将运营团队变成矩阵主理人。",
-        "codeTitle": "Dify Workflow / Viral_Prompt",
-        "code": "System: You are an elite TikTok viral copywriter.
+        before: `2 名运营每天花费 4 小时刷榜、2 小时写脚本，人工同步多账号。每天产出视频上限为 5-8 条。`,
+        after: `通过 Dify Agent 每天定时抓取爆款趋势，自动调用大模型生成 50 套符合账号人设 of 短视频脚本并自动分发，将运营团队变成矩阵主理人。`,
+        codeTitle: `Dify Workflow / Viral_Prompt`,
+        code: `// System Prompt for Dify Agent
+"Role: You are an elite TikTok strategist and scriptwriter.
+Task: Analyze the provided viral trends and generate 5 hook-heavy scripts.
+Constraints: 
+- Max 15 seconds reading time.
+- Start with a pattern interrupt.
+- Include visual cues for the editor."
 
-<Rules>
-1. Analyze the trending hashtag data: {{sys.query}}
-2. Hook the viewer in the first 3 seconds.
-3. Use psychological triggers (Curiosity, FOMO, Authority).
-4. Format output as JSON with fields: [\"hook\", \"body_script\", \"cta_text\", \"suggested_bgm\"]
-</Rules>
-
-Generate 5 hyper-engaging scripts now.",
-        "blueprint": "<svg viewBox=\"0 0 400 200\" class=\"w-full h-full max-w-[350px]\"><defs><filter id=\"glow2\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"140%\"><feGaussianBlur stdDeviation=\"3\" result=\"blur\" /><feComposite in=\"SourceGraphic\" in2=\"blur\" operator=\"over\" /></filter></defs><path d=\"M 60 100 L 140 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 220 100 L 300 40\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 220 100 L 300 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 220 100 L 300 160\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><circle r=\"3\" fill=\"#f43f5e\" filter=\"url(#glow2)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 60 100 L 140 100\" /></circle><circle r=\"3\" fill=\"#3b82f6\" filter=\"url(#glow2)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 220 100 L 300 40\" /></circle><circle r=\"3\" fill=\"#10b981\" filter=\"url(#glow2)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 220 100 L 300 100\" /></circle><circle r=\"3\" fill=\"#8b5cf6\" filter=\"url(#glow2)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 220 100 L 300 160\" /></circle><rect x=\"20\" y=\"80\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#f43f5e\" stroke-width=\"2\" /><text x=\"40\" y=\"105\" fill=\"#94a3b8\" font-size=\"10\" text-anchor=\"middle\" font-family=\"sans-serif\">Trends</text><rect x=\"160\" y=\"80\" width=\"60\" height=\"40\" rx=\"8\" fill=\"#1e1b4b\" stroke=\"#6366f1\" stroke-width=\"2\" filter=\"url(#glow2)\" /><text x=\"190\" y=\"105\" fill=\"#a5b4fc\" font-size=\"10\" text-anchor=\"middle\" font-weight=\"bold\" font-family=\"sans-serif\">Dify Agent</text><rect x=\"300\" y=\"20\" width=\"40\" height=\"40\" rx=\"20\" fill=\"#0f172a\" stroke=\"#3b82f6\" stroke-width=\"2\" /><text x=\"320\" y=\"45\" fill=\"#94a3b8\" font-size=\"10\" text-anchor=\"middle\" font-family=\"sans-serif\">Acc 1</text><rect x=\"300\" y=\"80\" width=\"40\" height=\"40\" rx=\"20\" fill=\"#0f172a\" stroke=\"#10b981\" stroke-width=\"2\" /><text x=\"320\" y=\"105\" fill=\"#94a3b8\" font-size=\"10\" text-anchor=\"middle\" font-family=\"sans-serif\">Acc 2</text><rect x=\"300\" y=\"140\" width=\"40\" height=\"40\" rx=\"20\" fill=\"#0f172a\" stroke=\"#8b5cf6\" stroke-width=\"2\" /><text x=\"320\" y=\"165\" fill=\"#94a3b8\" font-size=\"10\" text-anchor=\"middle\" font-family=\"sans-serif\">Acc 3</text></svg>"
+def generate_viral_matrix(trend_data):
+    scripts = llm.generate_batch(trend_data, count=50)
+    for script in scripts:
+        video = heygen.render(script)
+        tiktok.publish_to_matrix(video, tags=trend_data.tags)
+    return metrics`,
+        blueprint: `<svg viewBox="0 0 400 200" class="w-full h-full max-w-[360px]">
+    <defs>
+        <filter id="glow2" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+    </defs>
+    <path d="M 60 100 L 140 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <path d="M 180 100 L 260 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <path d="M 300 100 C 330 100, 330 60, 360 60" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <path d="M 300 100 C 330 100, 330 140, 360 140" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <circle r="3.5" fill="#f43f5e" filter="url(#glow2)"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 60 100 L 140 100" /></circle>
+    <circle r="3.5" fill="#10b981" filter="url(#glow2)"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 180 100 L 260 100" /></circle>
+    <circle r="3.5" fill="#a855f7" filter="url(#glow2)"><animateMotion dur="1.5s" repeatCount="indefinite" path="M 300 100 C 330 100, 330 60, 360 60" /></circle>
+    <circle r="3.5" fill="#06b6d4" filter="url(#glow2)"><animateMotion dur="1.5s" repeatCount="indefinite" path="M 300 100 C 330 100, 330 140, 360 140" /></circle>
+    <g transform="translate(20, 80)"><rect width="40" height="40" rx="10" fill="#0f172a" stroke="#f43f5e" stroke-width="1.5" /><text x="20" y="22" text-anchor="middle" fill="#94a3b8" font-size="16" dominant-baseline="middle">🔥</text><text x="20" y="54" text-anchor="middle" fill="#64748b" font-size="8" font-family="monospace">Trends API</text></g>
+    <g transform="translate(140, 80)"><rect width="40" height="40" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.5" /><text x="20" y="22" text-anchor="middle" fill="#94a3b8" font-size="16" dominant-baseline="middle">🤖</text><text x="20" y="54" text-anchor="middle" fill="#64748b" font-size="8" font-family="monospace">Dify Agent</text></g>
+    <g transform="translate(260, 80)"><rect width="40" height="40" rx="10" fill="#0f172a" stroke="#a855f7" stroke-width="1.5" /><text x="20" y="22" text-anchor="middle" fill="#94a3b8" font-size="16" dominant-baseline="middle">🎥</text><text x="20" y="54" text-anchor="middle" fill="#64748b" font-size="8" font-family="monospace">Video Render</text></g>
+    <g transform="translate(360, 45)"><circle cx="10" cy="10" r="10" fill="#0f172a" stroke="#0ea5e9" stroke-width="1.5" /><text x="10" y="11" text-anchor="middle" fill="#0ea5e9" font-size="8" dominant-baseline="middle">T1</text></g>
+    <g transform="translate(360, 125)"><circle cx="10" cy="10" r="10" fill="#0f172a" stroke="#0ea5e9" stroke-width="1.5" /><text x="10" y="11" text-anchor="middle" fill="#0ea5e9" font-size="8" dominant-baseline="middle">T2</text></g>
+</svg>`,
+        metrics: {
+            confidence: 96.8,
+            level: "L5",
+            nodes: 12,
+            latencyBefore: "6小时",
+            latencyAfter: "45秒",
+            savedHours: 48
+        },
+        logs: [
+            "[INFO] Fetching daily TikTok trending hashtags via API...",
+            "[INFO] Top trend identified: #cyberpunk_outfit",
+            "[ACTION] Dify Agent scripting 50 unique video variants...",
+            "[INFO] Generating scripts with emotional triggers...",
+            "[ACTION] Rendering video assets with virtual avatar engine...",
+            "[SUCCESS] 50 videos generated. Dispatched to 15 TikTok accounts."
+        ]
     },
-    "全网竞品监控与洞察矩阵": {
-        "before": "运营团队每周花 1-2 天人工巡视几十个竞品网站、公众号。形成滞后的 Excel 情报表，信息严重失真且竞品降价等关键情报遗漏。",
-        "after": "分布式 RSS 与网页爬虫，24 小时监控竞品动态，经 DeepSeek 自动清洗去重，总结出关键商业洞察。每天清晨 9:00 通过企业微信推送高价值的“战略战报”。",
-        "codeTitle": "Python Scraper & DeepSeek API",
-        "code": "import httpx
-from bs4 import BeautifulSoup
+    "亚马逊竞品评价情感分析大盘": {
+        before: `每周需下载上万条竞品 Reviews，用 Excel 跑词频。难以快速洞察隐藏的痛点（如“包装破损”与“物流延迟”混杂），选品迭代永远慢半拍。`,
+        after: `全自动化爬取并入库。大模型精准提取 15 个细分维度的情感得分（质量、物流、气味等），并高亮预警痛点。每周自动生成结构化 BI 战报推送企微。`,
+        codeTitle: `Sentiment Analysis Core (Python)`,
+        code: `import pandas as pd
+from transformers import pipeline
 
-def fetch_competitor_news(url):
-    res = httpx.get(url)
-    soup = BeautifulSoup(res.text, \"html.parser\")
-    raw_text = soup.get_text()
+classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
+candidate_labels = ["packaging", "shipping", "quality", "price", "scent"]
+
+def analyze_reviews(asin_reviews):
+    results = []
+    for review in asin_reviews:
+        # LLM zero-shot topic clustering & sentiment
+        res = classifier(review['text'], candidate_labels)
+        sentiment = get_sentiment_score(review['text'])
+        
+        results.append({
+            "review_id": review['id'],
+            "topic": res['labels'][0],
+            "confidence": res['scores'][0],
+            "sentiment_score": sentiment
+        })
     
-    # 调用大模型提取关键情报
-    prompt = f\"提取文本中的竞品最新动态、价格变动与公关风险\n{raw_text}\"
-    insight = llm_client.chat(prompt)
+    update_powerbi_dataset(results)`,
+        blueprint: `<svg viewBox="0 0 400 200" class="w-full h-full max-w-[360px]">
+    <defs>
+        <filter id="glow3" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+    </defs>
+    <path d="M 60 40 C 120 40 140 100 180 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <path d="M 60 100 L 180 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <path d="M 60 160 C 120 160 140 100 180 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <path d="M 220 100 L 320 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <circle r="3" fill="#14b8a6" filter="url(#glow3)"><animateMotion dur="2s" repeatCount="indefinite" path="M 60 40 C 120 40 140 100 180 100" /></circle>
+    <circle r="3" fill="#14b8a6" filter="url(#glow3)"><animateMotion dur="2s" repeatCount="indefinite" path="M 60 100 L 180 100" /></circle>
+    <circle r="3" fill="#14b8a6" filter="url(#glow3)"><animateMotion dur="2s" repeatCount="indefinite" path="M 60 160 C 120 160 140 100 180 100" /></circle>
+    <circle r="4" fill="#f59e0b" filter="url(#glow3)"><animateMotion dur="1.5s" repeatCount="indefinite" path="M 220 100 L 320 100" /></circle>
+    <g transform="translate(20, 20)"><rect width="40" height="40" rx="8" fill="#0f172a" stroke="#475569" stroke-width="2" /><text x="20" y="24" fill="#64748b" font-size="10" text-anchor="middle">Review</text></g>
+    <g transform="translate(20, 80)"><rect width="40" height="40" rx="8" fill="#0f172a" stroke="#475569" stroke-width="2" /><text x="20" y="105" fill="#64748b" font-size="10" text-anchor="middle" transform="translate(0, -80)">Price</text></g>
+    <g transform="translate(20, 140)"><rect width="40" height="40" rx="8" fill="#0f172a" stroke="#475569" stroke-width="2" /><text x="20" y="165" fill="#64748b" font-size="10" text-anchor="middle" transform="translate(0, -140)">Listing</text></g>
+    <polygon points="200,75 225,100 200,125 175,100" fill="#064e3b" stroke="#10b981" stroke-width="2" filter="url(#glow3)" /><text x="200" y="104" fill="#6ee7b7" font-size="8" text-anchor="middle" font-weight="bold">NLP Core</text>
+    <rect x="320" y="80" width="40" height="40" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="2" /><text x="340" y="105" fill="#94a3b8" font-size="10" text-anchor="middle">BI Plan</text>
+</svg>`,
+        metrics: {
+            confidence: 95.2,
+            level: "L4",
+            nodes: 14,
+            latencyBefore: "48小时",
+            latencyAfter: "5分钟",
+            savedHours: 20
+        },
+        logs: [
+            "[INFO] Triggering Amazon ASIN Reviews scraper...",
+            "[INFO] Ingested 1,200 new review texts for ASIN: B08XX921",
+            "[ACTION] Loading Bart-Large-MNLI model for categorization...",
+            "[INFO] Clustering results: Quality (42%), Packaging (31%), Shipping (27%)",
+            "[WARN] Alert: \"Damaged box\" keyword occurrences spike by 15%!",
+            "[SUCCESS] Pushed insights to Enterprise WeChat and BI database."
+        ]
+    },
+    "跨平台自动询盘抓取与意图打标": {
+        before: `销售人员每天在 WhatsApp, FB Messenger, Email 里疯狂切屏，手动把询盘复制到 CRM。经常漏回信息，线索跟进极度混乱。`,
+        after: `所有渠道信息统一汇聚 n8n。AI 自动判断是“售后”、“询价”还是“垃圾信息”。精准打标后推入 HubSpot，并自动指派给对应业务员，重要询盘企微秒级告警。`,
+        codeTitle: `Multi-Channel Ingestion & Triage`,
+        code: `export const TriageWorkflow = {
+  trigger: ["WhatsApp", "Messenger", "Email"],
+  execute: async (message) => {
+    // LLM Intent Classification
+    const intent = await classifyIntent(message.content);
     
-    db.insert(\"market_insights\", {\"source\": url, \"data\": insight})
-    return insight",
-        "blueprint": "<svg viewBox=\"0 0 400 200\" class=\"w-full h-full max-w-[350px]\"><defs><filter id=\"glow3\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"140%\"><feGaussianBlur stdDeviation=\"3\" result=\"blur\" /><feComposite in=\"SourceGraphic\" in2=\"blur\" operator=\"over\" /></filter></defs><path d=\"M 60 40 C 120 40 140 100 180 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 60 100 L 180 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 60 160 C 120 160 140 100 180 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 220 100 L 320 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><circle r=\"3\" fill=\"#14b8a6\" filter=\"url(#glow3)\"><animateMotion dur=\"2s\" repeatCount=\"indefinite\" path=\"M 60 40 C 120 40 140 100 180 100\" /></circle><circle r=\"3\" fill=\"#14b8a6\" filter=\"url(#glow3)\"><animateMotion dur=\"2s\" repeatCount=\"indefinite\" path=\"M 60 100 L 180 100\" /></circle><circle r=\"3\" fill=\"#14b8a6\" filter=\"url(#glow3)\"><animateMotion dur=\"2s\" repeatCount=\"indefinite\" path=\"M 60 160 C 120 160 140 100 180 100\" /></circle><circle r=\"4\" fill=\"#f59e0b\" filter=\"url(#glow3)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 220 100 L 320 100\" /></circle><rect x=\"20\" y=\"20\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#475569\" stroke-width=\"2\" /><text x=\"40\" y=\"45\" fill=\"#64748b\" font-size=\"10\" text-anchor=\"middle\">Web</text><rect x=\"20\" y=\"80\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#475569\" stroke-width=\"2\" /><text x=\"40\" y=\"105\" fill=\"#64748b\" font-size=\"10\" text-anchor=\"middle\">Social</text><rect x=\"20\" y=\"140\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#475569\" stroke-width=\"2\" /><text x=\"40\" y=\"165\" fill=\"#64748b\" font-size=\"10\" text-anchor=\"middle\">RSS</text><polygon points=\"200,75 225,100 200,125 175,100\" fill=\"#064e3b\" stroke=\"#10b981\" stroke-width=\"2\" filter=\"url(#glow3)\" /><text x=\"200\" y=\"104\" fill=\"#6ee7b7\" font-size=\"10\" text-anchor=\"middle\" font-weight=\"bold\">DeepSeek</text><rect x=\"320\" y=\"80\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#f59e0b\" stroke-width=\"2\" /><text x=\"340\" y=\"105\" fill=\"#94a3b8\" font-size=\"10\" text-anchor=\"middle\">Report</text></svg>"
+    // Entity Extraction (Budget, Company, Product)
+    const entities = await extractEntities(message.content);
+    
+    // CRM Routing
+    if (intent === "Pricing_Inquiry" && entities.budget > 5000) {
+      await HubSpot.createDeal({
+        amount: entities.budget,
+        company: entities.company,
+        stage: "Qualified"
+      });
+      await WeChatWork.sendAlert("🚨 High-Value Inquiry Detected!");
+    } else if (intent === "Support") {
+      await Zendesk.createTicket(message);
+    }
+  }
+};`,
+        blueprint: `<svg viewBox="0 0 400 200" class="w-full h-full max-w-[350px]">
+    <defs>
+        <filter id="glow4" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+    </defs>
+    <path d="M 60 50 C 130 50, 130 100, 200 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <path d="M 60 150 C 130 150, 130 100, 200 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <path d="M 240 100 L 320 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <circle r="3" fill="#22c55e" filter="url(#glow4)"><animateMotion dur="2s" repeatCount="indefinite" path="M 60 50 C 130 50, 130 100, 200 100" /></circle>
+    <circle r="3" fill="#3b82f6" filter="url(#glow4)"><animateMotion dur="2s" repeatCount="indefinite" path="M 60 150 C 130 150, 130 100, 200 100" /></circle>
+    <circle r="4" fill="#0ea5e9" filter="url(#glow4)"><animateMotion dur="1.5s" repeatCount="indefinite" path="M 240 100 L 320 100" /></circle>
+    <g transform="translate(20, 30)"><rect width="40" height="35" rx="8" fill="#0f172a" stroke="#22c55e" stroke-width="1.5" /><text x="20" y="20" text-anchor="middle" fill="#94a3b8" font-size="8" dominant-baseline="middle">Chats</text></g>
+    <g transform="translate(20, 130)"><rect width="40" height="35" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5" /><text x="20" y="20" text-anchor="middle" fill="#94a3b8" font-size="8" dominant-baseline="middle">Email</text></g>
+    <g transform="translate(200, 75)"><circle cx="20" cy="25" r="25" fill="#1e1b4b" stroke="#0ea5e9" stroke-width="2" filter="url(#glow4)" /><text x="20" y="27" text-anchor="middle" fill="#c4b5fd" font-size="12" text-anchor="middle" font-weight="bold">n8n</text></g>
+    <g transform="translate(320, 80)"><rect width="50" height="40" rx="8" fill="#0f172a" stroke="#0ea5e9" stroke-width="1.5" /><text x="25" y="24" text-anchor="middle" fill="#94a3b8" font-size="9" dominant-baseline="middle">CRM</text></g>
+</svg>`,
+        metrics: {
+            confidence: 97.4,
+            level: "L5",
+            nodes: 6,
+            latencyBefore: "4小时",
+            latencyAfter: "2分钟",
+            savedHours: 16
+        },
+        logs: [
+            "[INFO] Ingestion listener active for WhatsApp/FB/Email...",
+            "[DEBUG] Incoming query: \"Need quote for 2,000 units. Budget is $15k\"",
+            "[ACTION] Extracting intent and entities...",
+            "[INFO] Intent: Pricing_Inquiry | Budget: $15,000 | Co: Acme Corp",
+            "[ACTION] Creating lead record in HubSpot. Assigning to Sales A.",
+            "[SUCCESS] CRM synced. Push warning alert to WeChat sales group."
+        ]
     },
-    "研发代码自动审查引擎": {
-        "before": "高级架构师人工 Code Review，极其消耗时间，且容易漏掉边界情况。团队代码风格不一，潜在的安全漏洞容易在代码合并时带入生产环境。",
-        "after": "每次 GitHub Commit 自动触发大模型代码审查。识别安全漏洞、内存泄漏并自动生成 Jest 测试用例作为 PR Comment 提交。架构师只需点击 Merge，无感把控代码质量。",
-        "codeTitle": "GitHub Action Webhook",
-        "code": "name: AI Code Review
-on: [pull_request]
-
-jobs:
-  review:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Claude 3.5 Sonnet Analysis
-        uses: openclaw/ai-reviewer@v1
-        with:
-          api-key: ${{ secrets.CLAUDE_API_KEY }}
-          strict-mode: true
-          generate-tests: true",
-        "blueprint": "<svg viewBox=\"0 0 400 200\" class=\"w-full h-full max-w-[350px]\"><defs><filter id=\"glow4\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"140%\"><feGaussianBlur stdDeviation=\"3\" result=\"blur\" /><feComposite in=\"SourceGraphic\" in2=\"blur\" operator=\"over\" /></filter></defs><path d=\"M 60 100 L 140 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 220 100 L 300 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 200 70 L 200 40 L 300 40\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><circle r=\"3\" fill=\"#eab308\" filter=\"url(#glow4)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 60 100 L 140 100\" /></circle><circle r=\"3\" fill=\"#22c55e\" filter=\"url(#glow4)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 220 100 L 300 100\" /></circle><circle r=\"3\" fill=\"#ef4444\" filter=\"url(#glow4)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 200 70 L 200 40 L 300 40\" /></circle><circle cx=\"40\" cy=\"100\" r=\"20\" fill=\"#0f172a\" stroke=\"#eab308\" stroke-width=\"2\" /><text x=\"40\" y=\"104\" fill=\"#fef08a\" font-size=\"10\" text-anchor=\"middle\">PR</text><rect x=\"140\" y=\"70\" width=\"80\" height=\"60\" rx=\"8\" fill=\"#1e1b4b\" stroke=\"#8b5cf6\" stroke-width=\"2\" filter=\"url(#glow4)\" /><text x=\"180\" y=\"104\" fill=\"#c4b5fd\" font-size=\"10\" text-anchor=\"middle\" font-weight=\"bold\">AI Engine</text><rect x=\"300\" y=\"80\" width=\"50\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#22c55e\" stroke-width=\"2\" /><text x=\"325\" y=\"105\" fill=\"#86efac\" font-size=\"10\" text-anchor=\"middle\">Merge</text><rect x=\"300\" y=\"20\" width=\"50\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#ef4444\" stroke-width=\"2\" /><text x=\"325\" y=\"45\" fill=\"#fca5a5\" font-size=\"10\" text-anchor=\"middle\">Reject</text></svg>"
+    "商品详情页 (Listing) 批量生成流水线": {
+        before: `新开 100 个 SKU，需要文案绞尽脑汁写 Title、5 Bullets 和 Description。外包成本 50元/条，且风格参差不齐，极易触发敏感词违规。`,
+        after: `导入产品规格表，AI 结合历史高转化 Listing 库，5 分钟内批量输出 100 个多语种、SEO 友好的 A+ 级 Listing，并自动过滤平台违规词。`,
+        codeTitle: `Listing Generation Pipeline`,
+        code: `{
+  "workflow": "Listing_Batch_Gen",
+  "steps": [
+    {
+      "action": "Parse_PIM_Data",
+      "input": "sku_specs.csv"
     },
-    "自媒体爆款内容车间": {
-        "before": "选标题、想脚本、配配图、找爆点极其消耗时间。一篇优质爆款推文需要 2 天才能打磨完成，无法形成规模效应。",
-        "after": "只需提供一个核心观点，Agent 自动裂变为多套结构化文案。并调用 Midjourney V6 API 生成风格统一 (SREF) 的高清配图。15 分钟产出一篇爆款内容并自动分发。",
-        "codeTitle": "Midjourney V6 Rendering Node",
-        "code": "// MJ Generation Parameters
-{
-  \"prompt\": \"{{article_core_concept}}, cyberpunk aesthetic, neon lights, volumetric fog, unreal engine 5 render, --ar 16:9 --v 6.0 --sref https://brand.com/style.png --sw 800\",
-  \"webhook_url\": \"https://n8n.yourdomain.com/webhook/mj-done\"
-}
-// Wait for generation and auto-upload to OSS",
-        "blueprint": "<svg viewBox=\"0 0 400 200\" class=\"w-full h-full max-w-[350px]\"><defs><filter id=\"glow5\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"140%\"><feGaussianBlur stdDeviation=\"3\" result=\"blur\" /><feComposite in=\"SourceGraphic\" in2=\"blur\" operator=\"over\" /></filter></defs><path d=\"M 60 100 L 120 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 200 100 L 260 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 160 70 L 160 40 L 260 40\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 160 130 L 160 160 L 260 160\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><circle r=\"3\" fill=\"#ec4899\" filter=\"url(#glow5)\"><animateMotion dur=\"1s\" repeatCount=\"indefinite\" path=\"M 60 100 L 120 100\" /></circle><circle r=\"3\" fill=\"#0ea5e9\" filter=\"url(#glow5)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 160 70 L 160 40 L 260 40\" /></circle><circle r=\"3\" fill=\"#f59e0b\" filter=\"url(#glow5)\"><animateMotion dur=\"1s\" repeatCount=\"indefinite\" path=\"M 200 100 L 260 100\" /></circle><circle r=\"3\" fill=\"#8b5cf6\" filter=\"url(#glow5)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 160 130 L 160 160 L 260 160\" /></circle><circle cx=\"40\" cy=\"100\" r=\"20\" fill=\"#0f172a\" stroke=\"#ec4899\" stroke-width=\"2\" /><text x=\"40\" y=\"104\" fill=\"#fbcfe8\" font-size=\"10\" text-anchor=\"middle\">Idea</text><circle cx=\"160\" cy=\"100\" r=\"30\" fill=\"#312e81\" stroke=\"#6366f1\" stroke-width=\"2\" filter=\"url(#glow5)\" /><text x=\"160\" y=\"104\" fill=\"#c7d2fe\" font-size=\"10\" text-anchor=\"middle\" font-weight=\"bold\">Brain</text><rect x=\"260\" y=\"20\" width=\"60\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#0ea5e9\" stroke-width=\"2\" /><text x=\"290\" y=\"45\" fill=\"#e0f2fe\" font-size=\"10\" text-anchor=\"middle\">Midjourney</text><rect x=\"260\" y=\"80\" width=\"60\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#f59e0b\" stroke-width=\"2\" /><text x=\"290\" y=\"105\" fill=\"#fef3c7\" font-size=\"10\" text-anchor=\"middle\">Copywriting</text><rect x=\"260\" y=\"140\" width=\"60\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#8b5cf6\" stroke-width=\"2\" /><text x=\"290\" y=\"165\" fill=\"#ede9fe\" font-size=\"10\" text-anchor=\"middle\">Publish</text></svg>"
+    {
+      "action": "Generate_Title",
+      "model": "gpt-4-turbo",
+      "prompt_template": "Create an Amazon title < 200 chars including keywords: {{keywords}}"
     },
-    "私域情感占卜自动化": {
-        "before": "塔罗牌、星盘玄学 IP 在微信后端的纯人工一对一回复。客单价较低，人力成本高昂。提供免费看盘引流，导致 60% 的高意向客户因排队等待 1 小时而流失。",
-        "after": "100% 自动接单。自建塔罗/星盘知识库微调模型，秒级回复，且语气高度拟人提供情绪价值。自然拉平低客单价的成本结构，实现睡后收入自动转化。",
-        "codeTitle": "System Prompt (RAG + 情绪补偿)",
-        "code": "System: 你是麻升塔罗馆的资深占星师“星月”。
-语气要求：温柔、神秘、带有一丝宿命感。绝不生硬。
-
-Context:
-[客户抽牌结果: 宝剑三逆位, 星币骑士正位]
-[知识库检索: 宝剑三逆位代表疗愈、放下痛苦；星币骑士代表稳扎稳打]
-
-请根据客户的问题：{{user.query}}，结合上述牌意，用治愈的口吻生成一段 300 字的解析。",
-        "blueprint": "<svg viewBox=\"0 0 400 200\" class=\"w-full h-full max-w-[350px]\"><defs><filter id=\"glow6\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"140%\"><feGaussianBlur stdDeviation=\"3\" result=\"blur\" /><feComposite in=\"SourceGraphic\" in2=\"blur\" operator=\"over\" /></filter></defs><path d=\"M 60 100 L 140 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 180 70 L 180 40 L 260 40\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 260 40 L 320 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 220 100 L 320 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><circle r=\"3\" fill=\"#22c55e\" filter=\"url(#glow6)\"><animateMotion dur=\"1s\" repeatCount=\"indefinite\" path=\"M 60 100 L 140 100\" /></circle><circle r=\"3\" fill=\"#a855f7\" filter=\"url(#glow6)\"><animateMotion dur=\"1s\" repeatCount=\"indefinite\" path=\"M 180 70 L 180 40 L 260 40\" /></circle><circle r=\"3\" fill=\"#f43f5e\" filter=\"url(#glow6)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 220 100 L 320 100\" /></circle><rect x=\"20\" y=\"80\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#22c55e\" stroke-width=\"2\" /><text x=\"40\" y=\"105\" fill=\"#bbf7d0\" font-size=\"10\" text-anchor=\"middle\">WeChat</text><circle cx=\"180\" cy=\"100\" r=\"40\" fill=\"#4c1d95\" stroke=\"#a855f7\" stroke-width=\"2\" filter=\"url(#glow6)\" /><text x=\"180\" y=\"104\" fill=\"#e9d5ff\" font-size=\"10\" text-anchor=\"middle\" font-weight=\"bold\">Tarot Agent</text><rect x=\"260\" y=\"20\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#06b6d4\" stroke-width=\"2\" /><text x=\"280\" y=\"45\" fill=\"#cffafe\" font-size=\"10\" text-anchor=\"middle\">RAG DB</text><rect x=\"320\" y=\"80\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#f43f5e\" stroke-width=\"2\" /><text x=\"340\" y=\"105\" fill=\"#fecdd3\" font-size=\"10\" text-anchor=\"middle\">Reply</text></svg>"
+    {
+      "action": "Generate_Bullets",
+      "model": "gpt-4-turbo",
+      "rules": ["Highlight benefits, not just features", "Start with ALL CAPS"]
+    },
+    {
+      "action": "Compliance_Check",
+      "database": "amazon_restricted_keywords_db"
+    }
+  ]
+}`,
+        blueprint: `<svg viewBox="0 0 400 200" class="w-full h-full max-w-[360px]">
+    <defs>
+        <filter id="glow5" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+    </defs>
+    <path d="M 60 100 L 150 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <path d="M 210 100 L 300 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <circle r="3.5" fill="#a855f7" filter="url(#glow5)"><animateMotion dur="1.5s" repeatCount="indefinite" path="M 60 100 L 150 100" /></circle>
+    <circle r="3.5" fill="#06b6d4" filter="url(#glow5)"><animateMotion dur="1.8s" repeatCount="indefinite" path="M 210 100 L 300 100" /></circle>
+    <g transform="translate(20, 80)"><rect width="40" height="40" rx="8" fill="#0f172a" stroke="#a855f7" stroke-width="1.5" /><text x="20" y="24" text-anchor="middle" fill="#94a3b8" font-size="9" dominant-baseline="middle">Specs</text></g>
+    <g transform="translate(150, 75)"><circle cx="25" cy="25" r="25" fill="#1e1b4b" stroke="#06b6d4" stroke-width="2" filter="url(#glow5)" /><text x="25" y="27" text-anchor="middle" fill="#c4b5fd" font-size="9" dominant-baseline="middle" font-weight="bold">GPT Writer</text></g>
+    <g transform="translate(300, 80)"><rect width="45" height="40" rx="8" fill="#0f172a" stroke="#0ea5e9" stroke-width="1.5" /><text x="22.5" y="24" text-anchor="middle" fill="#94a3b8" font-size="9" dominant-baseline="middle">Listing</text></g>
+</svg>`,
+        metrics: {
+            confidence: 94.6,
+            level: "L4",
+            nodes: 8,
+            latencyBefore: "2天",
+            latencyAfter: "15分钟",
+            savedHours: 30
+        },
+        logs: [
+            "[INFO] Reading PIM CSV import: 100 new product SKUs",
+            "[ACTION] GPT-4 Listing Writer processing item: \"Ergonomic Office Chair\"",
+            "[INFO] Translating descriptions to German, French, and Japanese...",
+            "[ACTION] Running compliance validator against Amazon policy...",
+            "[INFO] Policy Scan: 0 restricted words found. SEO score: 94/100",
+            "[SUCCESS] 100 listings generated & uploaded to Seller Central draft."
+        ]
+    },
+    "智能退换货挽留与客诉防御系统": {
+        before: `只要客户发起退货，客服一律同意。每年直接损失高达数百万。缺乏有效的挽留话术与分级处理机制，恶意薅羊毛行为泛滥。`,
+        after: `AI 实时评估客户终身价值 (LTV) 与退货原因。对于高优客户自动发放高额无门槛补偿券；对于恶意退款自动驳回并标记。成功挽回 35% 的退货订单。`,
+        codeTitle: `LTV & Churn Defense Logic`,
+        code: `async function handleReturnRequest(customer, order, reason) {
+  // 1. Calculate Customer Lifetime Value & Risk
+  const ltv = await getCustomerLTV(customer.id);
+  const fraudScore = await checkFraudRisk(customer.id);
+  
+  if (fraudScore > 80) {
+    return rejectReturn("Fraud risk detected.");
+  }
+  
+  // 2. Dynamic Retention Strategy
+  if (ltv > 1000 && reason === "defective") {
+    // High value customer - immediate full refund + 20% discount code
+    await processRefund(order.id, "FULL");
+    await sendApologyEmailWithDiscount(customer.email, 0.20);
+    return "Retained high-value customer";
+  } else {
+    // Standard customer - offer partial refund to keep item
+    const offer = await generateLLMOffer(order.item, reason);
+    return proposeAlternative(offer);
+  }
+}`,
+        blueprint: `<svg viewBox="0 0 400 200" class="w-full h-full max-w-[360px]">
+    <defs>
+        <filter id="glow6" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+    </defs>
+    <path d="M 60 100 L 140 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <path d="M 180 70 L 180 40 L 260 40" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <path d="M 260 40 L 320 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <path d="M 220 100 L 320 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+    <circle r="3" fill="#22c55e" filter="url(#glow6)"><animateMotion dur="1s" repeatCount="indefinite" path="M 60 100 L 140 100" /></circle>
+    <circle r="3" fill="#a855f7" filter="url(#glow6)"><animateMotion dur="1s" repeatCount="indefinite" path="M 180 70 L 180 40 L 260 40" /></circle>
+    <circle r="3" fill="#f43f5e" filter="url(#glow6)"><animateMotion dur="1.5s" repeatCount="indefinite" path="M 220 100 L 320 100" /></circle>
+    <rect x="20" y="80" width="40" height="40" rx="8" fill="#0f172a" stroke="#22c55e" stroke-width="2" /><text x="40" y="105" fill="#bbf7d0" font-size="10" text-anchor="middle" transform="translate(0, -80)">Return</text>
+    <circle cx="180" cy="100" r="40" fill="#4c1d95" stroke="#a855f7" stroke-width="2" filter="url(#glow6)" /><text x="180" y="104" fill="#e9d5ff" font-size="10" text-anchor="middle" font-weight="bold" transform="translate(0, -100)">Defense</text>
+    <rect x="260" y="20" width="40" height="40" rx="8" fill="#0f172a" stroke="#06b6d4" stroke-width="2" /><text x="280" y="45" fill="#cffafe" font-size="10" text-anchor="middle" transform="translate(0, -20)">Compensate</text>
+    <rect x="320" y="80" width="40" height="40" rx="8" fill="#0f172a" stroke="#f43f5e" stroke-width="2" /><text x="340" y="105" fill="#fecdd3" font-size="10" text-anchor="middle" transform="translate(0, -80)">Resolve</text>
+</svg>`,
+        metrics: {
+            confidence: 93.8,
+            level: "L5",
+            nodes: 5,
+            latencyBefore: "1小时",
+            latencyAfter: "10秒",
+            savedHours: 25
+        },
+        logs: [
+            "[INFO] Customer refund request received: Order #SH-40012",
+            "[ACTION] Calculating Customer LTV index... LTV = $1,420 (High)",
+            "[INFO] Analyzing refund justification: \"Minor scratch on leg\"",
+            "[ACTION] Formulating dynamic compensation offer via RAG...",
+            "[INFO] Proposing 30% partial refund + 15% discount voucher...",
+            "[SUCCESS] Offer accepted by customer. Refund processed. Order closed."
+        ]
     }
 };
+
+// ======================= Tab and Terminal Interaction Logic =======================
+function switchCaseTab(tabName) {
+    // Hide all tab panels
+    const panels = document.querySelectorAll('.tab-panel');
+    panels.forEach(p => p.classList.add('hidden'));
+
+    // Show selected panel
+    const activePanel = document.getElementById(`cm-tab-panel-${tabName}`);
+    if (activePanel) {
+        activePanel.classList.remove('hidden');
+    }
+
+    // Reset tab button states
+    const tabs = ['topology', 'console', 'metrics'];
+    tabs.forEach(t => {
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (btn) {
+            if (t === tabName) {
+                btn.className = "flex-1 py-2.5 text-xs font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-1.5 text-white bg-slate-800 shadow-[0_2px_8px_rgba(6,182,212,0.15)] border border-cyan-500/20 focus:outline-none";
+            } else {
+                btn.className = "flex-1 py-2.5 text-xs font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-1.5 text-slate-400 hover:text-slate-200 focus:outline-none";
+            }
+        }
+    });
+
+    // If switching to console, kick off simulated terminal typing (if not already typed)
+    if (tabName === 'console') {
+        const titleEl = document.getElementById('cm-title');
+        const title = titleEl ? titleEl.innerText : '';
+        initConsoleLogs(title);
+    }
+}
+
+// Global state for terminal typing animation
+let terminalTypingInterval = null;
+let currentCaseTitleForLogs = '';
+
+function initConsoleLogs(caseTitle) {
+    if (currentCaseTitleForLogs === caseTitle) {
+        const logsContainer = document.getElementById('cm-console-logs');
+        if (logsContainer && logsContainer.innerText !== '') {
+            return; // Already initialized for this case
+        }
+    }
+    
+    currentCaseTitleForLogs = caseTitle;
+    
+    // Clear any active typing animation
+    if (terminalTypingInterval) {
+        clearInterval(terminalTypingInterval);
+        terminalTypingInterval = null;
+    }
+    
+    const logsContainer = document.getElementById('cm-console-logs');
+    if (!logsContainer) return;
+    logsContainer.innerText = '';
+    
+    // Look up logs from CASE_DETAILS_DATA or generate
+    const details = (typeof CASE_DETAILS_DATA !== 'undefined' && CASE_DETAILS_DATA[caseTitle]) 
+                    ? CASE_DETAILS_DATA[caseTitle] 
+                    : generateDynamicFallback(caseTitle, '');
+    
+    const logs = details.logs || generateLogsForCase(caseTitle);
+    
+    // Quick type-writer for initial logs
+    let lineIdx = 0;
+    terminalTypingInterval = setInterval(() => {
+        if (lineIdx < logs.length) {
+            logsContainer.innerText += logs[lineIdx] + '\n';
+            logsContainer.scrollTop = logsContainer.scrollHeight;
+            lineIdx++;
+        } else {
+            clearInterval(terminalTypingInterval);
+            terminalTypingInterval = null;
+        }
+    }, 100);
+}
+
+function generateLogsForCase(title) {
+    let hash = 0;
+    for (let i = 0; i < title.length; i++) {
+        hash = title.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return [
+        `[INFO] Booting system service for: ${title}...`,
+        `[INFO] Establishing SSL handshake with AI Gateway Node...`,
+        `[DEBUG] Fetching workflow blueprints...`,
+        `[INFO] Starting execution engine, active nodes: ${Math.abs(hash % 10) + 5}`,
+        `[INFO] Scanning system health... Status: green`,
+        `[SUCCESS] Test run completed. Latency: 25ms.`
+    ];
+}
+
+function triggerConsoleSimulation() {
+    const btn = document.getElementById('cm-run-test-btn');
+    if (btn) {
+        btn.disabled = true;
+        btn.innerText = '⏳ 运行中...';
+    }
+
+    if (terminalTypingInterval) {
+        clearInterval(terminalTypingInterval);
+        terminalTypingInterval = null;
+    }
+
+    const logsContainer = document.getElementById('cm-console-logs');
+    if (logsContainer) {
+        logsContainer.innerText = '>>> [SYSTEM] Starting Diagnostic Test Simulation...\n';
+    }
+
+    const simLogs = [
+        '[TEST] Checking API Endpoint Handshakes...',
+        '[TEST] Simulating payload transfer (size: 4.8kb)...',
+        '[TEST] Executing LLM decision node matrix...',
+        '[DEBUG] Token usage: 481 prompt, 120 completion',
+        '[TEST] Routing action to downstream nodes...',
+        '[SUCCESS] Test transaction executed successfully!',
+        '>>> [SYSTEM] Diagnostic Complete. All systems operational.'
+    ];
+
+    let lineIdx = 0;
+    terminalTypingInterval = setInterval(() => {
+        if (logsContainer) {
+            if (lineIdx < simLogs.length) {
+                logsContainer.innerText += simLogs[lineIdx] + '\n';
+                logsContainer.scrollTop = logsContainer.scrollHeight;
+                lineIdx++;
+            } else {
+                clearInterval(terminalTypingInterval);
+                terminalTypingInterval = null;
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerText = '⚡ 运行测试';
+                }
+                
+                // Flash metrics tab as a success indicator
+                const metricsBtn = document.getElementById('tab-btn-metrics');
+                if (metricsBtn) {
+                    metricsBtn.classList.add('bg-emerald-500/20', 'text-emerald-400');
+                    setTimeout(() => {
+                        metricsBtn.classList.remove('bg-emerald-500/20', 'text-emerald-400');
+                    }, 1000);
+                }
+            }
+        }
+    }, 200);
+}
 
 function openCaseModal(cardElement) {
     try {
@@ -1013,8 +1412,10 @@ function openCaseModal(cardElement) {
         const tagsDiv = cardElement.querySelector('.absolute.bottom-4.left-4.z-10');
         const tagsHTML = tagsDiv ? tagsDiv.innerHTML : '';
 
-        // Lookup extreme details or use fallback
-        const details = (typeof CASE_DETAILS_DATA !== 'undefined' && CASE_DETAILS_DATA[title]) ? CASE_DETAILS_DATA[title] : generateDynamicFallback(title, fallbackDesc);
+        // Lookup details or use fallback
+        const details = (typeof CASE_DETAILS_DATA !== 'undefined' && CASE_DETAILS_DATA[title]) 
+                        ? CASE_DETAILS_DATA[title] 
+                        : generateDynamicFallback(title, fallbackDesc);
 
         // Populate Modal safely
         const cmTitle = document.getElementById('cm-title');
@@ -1038,6 +1439,40 @@ function openCaseModal(cardElement) {
             cmBlueprintContainer.innerHTML = details.blueprint;
         }
 
+        // Populate Metrics
+        const confValEl = document.getElementById('cm-metric-confidence-val');
+        const confRingEl = document.getElementById('cm-metric-confidence-ring');
+        const levelValEl = document.getElementById('cm-metric-level-val');
+        const nodesValEl = document.getElementById('cm-metric-nodes-val');
+        const latencyBeforeEl = document.getElementById('cm-metric-latency-before');
+        const latencyAfterEl = document.getElementById('cm-metric-latency-after');
+        
+        const metrics = details.metrics || {
+            confidence: 95.0,
+            level: "L4",
+            nodes: 8,
+            latencyBefore: "60分钟",
+            latencyAfter: "25秒"
+        };
+
+        if (confValEl) confValEl.innerText = parseFloat(metrics.confidence).toFixed(1);
+        if (confRingEl) {
+            const dashoffset = 251.2 - (251.2 * parseFloat(metrics.confidence) / 100);
+            confRingEl.style.strokeDashoffset = dashoffset;
+        }
+        if (levelValEl) levelValEl.innerText = metrics.level;
+        if (nodesValEl) nodesValEl.innerText = metrics.nodes;
+        if (latencyBeforeEl) latencyBeforeEl.innerText = metrics.latencyBefore;
+        if (latencyAfterEl) latencyAfterEl.innerText = metrics.latencyAfter;
+
+        // Reset console log trigger state
+        currentCaseTitleForLogs = '';
+        const logsContainer = document.getElementById('cm-console-logs');
+        if (logsContainer) logsContainer.innerText = '';
+
+        // Reset to first tab
+        switchCaseTab('topology');
+
         // Show modal
         modal.classList.remove('hidden');
         modal.classList.add('flex');
@@ -1055,7 +1490,7 @@ function openCaseModal(cardElement) {
         document.body.style.overflow = 'hidden'; // Prevent background scrolling
     } catch (e) {
         console.error("openCaseModal failed:", e);
-        // Fallback: just try to open the modal anyway if possible
+        // Fallback
         const modal = document.getElementById('case-modal');
         if(modal) {
             modal.classList.remove('hidden');
