@@ -1,3 +1,61 @@
+
+function generateDynamicFallback(title, fallbackDesc) {
+    let hash = 0;
+    for (let i = 0; i < title.length; i++) {
+        hash = title.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const colors = ['#3b82f6', '#10b981', '#8b5cf6', '#f43f5e', '#eab308', '#0ea5e9', '#ec4899', '#14b8a6'];
+    const c1 = colors[Math.abs(hash) % colors.length];
+    const c2 = colors[Math.abs(hash * 2) % colors.length];
+    const c3 = colors[Math.abs(hash * 3) % colors.length];
+
+    const keyword1 = title.substring(0, 4) || "Data";
+    const keyword2 = "AI Core";
+    const keyword3 = title.length > 8 ? title.substring(title.length - 4) : "Output";
+
+    const svg = `<svg viewBox="0 0 400 200" class="w-full h-full max-w-[350px]">
+        <defs>
+            <filter id="glow_fb_${Math.abs(hash)}" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+        </defs>
+        <path d="M 80 100 L 160 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+        <path d="M 240 100 L 320 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+        <path d="M 160 100 Q 200 40 240 100" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+        
+        <circle r="3" fill="${c1}" filter="url(#glow_fb_${Math.abs(hash)})"><animateMotion dur="1.5s" repeatCount="indefinite" path="M 80 100 L 160 100" /></circle>
+        <circle r="3" fill="${c2}" filter="url(#glow_fb_${Math.abs(hash)})"><animateMotion dur="1.5s" repeatCount="indefinite" path="M 240 100 L 320 100" /></circle>
+        <circle r="3" fill="${c3}" filter="url(#glow_fb_${Math.abs(hash)})"><animateMotion dur="2s" repeatCount="indefinite" path="M 160 100 Q 200 40 240 100" /></circle>
+        
+        <rect x="20" y="80" width="60" height="40" rx="8" fill="#0f172a" stroke="${c1}" stroke-width="2" />
+        <text x="50" y="105" fill="#94a3b8" font-size="10" text-anchor="middle">${keyword1}</text>
+        
+        <circle cx="200" cy="100" r="40" fill="#1e1b4b" stroke="${c3}" stroke-width="2" filter="url(#glow_fb_${Math.abs(hash)})" />
+        <text x="200" y="104" fill="#c4b5fd" font-size="10" text-anchor="middle" font-weight="bold">${keyword2}</text>
+        
+        <rect x="320" y="80" width="60" height="40" rx="8" fill="#0f172a" stroke="${c2}" stroke-width="2" />
+        <text x="350" y="105" fill="#94a3b8" font-size="10" text-anchor="middle">${keyword3}</text>
+    </svg>`;
+
+    const metricsStr = `{
+  "module": "${title}",
+  "status": "optimized",
+  "ai_confidence_score": 0.9${Math.abs(hash % 9) + 1},
+  "automation_level": "L4",
+  "active_nodes": ${Math.abs(hash % 20) + 5},
+  "error_rate": "< 0.01%"
+}`;
+
+    return {
+        before: "严重依赖人工在多个分散的系统中机械地搬运数据。\n单节点出现阻滞即导致整个业务流停摆。\n存在极大的人力内耗与数据孤岛风险。",
+        after: fallbackDesc + "\n通过专属 AI 架构重构了业务流闭环，极大地释放了员工精力。",
+        codeTitle: `${title} Engine`,
+        code: `// ${title} 自动化核心\n${metricsStr}`,
+        blueprint: svg
+    };
+}
+
 // ============================================
 // 麻升智能工作室 - 案例与解决方案
 // 案例过滤、方案切换、仪表盘图表、详情数据
@@ -825,40 +883,110 @@ let currentArsenal = 'seo';
 // 案例详细数据字典 (极端 Before/After 对比与硬核代码)
 const CASE_DETAILS_DATA = {
     "独立站客服与履约自动化系统": {
-        before: "3 名专职客服，需在 Zendesk、Shopify 与物流平台间低效切换。\n单笔退换货处理平均耗时 20 分钟。\n跨时区响应不及时，周末客诉率高达 8%。",
-        after: "0 人工介入。n8n 实时捕获邮件意图并翻译，调用大模型分析。\n系统自动执行 Shopify 退款/发券/拦截操作。\n全链路仅需 15 秒，客诉率骤降至 1% 以下。",
-        codeTitle: "n8n Webhook & LLM Node.json",
-        code: "{\n  \"name\": \"Zendesk Ticket Trigger\",\n  \"type\": \"n8n-nodes-base.webhook\",\n  \"parameters\": {\n    \"path\": \"zendesk-refund\",\n    \"options\": {\n      \"responseMode\": \"lastNode\"\n    }\n  }\n}\n...\n// LLM Intent Classification:\nif (intent === 'refund' && sentiment_score < 0.3) {\n  await executeShopifyRefund(orderId, {\n    reason: summary,\n    notifyCustomer: true\n  });\n}"
+        "before": "3 名专职客服，需在 Zendesk、Shopify 与物流平台间低效切换。单笔退换货处理平均耗时 20 分钟。跨时区响应不及时，周末客诉率高达 8%。",
+        "after": "0 人工介入。n8n 实时捕获邮件意图并翻译，调用大模型分析。系统自动执行 Shopify 退款/发券/拦截操作。全链路仅需 15 秒，客诉率骤降至 1% 以下。",
+        "codeTitle": "n8n Webhook & LLM Node.json",
+        "code": "{
+  \"name\": \"Zendesk Ticket Trigger\",
+  \"type\": \"n8n-nodes-base.webhook\",
+  \"parameters\": {
+    \"path\": \"zendesk-refund\",
+    \"options\": {
+      \"responseMode\": \"lastNode\"
+    }
+  }
+}
+...
+// LLM Intent Classification:
+if (intent === \"refund\" && sentiment_score < 0.3) {
+  await executeShopifyRefund(orderId, {
+    reason: summary,
+    notifyCustomer: true
+  });
+}",
+        "blueprint": "<svg viewBox=\"0 0 400 200\" class=\"w-full h-full max-w-[350px]\"><defs><linearGradient id=\"flowGrad1\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"0%\"><stop offset=\"0%\" stop-color=\"#22d3ee\" stop-opacity=\"0\" /><stop offset=\"50%\" stop-color=\"#22d3ee\" stop-opacity=\"1\" /><stop offset=\"100%\" stop-color=\"#c084fc\" stop-opacity=\"0\" /></linearGradient><filter id=\"glow1\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"140%\"><feGaussianBlur stdDeviation=\"3\" result=\"blur\" /><feComposite in=\"SourceGraphic\" in2=\"blur\" operator=\"over\" /></filter></defs><path d=\"M 60 100 C 120 100 140 100 180 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 220 100 C 260 100 280 60 340 60\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 220 100 C 260 100 280 140 340 140\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><circle r=\"3\" fill=\"#22d3ee\" filter=\"url(#glow1)\"><animateMotion dur=\"2s\" repeatCount=\"indefinite\" path=\"M 60 100 C 120 100 140 100 180 100\" /></circle><circle r=\"3\" fill=\"#c084fc\" filter=\"url(#glow1)\"><animateMotion dur=\"2s\" repeatCount=\"indefinite\" path=\"M 220 100 C 260 100 280 60 340 60\" /></circle><circle r=\"3\" fill=\"#c084fc\" filter=\"url(#glow1)\"><animateMotion dur=\"2.5s\" repeatCount=\"indefinite\" path=\"M 220 100 C 260 100 280 140 340 140\" /></circle><rect x=\"20\" y=\"80\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#3b82f6\" stroke-width=\"2\" /><text x=\"40\" y=\"105\" fill=\"#94a3b8\" font-size=\"12\" text-anchor=\"middle\" font-family=\"sans-serif\">Zendesk</text><circle cx=\"200\" cy=\"100\" r=\"25\" fill=\"#2e1065\" stroke=\"#a855f7\" stroke-width=\"2\" filter=\"url(#glow1)\" /><text x=\"200\" y=\"104\" fill=\"#e879f9\" font-size=\"10\" text-anchor=\"middle\" font-weight=\"bold\" font-family=\"sans-serif\">Agent Swarm</text><rect x=\"320\" y=\"40\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#10b981\" stroke-width=\"2\" /><text x=\"340\" y=\"65\" fill=\"#94a3b8\" font-size=\"12\" text-anchor=\"middle\" font-family=\"sans-serif\">Shopify</text><rect x=\"320\" y=\"120\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#f59e0b\" stroke-width=\"2\" /><text x=\"340\" y=\"145\" fill=\"#94a3b8\" font-size=\"12\" text-anchor=\"middle\" font-family=\"sans-serif\">Logistics</text></svg>"
     },
     "TikTok 爆款短视频矩阵分发器": {
-        before: "2 名编导每天耗费 4 小时刷榜找灵感，另外 3 小时手写脚本。\n严重依赖个人网感，内容同质化严重。\n每日高质量内容产出极限仅为 5-8 条。",
-        after: "通过 Dify Agent 每日定点抓取海外社媒榜单热梗。\n自动调用大模型重写出 50 条符合品牌调性的爆款脚本，自动推至飞书多维表格待审，降维打击传统传媒公司。",
-        codeTitle: "Dify Workflow / Viral_Prompt",
-        code: "System: You are an elite TikTok viral copywriter.\n\n<Rules>\n1. Analyze the trending hashtag data: {{sys.query}}\n2. Hook the viewer in the first 3 seconds.\n3. Use psychological triggers (Curiosity, FOMO, Authority).\n4. Format output as JSON with fields: [\"hook\", \"body_script\", \"cta_text\", \"suggested_bgm\"]\n</Rules>\n\nGenerate 5 hyper-engaging scripts now."
+        "before": "2 名运营每天花费 4 小时刷榜，3 小时写脚本，人工同步多账号。每天产出视频上限为 5-8 条。",
+        "after": "通过 Dify Agent 每天定时抓取爆款趋势，自动调用大模型生成 50 套符合账号人设的短视频脚本并自动分发，将运营团队变成矩阵主理人。",
+        "codeTitle": "Dify Workflow / Viral_Prompt",
+        "code": "System: You are an elite TikTok viral copywriter.
+
+<Rules>
+1. Analyze the trending hashtag data: {{sys.query}}
+2. Hook the viewer in the first 3 seconds.
+3. Use psychological triggers (Curiosity, FOMO, Authority).
+4. Format output as JSON with fields: [\"hook\", \"body_script\", \"cta_text\", \"suggested_bgm\"]
+</Rules>
+
+Generate 5 hyper-engaging scripts now.",
+        "blueprint": "<svg viewBox=\"0 0 400 200\" class=\"w-full h-full max-w-[350px]\"><defs><filter id=\"glow2\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"140%\"><feGaussianBlur stdDeviation=\"3\" result=\"blur\" /><feComposite in=\"SourceGraphic\" in2=\"blur\" operator=\"over\" /></filter></defs><path d=\"M 60 100 L 140 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 220 100 L 300 40\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 220 100 L 300 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 220 100 L 300 160\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><circle r=\"3\" fill=\"#f43f5e\" filter=\"url(#glow2)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 60 100 L 140 100\" /></circle><circle r=\"3\" fill=\"#3b82f6\" filter=\"url(#glow2)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 220 100 L 300 40\" /></circle><circle r=\"3\" fill=\"#10b981\" filter=\"url(#glow2)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 220 100 L 300 100\" /></circle><circle r=\"3\" fill=\"#8b5cf6\" filter=\"url(#glow2)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 220 100 L 300 160\" /></circle><rect x=\"20\" y=\"80\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#f43f5e\" stroke-width=\"2\" /><text x=\"40\" y=\"105\" fill=\"#94a3b8\" font-size=\"10\" text-anchor=\"middle\" font-family=\"sans-serif\">Trends</text><rect x=\"160\" y=\"80\" width=\"60\" height=\"40\" rx=\"8\" fill=\"#1e1b4b\" stroke=\"#6366f1\" stroke-width=\"2\" filter=\"url(#glow2)\" /><text x=\"190\" y=\"105\" fill=\"#a5b4fc\" font-size=\"10\" text-anchor=\"middle\" font-weight=\"bold\" font-family=\"sans-serif\">Dify Agent</text><rect x=\"300\" y=\"20\" width=\"40\" height=\"40\" rx=\"20\" fill=\"#0f172a\" stroke=\"#3b82f6\" stroke-width=\"2\" /><text x=\"320\" y=\"45\" fill=\"#94a3b8\" font-size=\"10\" text-anchor=\"middle\" font-family=\"sans-serif\">Acc 1</text><rect x=\"300\" y=\"80\" width=\"40\" height=\"40\" rx=\"20\" fill=\"#0f172a\" stroke=\"#10b981\" stroke-width=\"2\" /><text x=\"320\" y=\"105\" fill=\"#94a3b8\" font-size=\"10\" text-anchor=\"middle\" font-family=\"sans-serif\">Acc 2</text><rect x=\"300\" y=\"140\" width=\"40\" height=\"40\" rx=\"20\" fill=\"#0f172a\" stroke=\"#8b5cf6\" stroke-width=\"2\" /><text x=\"320\" y=\"165\" fill=\"#94a3b8\" font-size=\"10\" text-anchor=\"middle\" font-family=\"sans-serif\">Acc 3</text></svg>"
     },
     "全网竞品监控与洞察矩阵": {
-        before: "运营团队每周花 1-2 天人工搜索几十个竞品网站、公众号、海外新闻。\n整理成沉甸甸却没人看的 Excel 周报。\n信息严重滞后，往往错失竞品定价变动等关键情报。",
-        after: "部署分布式 RSS 与网页爬虫，24 小时监听竞品动态。\n由 DeepSeek 自动清洗去重，总结核心商业动作。\n每日早晨 9:00 通过企微推送高信噪比的「战情简报」。",
-        codeTitle: "Python Scraper & DeepSeek API",
-        code: "import httpx\nfrom bs4 import BeautifulSoup\n\ndef fetch_competitor_news(url):\n    res = httpx.get(url)\n    soup = BeautifulSoup(res.text, 'html.parser')\n    raw_text = soup.get_text()\n    \n    # 调用大模型提取关键情报\n    prompt = f\"提取以下文本中竞品的最新定价变动与功能发布：\\n{raw_text}\"\n    insight = llm_client.chat(prompt)\n    \n    db.insert(\"market_insights\", {\"source\": url, \"data\": insight})\n    return insight"
+        "before": "运营团队每周花 1-2 天人工巡视几十个竞品网站、公众号。形成滞后的 Excel 情报表，信息严重失真且竞品降价等关键情报遗漏。",
+        "after": "分布式 RSS 与网页爬虫，24 小时监控竞品动态，经 DeepSeek 自动清洗去重，总结出关键商业洞察。每天清晨 9:00 通过企业微信推送高价值的“战略战报”。",
+        "codeTitle": "Python Scraper & DeepSeek API",
+        "code": "import httpx
+from bs4 import BeautifulSoup
+
+def fetch_competitor_news(url):
+    res = httpx.get(url)
+    soup = BeautifulSoup(res.text, \"html.parser\")
+    raw_text = soup.get_text()
+    
+    # 调用大模型提取关键情报
+    prompt = f\"提取文本中的竞品最新动态、价格变动与公关风险\n{raw_text}\"
+    insight = llm_client.chat(prompt)
+    
+    db.insert(\"market_insights\", {\"source\": url, \"data\": insight})
+    return insight",
+        "blueprint": "<svg viewBox=\"0 0 400 200\" class=\"w-full h-full max-w-[350px]\"><defs><filter id=\"glow3\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"140%\"><feGaussianBlur stdDeviation=\"3\" result=\"blur\" /><feComposite in=\"SourceGraphic\" in2=\"blur\" operator=\"over\" /></filter></defs><path d=\"M 60 40 C 120 40 140 100 180 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 60 100 L 180 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 60 160 C 120 160 140 100 180 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 220 100 L 320 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><circle r=\"3\" fill=\"#14b8a6\" filter=\"url(#glow3)\"><animateMotion dur=\"2s\" repeatCount=\"indefinite\" path=\"M 60 40 C 120 40 140 100 180 100\" /></circle><circle r=\"3\" fill=\"#14b8a6\" filter=\"url(#glow3)\"><animateMotion dur=\"2s\" repeatCount=\"indefinite\" path=\"M 60 100 L 180 100\" /></circle><circle r=\"3\" fill=\"#14b8a6\" filter=\"url(#glow3)\"><animateMotion dur=\"2s\" repeatCount=\"indefinite\" path=\"M 60 160 C 120 160 140 100 180 100\" /></circle><circle r=\"4\" fill=\"#f59e0b\" filter=\"url(#glow3)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 220 100 L 320 100\" /></circle><rect x=\"20\" y=\"20\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#475569\" stroke-width=\"2\" /><text x=\"40\" y=\"45\" fill=\"#64748b\" font-size=\"10\" text-anchor=\"middle\">Web</text><rect x=\"20\" y=\"80\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#475569\" stroke-width=\"2\" /><text x=\"40\" y=\"105\" fill=\"#64748b\" font-size=\"10\" text-anchor=\"middle\">Social</text><rect x=\"20\" y=\"140\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#475569\" stroke-width=\"2\" /><text x=\"40\" y=\"165\" fill=\"#64748b\" font-size=\"10\" text-anchor=\"middle\">RSS</text><polygon points=\"200,75 225,100 200,125 175,100\" fill=\"#064e3b\" stroke=\"#10b981\" stroke-width=\"2\" filter=\"url(#glow3)\" /><text x=\"200\" y=\"104\" fill=\"#6ee7b7\" font-size=\"10\" text-anchor=\"middle\" font-weight=\"bold\">DeepSeek</text><rect x=\"320\" y=\"80\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#f59e0b\" stroke-width=\"2\" /><text x=\"340\" y=\"105\" fill=\"#94a3b8\" font-size=\"10\" text-anchor=\"middle\">Report</text></svg>"
     },
     "研发代码自动审查引擎": {
-        before: "依赖资深架构师人工 Code Review，由于精力有限，经常流于表面。\n单测覆盖率不足，潜在的注入漏洞和内存泄漏风险频繁带入生产环境。",
-        after: "每次 GitHub Commit 自动触发大模型深度审查。\n识别安全漏洞、坏味道，并自动补充 Jest 单测用例，作为 PR Comment 提交。\n人工只负责最后 Merge，零遗漏。",
-        codeTitle: "GitHub Action Webhook",
-        code: "name: AI Code Review\non: [pull_request]\n\njobs:\n  review:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v3\n      - name: Claude 3.5 Sonnet Analysis\n        uses: openclaw/ai-reviewer@v1\n        with:\n          api-key: ${{ secrets.CLAUDE_API_KEY }}\n          strict-mode: true\n          generate-tests: true"
+        "before": "高级架构师人工 Code Review，极其消耗时间，且容易漏掉边界情况。团队代码风格不一，潜在的安全漏洞容易在代码合并时带入生产环境。",
+        "after": "每次 GitHub Commit 自动触发大模型代码审查。识别安全漏洞、内存泄漏并自动生成 Jest 测试用例作为 PR Comment 提交。架构师只需点击 Merge，无感把控代码质量。",
+        "codeTitle": "GitHub Action Webhook",
+        "code": "name: AI Code Review
+on: [pull_request]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Claude 3.5 Sonnet Analysis
+        uses: openclaw/ai-reviewer@v1
+        with:
+          api-key: ${{ secrets.CLAUDE_API_KEY }}
+          strict-mode: true
+          generate-tests: true",
+        "blueprint": "<svg viewBox=\"0 0 400 200\" class=\"w-full h-full max-w-[350px]\"><defs><filter id=\"glow4\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"140%\"><feGaussianBlur stdDeviation=\"3\" result=\"blur\" /><feComposite in=\"SourceGraphic\" in2=\"blur\" operator=\"over\" /></filter></defs><path d=\"M 60 100 L 140 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 220 100 L 300 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 200 70 L 200 40 L 300 40\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><circle r=\"3\" fill=\"#eab308\" filter=\"url(#glow4)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 60 100 L 140 100\" /></circle><circle r=\"3\" fill=\"#22c55e\" filter=\"url(#glow4)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 220 100 L 300 100\" /></circle><circle r=\"3\" fill=\"#ef4444\" filter=\"url(#glow4)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 200 70 L 200 40 L 300 40\" /></circle><circle cx=\"40\" cy=\"100\" r=\"20\" fill=\"#0f172a\" stroke=\"#eab308\" stroke-width=\"2\" /><text x=\"40\" y=\"104\" fill=\"#fef08a\" font-size=\"10\" text-anchor=\"middle\">PR</text><rect x=\"140\" y=\"70\" width=\"80\" height=\"60\" rx=\"8\" fill=\"#1e1b4b\" stroke=\"#8b5cf6\" stroke-width=\"2\" filter=\"url(#glow4)\" /><text x=\"180\" y=\"104\" fill=\"#c4b5fd\" font-size=\"10\" text-anchor=\"middle\" font-weight=\"bold\">AI Engine</text><rect x=\"300\" y=\"80\" width=\"50\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#22c55e\" stroke-width=\"2\" /><text x=\"325\" y=\"105\" fill=\"#86efac\" font-size=\"10\" text-anchor=\"middle\">Merge</text><rect x=\"300\" y=\"20\" width=\"50\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#ef4444\" stroke-width=\"2\" /><text x=\"325\" y=\"45\" fill=\"#fca5a5\" font-size=\"10\" text-anchor=\"middle\">Reject</text></svg>"
     },
     "自媒体爆款内容车间": {
-        before: "选题靠拍脑门，配图靠满网找无版权素材，排版耗费大量时间。\n一篇深度图文的制作周期长达 2 天，无法形成矩阵规模化压制。",
-        after: "输入一个核心观点，Agent 自动裂变结构大纲。\n调用 Midjourney V6 API 批量生成符合视觉统一性 (SREF) 的高清配图。\n15 分钟内完成一篇高质量图文的生产发布。",
-        codeTitle: "Midjourney V6 Rendering Node",
-        code: "// MJ Generation Parameters\n{\n  \"prompt\": \"{{article_core_concept}}, cyberpunk aesthetic, neon lights, volumetric fog, unreal engine 5 render, --ar 16:9 --v 6.0 --sref https://brand.com/style.png --sw 800\",\n  \"webhook_url\": \"https://n8n.yourdomain.com/webhook/mj-done\"\n}\n// Wait for generation and auto-upload to OSS"
+        "before": "选标题、想脚本、配配图、找爆点极其消耗时间。一篇优质爆款推文需要 2 天才能打磨完成，无法形成规模效应。",
+        "after": "只需提供一个核心观点，Agent 自动裂变为多套结构化文案。并调用 Midjourney V6 API 生成风格统一 (SREF) 的高清配图。15 分钟产出一篇爆款内容并自动分发。",
+        "codeTitle": "Midjourney V6 Rendering Node",
+        "code": "// MJ Generation Parameters
+{
+  \"prompt\": \"{{article_core_concept}}, cyberpunk aesthetic, neon lights, volumetric fog, unreal engine 5 render, --ar 16:9 --v 6.0 --sref https://brand.com/style.png --sw 800\",
+  \"webhook_url\": \"https://n8n.yourdomain.com/webhook/mj-done\"
+}
+// Wait for generation and auto-upload to OSS",
+        "blueprint": "<svg viewBox=\"0 0 400 200\" class=\"w-full h-full max-w-[350px]\"><defs><filter id=\"glow5\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"140%\"><feGaussianBlur stdDeviation=\"3\" result=\"blur\" /><feComposite in=\"SourceGraphic\" in2=\"blur\" operator=\"over\" /></filter></defs><path d=\"M 60 100 L 120 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 200 100 L 260 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 160 70 L 160 40 L 260 40\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 160 130 L 160 160 L 260 160\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><circle r=\"3\" fill=\"#ec4899\" filter=\"url(#glow5)\"><animateMotion dur=\"1s\" repeatCount=\"indefinite\" path=\"M 60 100 L 120 100\" /></circle><circle r=\"3\" fill=\"#0ea5e9\" filter=\"url(#glow5)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 160 70 L 160 40 L 260 40\" /></circle><circle r=\"3\" fill=\"#f59e0b\" filter=\"url(#glow5)\"><animateMotion dur=\"1s\" repeatCount=\"indefinite\" path=\"M 200 100 L 260 100\" /></circle><circle r=\"3\" fill=\"#8b5cf6\" filter=\"url(#glow5)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 160 130 L 160 160 L 260 160\" /></circle><circle cx=\"40\" cy=\"100\" r=\"20\" fill=\"#0f172a\" stroke=\"#ec4899\" stroke-width=\"2\" /><text x=\"40\" y=\"104\" fill=\"#fbcfe8\" font-size=\"10\" text-anchor=\"middle\">Idea</text><circle cx=\"160\" cy=\"100\" r=\"30\" fill=\"#312e81\" stroke=\"#6366f1\" stroke-width=\"2\" filter=\"url(#glow5)\" /><text x=\"160\" y=\"104\" fill=\"#c7d2fe\" font-size=\"10\" text-anchor=\"middle\" font-weight=\"bold\">Brain</text><rect x=\"260\" y=\"20\" width=\"60\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#0ea5e9\" stroke-width=\"2\" /><text x=\"290\" y=\"45\" fill=\"#e0f2fe\" font-size=\"10\" text-anchor=\"middle\">Midjourney</text><rect x=\"260\" y=\"80\" width=\"60\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#f59e0b\" stroke-width=\"2\" /><text x=\"290\" y=\"105\" fill=\"#fef3c7\" font-size=\"10\" text-anchor=\"middle\">Copywriting</text><rect x=\"260\" y=\"140\" width=\"60\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#8b5cf6\" stroke-width=\"2\" /><text x=\"290\" y=\"165\" fill=\"#ede9fe\" font-size=\"10\" text-anchor=\"middle\">Publish</text></svg>"
     },
     "私域情感占卜自动化": {
-        before: "玄学 IP 引流至微信后，依赖人工客服逐一回复。\n高峰期消息积压严重，难以提供共情，导致 60% 的高意向客户在 1 小时内流失。",
-        after: "100% 自动化承接。\n接入八字/塔罗私有知识库的企微机器人秒级回复，用极强的情绪价值留存客户。\n自然引导高客单价的人工精批或法事下单，转化率飙升。",
-        codeTitle: "System Prompt (RAG + 情绪流)",
-        code: "System: 你是一位极具同理心的心理/玄学导师。\n\n<Rules>\n1. 永远先接住用户的情绪，提供极强的情绪价值，再去分析牌意。\n2. 检索知识库 [tarot_meanings.pdf]。\n3. 在第三轮对话时，优雅地引导进一步服务并输出链接 {{payment_url}}。\n</Rules>"
+        "before": "塔罗牌、星盘玄学 IP 在微信后端的纯人工一对一回复。客单价较低，人力成本高昂。提供免费看盘引流，导致 60% 的高意向客户因排队等待 1 小时而流失。",
+        "after": "100% 自动接单。自建塔罗/星盘知识库微调模型，秒级回复，且语气高度拟人提供情绪价值。自然拉平低客单价的成本结构，实现睡后收入自动转化。",
+        "codeTitle": "System Prompt (RAG + 情绪补偿)",
+        "code": "System: 你是麻升塔罗馆的资深占星师“星月”。
+语气要求：温柔、神秘、带有一丝宿命感。绝不生硬。
+
+Context:
+[客户抽牌结果: 宝剑三逆位, 星币骑士正位]
+[知识库检索: 宝剑三逆位代表疗愈、放下痛苦；星币骑士代表稳扎稳打]
+
+请根据客户的问题：{{user.query}}，结合上述牌意，用治愈的口吻生成一段 300 字的解析。",
+        "blueprint": "<svg viewBox=\"0 0 400 200\" class=\"w-full h-full max-w-[350px]\"><defs><filter id=\"glow6\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"140%\"><feGaussianBlur stdDeviation=\"3\" result=\"blur\" /><feComposite in=\"SourceGraphic\" in2=\"blur\" operator=\"over\" /></filter></defs><path d=\"M 60 100 L 140 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 180 70 L 180 40 L 260 40\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 260 40 L 320 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><path d=\"M 220 100 L 320 100\" fill=\"none\" stroke=\"#334155\" stroke-width=\"2\" stroke-dasharray=\"4 4\" /><circle r=\"3\" fill=\"#22c55e\" filter=\"url(#glow6)\"><animateMotion dur=\"1s\" repeatCount=\"indefinite\" path=\"M 60 100 L 140 100\" /></circle><circle r=\"3\" fill=\"#a855f7\" filter=\"url(#glow6)\"><animateMotion dur=\"1s\" repeatCount=\"indefinite\" path=\"M 180 70 L 180 40 L 260 40\" /></circle><circle r=\"3\" fill=\"#f43f5e\" filter=\"url(#glow6)\"><animateMotion dur=\"1.5s\" repeatCount=\"indefinite\" path=\"M 220 100 L 320 100\" /></circle><rect x=\"20\" y=\"80\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#22c55e\" stroke-width=\"2\" /><text x=\"40\" y=\"105\" fill=\"#bbf7d0\" font-size=\"10\" text-anchor=\"middle\">WeChat</text><circle cx=\"180\" cy=\"100\" r=\"40\" fill=\"#4c1d95\" stroke=\"#a855f7\" stroke-width=\"2\" filter=\"url(#glow6)\" /><text x=\"180\" y=\"104\" fill=\"#e9d5ff\" font-size=\"10\" text-anchor=\"middle\" font-weight=\"bold\">Tarot Agent</text><rect x=\"260\" y=\"20\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#06b6d4\" stroke-width=\"2\" /><text x=\"280\" y=\"45\" fill=\"#cffafe\" font-size=\"10\" text-anchor=\"middle\">RAG DB</text><rect x=\"320\" y=\"80\" width=\"40\" height=\"40\" rx=\"8\" fill=\"#0f172a\" stroke=\"#f43f5e\" stroke-width=\"2\" /><text x=\"340\" y=\"105\" fill=\"#fecdd3\" font-size=\"10\" text-anchor=\"middle\">Reply</text></svg>"
     }
 };
 
@@ -886,12 +1014,7 @@ function openCaseModal(cardElement) {
         const tagsHTML = tagsDiv ? tagsDiv.innerHTML : '';
 
         // Lookup extreme details or use fallback
-        const details = (typeof CASE_DETAILS_DATA !== 'undefined' && CASE_DETAILS_DATA[title]) ? CASE_DETAILS_DATA[title] : {
-            before: "严重依赖人工在多个分散的系统中机械地搬运数据。\n单节点出现阻滞即导致整个业务流停摆。\n存在极大的人力内耗与数据孤岛风险。",
-            after: fallbackDesc + "\n通过专属 AI 架构重构了业务流闭环，极大地释放了员工精力。",
-            codeTitle: "Workflow Engine Core",
-            code: "// 核心自动化调度层\n{\n  \"status\": \"optimized\",\n  \"metrics\": {\n    \"human_intervention\": 0,\n    \"error_rate\": \"< 0.01%\"\n  },\n  \"current_task\": \"Auto-scaling agent swarms...\"\n}"
-        };
+        const details = (typeof CASE_DETAILS_DATA !== 'undefined' && CASE_DETAILS_DATA[title]) ? CASE_DETAILS_DATA[title] : generateDynamicFallback(title, fallbackDesc);
 
         // Populate Modal safely
         const cmTitle = document.getElementById('cm-title');
@@ -909,6 +1032,11 @@ function openCaseModal(cardElement) {
         if(cmTags) cmTags.innerHTML = tagsHTML;
         if(cmCodeTitle) cmCodeTitle.innerText = details.codeTitle;
         if(cmCodeContent) cmCodeContent.innerText = details.code;
+
+        const cmBlueprintContainer = document.getElementById('cm-blueprint-container');
+        if(cmBlueprintContainer && details.blueprint) {
+            cmBlueprintContainer.innerHTML = details.blueprint;
+        }
 
         // Show modal
         modal.classList.remove('hidden');

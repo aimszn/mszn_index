@@ -1,0 +1,35 @@
+const CASE_DETAILS_DATA = {
+    "独立站客服与履约自动化系统": {
+        before: "3 名专职客服，需在 Zendesk、Shopify 与物流平台间低效切换。\n单笔退换货处理平均耗时 20 分钟。\n跨时区响应不及时，周末客诉率高达 8%。",
+        after: "0 人工介入。n8n 实时捕获邮件意图并翻译，调用大模型分析。\n系统自动执行 Shopify 退款/发券/拦截操作。\n全链路仅需 15 秒，客诉率骤降至 1% 以下。",
+        codeTitle: "n8n Webhook & LLM Node.json",
+        code: "{\n  \"name\": \"Zendesk Ticket Trigger\",\n  \"type\": \"n8n-nodes-base.webhook\",\n  \"parameters\": {\n    \"path\": \"zendesk-refund\",\n    \"options\": {\n      \"responseMode\": \"lastNode\"\n    }\n  }\n}\n...\n// LLM Intent Classification:\nif (intent === 'refund' && sentiment_score < 0.3) {\n  await executeShopifyRefund(orderId, {\n    reason: summary,\n    notifyCustomer: true\n  });\n}"
+    },
+    "TikTok 爆款短视频矩阵分发器": {
+        before: "2 名编导每天耗费 4 小时刷榜找灵感，另外 3 小时手写脚本。\n严重依赖个人网感，内容同质化严重。\n每日高质量内容产出极限仅为 5-8 条。",
+        after: "通过 Dify Agent 每日定点抓取海外社媒榜单热梗。\n自动调用大模型重写出 50 条符合品牌调性的爆款脚本，自动推至飞书多维表格待审，降维打击传统传媒公司。",
+        codeTitle: "Dify Workflow / Viral_Prompt",
+        code: "System: You are an elite TikTok viral copywriter.\n\n<Rules>\n1. Analyze the trending hashtag data: {{sys.query}}\n2. Hook the viewer in the first 3 seconds.\n3. Use psychological triggers (Curiosity, FOMO, Authority).\n4. Format output as JSON with fields: [\"hook\", \"body_script\", \"cta_text\", \"suggested_bgm\"]\n</Rules>\n\nGenerate 5 hyper-engaging scripts now."
+    },
+    "全网竞品监控与洞察矩阵": {
+        before: "运营团队每周花 1-2 天人工搜索几十个竞品网站、公众号、海外新闻。\n整理成沉甸甸却没人看的 Excel 周报。\n信息严重滞后，往往错失竞品定价变动等关键情报。",
+        after: "部署分布式 RSS 与网页爬虫，24 小时监听竞品动态。\n由 DeepSeek 自动清洗去重，总结核心商业动作。\n每日早晨 9:00 通过企微推送高信噪比的「战情简报」。",
+        codeTitle: "Python Scraper & DeepSeek API",
+        code: "import httpx\nfrom bs4 import BeautifulSoup\n\ndef fetch_competitor_news(url):\n    res = httpx.get(url)\n    soup = BeautifulSoup(res.text, 'html.parser')\n    raw_text = soup.get_text()\n    \n    # 调用大模型提取关键情报\n    prompt = f\"提取以下文本中竞品的最新定价变动与功能发布：\\n{raw_text}\"\n    insight = llm_client.chat(prompt)\n    \n    db.insert(\"market_insights\", {\"source\": url, \"data\": insight})\n    return insight"
+    },
+    "研发代码自动审查引擎": {
+        before: "依赖资深架构师人工 Code Review，由于精力有限，经常流于表面。\n单测覆盖率不足，潜在的注入漏洞和内存泄漏风险频繁带入生产环境。",
+        after: "每次 GitHub Commit 自动触发大模型深度审查。\n识别安全漏洞、坏味道，并自动补充 Jest 单测用例，作为 PR Comment 提交。\n人工只负责最后 Merge，零遗漏。",
+        codeTitle: "GitHub Action Webhook",
+        code: "name: AI Code Review\non: [pull_request]\n\njobs:\n  review:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v3\n      - name: Claude 3.5 Sonnet Analysis\n        uses: openclaw/ai-reviewer@v1\n        with:\n          api-key: ${{ secrets.CLAUDE_API_KEY }}\n          strict-mode: true\n          generate-tests: true"
+    },
+    "自媒体爆款内容车间": {
+        before: "选题靠拍脑门，配图靠满网找无版权素材，排版耗费大量时间。\n一篇深度图文的制作周期长达 2 天，无法形成矩阵规模化压制。",
+        after: "输入一个核心观点，Agent 自动裂变结构大纲。\n调用 Midjourney V6 API 批量生成符合视觉统一性 (SREF) 的高清配图。\n15 分钟内完成一篇高质量图文的生产发布。",
+        codeTitle: "Midjourney V6 Rendering Node",
+        code: "// MJ Generation Parameters\n{\n  \"prompt\": \"{{article_core_concept}}, cyberpunk aesthetic, neon lights, volumetric fog, unreal engine 5 render, --ar 16:9 --v 6.0 --sref https://brand.com/style.png --sw 800\",\n  \"webhook_url\": \"https://n8n.yourdomain.com/webhook/mj-done\"\n}\n// Wait for generation and auto-upload to OSS"
+    },
+    "私域情感占卜自动化": {
+        before: "玄学 IP 引流至微信后，依赖人工客服逐一回复。\n高峰期消息积压严重，难以提供共情，导致 60% 的高意向客户在 1 小时内流失。",
+        after: "100% 自动化承接。\n接入八字/塔罗私有知识库的企微机器人秒级回复，用极强的情绪价值留存客户。\n自然引导高客单价的人工精批或法事下单，转化率飙升。",
+        codeTitle: "System Prompt (RAG + 情绪流)",

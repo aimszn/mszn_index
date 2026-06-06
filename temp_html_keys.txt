@@ -1,0 +1,50 @@
+                });
+            });
+            
+            // Initial Hydration
+            hydrateSolution('ecommerce');
+            // ======================= AI 兵器谱 (Sandbox) 逻辑 =======================
+            const arsenalBtns = document.querySelectorAll('.armory-btn');
+            const sbTitle = document.getElementById('sandbox-title');
+            const sbEndpoint = document.getElementById('sandbox-endpoint');
+            const sbIcon = document.getElementById('sandbox-icon');
+            const sbGreetingName = document.getElementById('sandbox-greeting-name');
+            const sbGreetingDesc = document.getElementById('sandbox-greeting-desc');
+            const sbForm = document.getElementById('sandbox-form');
+            const sbInput = document.getElementById('sandbox-input');
+            const sbOutput = document.getElementById('sandbox-output');
+            const sbLoading = document.getElementById('sandbox-loading');
+
+            const arsenalData = {
+    // ================= marketing =================
+    'seo': { category: 'marketing', tag: '🔥 必玩爆款', title: 'SEO 爆款文案生成器', icon: '📝', endpoint: 'MSZN_API_CONFIG.dify.keys.seoAgent', desc: '输入您的产品关键词、目标人群或竞品链接，我将调用 Dify API 生成高质量软文。', placeholder: '输入测试内容，例如：降噪耳机，目标受众大学生', mockResult: `【爆款标题】预算500内！这副降噪耳机让宿舍秒变图书馆🔇
+
+【正文】
+家人们谁懂啊！最近在宿舍复习考研，室友打游戏的声音简直让人抓狂😫。
+直到挖到这款平价宝藏降噪耳机，戴上它瞬间世界都安静了！...` },
+    'media': { category: 'marketing', tag: '🔥 必玩爆款', title: '爆款短视频脚本生成', icon: '📱', endpoint: 'MSZN_API_CONFIG.n8n.endpoints.mediaGen', desc: '输入主题，自动获取全网爆款模型并生成符合黄金3秒规律的口播脚本。', placeholder: '输入主题，例如：职场新人如何高效使用 AI 工具', mockResult: `🎬 【场景设定】：办公室工位，主播略带疲惫但眼神放光。
+⏰ 【时长控制】：约 45 秒
+
+【黄金三秒（抓眼球）】：
+"天天加到晚上十点，旁边实习生到点就走，关键他业绩还比你高！今天教你3个神仙AI工具..."
+
+【痛点放大】：
+"别再傻傻用传统方法写PPT了..."` },
+    'moments': { category: 'marketing', tag: '⚡ 零代码', title: '销冠朋友圈文案', icon: '💬', endpoint: 'MSZN_API_CONFIG.dify.keys.momentsAgent', desc: '输入简单的产品卖点，我会自动模仿“销售销冠”的语气，生成抓眼球的朋友圈文案。', placeholder: '输入卖点：新上的胶原蛋白面膜，补水好，买一送一', mockResult: `🔥 熬夜党们给我闭眼入！！！
+昨天加班到凌晨两点，睡前敷了一片新上的【发光胶原蛋白面膜】
+今早一看，绝了！！脸蛋简直像剥了壳的鸡蛋🥚✨
+
+💦 巨补水！巨服帖！
+🎁 今天老板疯了：直接【买1送1】！限量前50名手慢无！` },
+    'localstore': { category: 'marketing', tag: '🤖 智能客服', title: '街边小店获客雷达', icon: '🏪', endpoint: 'MSZN_API_CONFIG.n8n.endpoints.storeRadar', desc: '模拟收到一条美团/点评的三星中评，我将生成高情商回复并顺势将其引流至微信私域。', placeholder: '模拟客户点评：味道还行，就是今天排队太久了。', mockResult: `【差评/中评拦截 & 高情商回复生成】
+
+"亲爱的小主，真的非常抱歉让您久等了！😭 今天生意太火爆，没能给您最完美的体验是我们的失职。下次您来之前，可以提前加店长微信（xxxx），帮您预留免排队神仙座位！另外加微信备注[点评]，送您一份隐藏甜点尝鲜~ 🍰"` },
+    'xiaohongshu': { category: 'marketing', tag: '📈 流量密码', title: '小红书高赞种草机', icon: '📕', endpoint: 'MSZN_API_CONFIG.dify.keys.xhsAgent', desc: '解析小红书最新流量算法，根据您的产品图片/卖点一键生成图文排版指导与文案。', placeholder: '输入产品：无糖黑咖啡，减脂期喝。', mockResult: `✨【封面建议】：怼脸拍咖啡液倒在冰块上的瞬间，加上大字报“掉秤神仙水”。
+
+【正文】：
+减脂期的姐妹们听劝！不要再盲目节食了！🙅‍♀️
+每天早上空腹来一杯【XXX无糖黑咖】☕️，去水肿还能加快代谢！关键是完全不酸不涩，就像在喝手冲！✅
+#减脂咖啡 #减脂好物 #打工人的续命水` },
+    'livestream': { category: 'marketing', tag: '🎙️ 自动控场', title: '直播间逼单话术引擎', icon: '🎤', endpoint: 'MSZN_API_CONFIG.dify.keys.liveAgent', desc: '根据当前在线人数和商品剩余库存，实时动态生成主播逼单话术。', placeholder: '输入当前状态：在线5000人，爆款库存仅剩200单。', mockResult: `【紧急逼单话术（高昂语气）】
+"直播间现在的5000位家人们，你们赚到了！刚刚运营告诉我，后台这个机制只能再挂最后3分钟！现在库存只剩下最后200单，抢完直接下架，绝不补货！想要的家人，左下角一号链接，准备好了吗？3、2、1，给我上车！！🚀"` },
+    'community': { category: 'marketing', tag: '👥 自动化', title: '私域社群自动促活助手', icon: '🎪', endpoint: 'MSZN_API_CONFIG.n8n.endpoints.community', desc: '每日定时抓取行业热点，自动润色后发送至企业微信核心客户群，带动群内讨论。', placeholder: '触发机制：模拟每日早晨9点发送早报。', mockResult: `【群发促活（已推送至32个核心群）】
