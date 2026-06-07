@@ -8279,6 +8279,130 @@ let currentArsenal = 'seo';
         }
     });
 });
+
+function getPersonalizedMetricsHTML(title, category) {
+    let hash = 0;
+    for (let i = 0; i < title.length; i++) {
+        hash = title.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const absHash = Math.abs(hash);
+
+    let m1Title, m1Val, m1Unit, m1Color, m1Label;
+    let m2Title, m2Val, m2Unit, m2Color, m2Label;
+    let m3Title, m3Val, m3Unit, m3Color, m3Label;
+    let m4Title, m4Before, m4After, m4BarColor;
+
+    if (category === 'manufacturing') {
+        m1Title = "OEE 提升率"; m1Val = (85 + (absHash % 14)) + "." + (absHash % 9); m1Unit = "%"; m1Color = "blue"; m1Label = "OEE";
+        m2Title = "自动化等级"; m2Val = "L" + (4 + (absHash % 2)); m2Unit = ""; m2Color = "purple"; m2Label = "Autonomous";
+        m3Title = "在线设备数"; m3Val = 100 + (absHash % 400); m3Unit = "台"; m3Color = "emerald"; m3Label = "Devices";
+        m4Title = "异常排查耗时"; m4Before = (2 + (absHash % 4)) + "小时"; m4After = (10 + (absHash % 20)) + "分钟"; m4BarColor = "blue";
+    } else if (category === 'enterprise') {
+        m1Title = "合规准确率"; m1Val = "99." + (5 + (absHash % 5)); m1Unit = "%"; m1Color = "amber"; m1Label = "Accuracy";
+        m2Title = "安全等级"; m2Val = "S" + (3 + (absHash % 3)); m2Unit = ""; m2Color = "purple"; m2Label = "Secured";
+        m3Title = "日均处理量"; m3Val = 500 + (absHash % 5000); m3Unit = "件"; m3Color = "emerald"; m3Label = "Docs/Day";
+        m4Title = "单据审批耗时"; m4Before = (3 + (absHash % 4)) + "天"; m4After = (15 + (absHash % 40)) + "分钟"; m4BarColor = "amber";
+    } else if (category === 'ecommerce') {
+        m1Title = "处理准确率"; m1Val = (92 + (absHash % 7)) + "." + (absHash % 9); m1Unit = "%"; m1Color = "cyan"; m1Label = "Confidence";
+        m2Title = "自动化等级"; m2Val = "L" + (3 + (absHash % 2)); m2Unit = ""; m2Color = "purple"; m2Label = "Autonomous";
+        m3Title = "日均处理量"; m3Val = 1000 + (absHash % 8000); m3Unit = "单"; m3Color = "emerald"; m3Label = "Orders/Day";
+        m4Title = "客户响应时效"; m4Before = (4 + (absHash % 12)) + "小时"; m4After = (30 + (absHash % 60)) + "秒"; m4BarColor = "cyan";
+    } else if (category === 'media') {
+        m1Title = "爆款命中率"; m1Val = (60 + (absHash % 30)) + "." + (absHash % 9); m1Unit = "%"; m1Color = "pink"; m1Label = "Hit Rate";
+        m2Title = "内容原创度"; m2Val = (90 + (absHash % 9)) + "." + (absHash % 9); m2Unit = "%"; m2Color = "purple"; m2Label = "Originality";
+        m3Title = "矩阵账号数"; m3Val = 10 + (absHash % 90); m3Unit = "个"; m3Color = "emerald"; m3Label = "Accounts";
+        m4Title = "视频产出耗时"; m4Before = (2 + (absHash % 3)) + "天"; m4After = (10 + (absHash % 30)) + "分钟"; m4BarColor = "pink";
+    } else if (category === 'localstore') {
+        m1Title = "核销转化率"; m1Val = (30 + (absHash % 40)) + "." + (absHash % 9); m1Unit = "%"; m1Color = "emerald"; m1Label = "Conversion";
+        m2Title = "引流增量"; m2Val = "+" + (100 + (absHash % 300)); m2Unit = "%"; m2Color = "purple"; m2Label = "Traffic Growth";
+        m3Title = "私域沉淀池"; m3Val = 5000 + (absHash % 20000); m3Unit = "人"; m3Color = "blue"; m3Label = "Customers";
+        m4Title = "活动筹备耗时"; m4Before = (3 + (absHash % 5)) + "天"; m4After = (30 + (absHash % 60)) + "分钟"; m4BarColor = "emerald";
+    } else if (category === 'education') {
+        m1Title = "知识点覆盖率"; m1Val = (95 + (absHash % 4)) + "." + (absHash % 9); m1Unit = "%"; m1Color = "cyan"; m1Label = "Coverage";
+        m2Title = "自适应等级"; m2Val = "V" + (2 + (absHash % 3)); m2Unit = ""; m2Color = "purple"; m2Label = "Adaptive";
+        m3Title = "题库容量"; m3Val = 10 + (absHash % 40); m3Unit = "万题"; m3Color = "amber"; m3Label = "Questions";
+        m4Title = "教案生成耗时"; m4Before = (4 + (absHash % 4)) + "小时"; m4After = (1 + (absHash % 4)) + "分钟"; m4BarColor = "cyan";
+    } else {
+        m1Title = "AI 准确率"; m1Val = (90 + (absHash % 9)) + "." + (absHash % 9); m1Unit = "%"; m1Color = "cyan"; m1Label = "Confidence";
+        m2Title = "自动化等级"; m2Val = "L" + (4 + (absHash % 2)); m2Unit = ""; m2Color = "purple"; m2Label = "Autonomous";
+        m3Title = "活跃节点数"; m3Val = 5 + (absHash % 25); m3Unit = "个"; m3Color = "emerald"; m3Label = "Nodes";
+        m4Title = "时效提升"; m4Before = (30 + (absHash % 60)) + "分钟"; m4After = (10 + (absHash % 30)) + "秒"; m4BarColor = "cyan";
+    }
+
+    // Color mappings
+    const colors = {
+        blue: { border: '#3b82f6', text: 'text-blue-400', bg: 'rgba(59, 130, 246, 0.2)' },
+        amber: { border: '#f59e0b', text: 'text-amber-400', bg: 'rgba(245, 158, 11, 0.2)' },
+        cyan: { border: '#22d3ee', text: 'text-cyan-400', bg: 'rgba(34, 211, 238, 0.2)' },
+        pink: { border: '#ec4899', text: 'text-pink-400', bg: 'rgba(236, 72, 153, 0.2)' },
+        purple: { border: '#a855f7', text: 'text-purple-400', bg: 'rgba(168, 85, 247, 0.2)' },
+        emerald: { border: '#10b981', text: 'text-emerald-400', bg: 'rgba(16, 185, 129, 0.2)' }
+    };
+
+    const c1 = colors[m1Color] || colors.cyan;
+    const c2 = colors[m2Color] || colors.purple;
+    const c3 = colors[m3Color] || colors.emerald;
+    const c4 = colors[m4BarColor] || colors.cyan;
+
+    return `
+        <h4 class="text-slate-400 text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 mb-1">
+            <span class="w-1.5 h-1.5 rounded-full" style="background-color: ${c1.border}"></span> 运行指标监视器 (Metrics)
+        </h4>
+        <div class="flex flex-wrap gap-4 w-full" style="display: flex !important; flex-wrap: wrap !important; width: 100% !important; min-height: 250px;">
+            <!-- Metric 1 -->
+            <div style="flex: 1 1 calc(50% - 1rem); min-width: 140px; background-color: rgba(2, 6, 23, 0.4); border: 1px solid rgba(30, 41, 59, 0.8); border-radius: 1.5rem; padding: 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <p class="text-slate-500 text-[9px] font-bold uppercase tracking-wider mb-2">${m1Title} (${m1Label})</p>
+                <div style="width: 6rem; height: 6rem; border-radius: 50%; border: 6px solid #1e293b; border-top-color: ${c1.border}; display: flex; align-items: center; justify-content: center;">
+                    <div style="text-align: center;">
+                        <span class="text-lg font-black text-white font-mono">${m1Val}</span>
+                        <span class="text-[9px] ${c1.text} font-mono">${m1Unit}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metric 2 -->
+            <div style="flex: 1 1 calc(50% - 1rem); min-width: 140px; background-color: rgba(2, 6, 23, 0.4); border: 1px solid rgba(30, 41, 59, 0.8); border-radius: 1.5rem; padding: 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <p class="text-slate-500 text-[9px] font-bold uppercase tracking-wider mb-2">${m2Title}</p>
+                <div style="width: 5rem; height: 5rem; border-radius: 50%; background-color: ${c2.bg}; border: 1px solid ${c2.border}40; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+                    <div style="position: absolute; top: -2px; width: 6px; height: 6px; border-radius: 50%; background-color: ${c2.border};"></div>
+                    <span class="text-3xl font-black ${c2.text} font-mono">${m2Val}</span>
+                    <span class="text-[8px] ${c2.text} font-light mt-1 tracking-wider uppercase font-bold">${m2Label}</span>
+                </div>
+            </div>
+
+            <!-- Metric 3 -->
+            <div style="flex: 1 1 calc(50% - 1rem); min-width: 140px; background-color: rgba(2, 6, 23, 0.4); border: 1px solid rgba(30, 41, 59, 0.8); border-radius: 1.5rem; padding: 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <p class="text-slate-500 text-[9px] font-bold uppercase tracking-wider mb-1">${m3Title}</p>
+                <div style="display: flex; align-items: baseline; gap: 4px; margin-top: 4px;">
+                    <span class="text-3xl font-black ${c3.text} font-mono">${m3Val}</span>
+                    <span class="text-[9px] text-slate-500 font-mono uppercase font-bold">${m3Unit}</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px; margin-top: 8px; background-color: ${c3.bg}; border: 1px solid ${c3.border}40; padding: 2px 12px; border-radius: 9999px;">
+                    <span style="width: 4px; height: 4px; border-radius: 50%; background-color: ${c3.border};"></span>
+                    <span class="text-[8px] ${c3.text} font-mono uppercase font-bold">${m3Label}</span>
+                </div>
+            </div>
+
+            <!-- Metric 4 -->
+            <div style="flex: 1 1 calc(50% - 1rem); min-width: 140px; background-color: rgba(2, 6, 23, 0.4); border: 1px solid rgba(30, 41, 59, 0.8); border-radius: 1.5rem; padding: 1rem; display: flex; flex-direction: column; justify-content: center;">
+                <p class="text-slate-500 text-[9px] font-bold uppercase tracking-wider mb-2">${m4Title}</p>
+                <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-family: monospace;">
+                        <span class="text-slate-400">Before:</span>
+                        <span class="text-red-400 font-bold">${m4Before}</span>
+                    </div>
+                    <div style="width: 100%; background-color: #0f172a; border-radius: 9999px; height: 6px; overflow: hidden;">
+                        <div style="background: linear-gradient(to right, #ef4444, ${c4.border}); height: 100%; width: 99.6%;"></div>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-family: monospace;">
+                        <span class="text-slate-400">After:</span>
+                        <span class="${c4.text} font-bold">${m4After}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
 // 案例详细数据字典 (极端 Before/After 对比与硬核代码)
 const CASE_DETAILS_DATA = {
     "独立站客服与履约自动化系统": {
@@ -8501,14 +8625,14 @@ def analyze_reviews(asin_reviews):
     <g transform="translate(200, 75)"><circle cx="20" cy="25" r="25" fill="#1e1b4b" stroke="#0ea5e9" stroke-width="2" filter="url(#glow4)" /><text x="20" y="27" text-anchor="middle" fill="#c4b5fd" font-size="12" text-anchor="middle" font-weight="bold">n8n</text></g>
     <g transform="translate(320, 80)"><rect width="50" height="40" rx="8" fill="#0f172a" stroke="#0ea5e9" stroke-width="1.5" /><text x="25" y="24" text-anchor="middle" fill="#94a3b8" font-size="9" dominant-baseline="middle">CRM</text></g>
 </svg>`,
-        metrics: {
+        metrics: getPersonalizedMetricsHTML({
             confidence: 97.4,
             level: "L5",
             nodes: 6,
             latencyBefore: "4小时",
             latencyAfter: "2分钟",
             savedHours: 16
-        },
+        }),
         logs: [
             "[INFO] Ingestion listener active for WhatsApp/FB/Email...",
             "[DEBUG] Incoming query: \"Need quote for 2,000 units. Budget is $15k\"",
@@ -8560,14 +8684,14 @@ def analyze_reviews(asin_reviews):
     <g transform="translate(150, 75)"><circle cx="25" cy="25" r="25" fill="#1e1b4b" stroke="#06b6d4" stroke-width="2" filter="url(#glow5)" /><text x="25" y="27" text-anchor="middle" fill="#c4b5fd" font-size="9" dominant-baseline="middle" font-weight="bold">GPT Writer</text></g>
     <g transform="translate(300, 80)"><rect width="45" height="40" rx="8" fill="#0f172a" stroke="#0ea5e9" stroke-width="1.5" /><text x="22.5" y="24" text-anchor="middle" fill="#94a3b8" font-size="9" dominant-baseline="middle">Listing</text></g>
 </svg>`,
-        metrics: {
+        metrics: getPersonalizedMetricsHTML({
             confidence: 94.6,
             level: "L4",
             nodes: 8,
             latencyBefore: "2天",
             latencyAfter: "15分钟",
             savedHours: 30
-        },
+        }),
         logs: [
             "[INFO] Reading PIM CSV import: 100 new product SKUs",
             "[ACTION] GPT-4 Listing Writer processing item: \"Ergonomic Office Chair\"",
@@ -8841,6 +8965,11 @@ function openCaseModal(cardElement) {
 
         // Inject Metrics HTML dynamically to guarantee rendering
         const cmMetricsPanel = document.getElementById('cm-tab-panel-metrics');
+        const category = cardElement.getAttribute('data-category') || 'ecommerce';
+        
+        if (cmMetricsPanel) {
+            cmMetricsPanel.innerHTML = getPersonalizedMetricsHTML(title, category);
+        }
         if (cmMetricsPanel) {
             cmMetricsPanel.innerHTML = `
                 <h4 class="text-slate-400 text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 mb-1">
