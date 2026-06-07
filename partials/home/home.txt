@@ -66,144 +66,467 @@
         </div>
 
         <!-- ======================= AI 自动化体检雷达 (Readiness Assessment) ======================= -->
-        <div id="ai-radar-section" class="max-w-4xl mx-auto px-4 py-16 reveal-on-scroll">
-            <div class="text-center mb-10">
-                <h3 class="text-2xl sm:text-3xl font-bold text-white mb-4 tracking-tight flex items-center justify-center gap-3">
-                    <span class="w-3 h-3 rounded-full bg-cyan-500 animate-ping absolute"></span>
-                    <span class="w-3 h-3 rounded-full bg-cyan-400 relative z-10"></span>
+        <style>
+        /* ============================================
+           AI 自动化体检雷达 - 动态雷达扫描仪及卡片样式
+           ============================================ */
+        .radar-scanner-container {
+            position: relative;
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border: 2px solid rgba(6, 182, 212, 0.25);
+            box-shadow: 0 0 35px rgba(6, 182, 212, 0.15);
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        .radar-scanner-grid {
+            position: absolute;
+            inset: 12px;
+            border-radius: 50%;
+            border: 1px dashed rgba(6, 182, 212, 0.2);
+        }
+        .radar-scanner-grid::before {
+            content: '';
+            position: absolute;
+            inset: 35px;
+            border-radius: 50%;
+            border: 1px dashed rgba(6, 182, 212, 0.15);
+        }
+        .radar-scanner-grid::after {
+            content: '';
+            position: absolute;
+            inset: 70px;
+            border-radius: 50%;
+            border: 1px dashed rgba(6, 182, 212, 0.1);
+        }
+        .radar-scanner-cross-h {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(6, 182, 212, 0.25), transparent);
+        }
+        .radar-scanner-cross-v {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(6, 182, 212, 0.25), transparent);
+        }
+        .radar-scanner-sweep {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50%;
+            height: 50%;
+            background: conic-gradient(from 0deg, rgba(6, 182, 212, 0.45) 0%, transparent 60%, transparent 100%);
+            transform-origin: top left;
+            border-radius: 100% 0 0 0;
+            animation: radar-sweep-anim 3.5s linear infinite;
+        }
+        .radar-scanner-sweep.scanning {
+            animation: radar-sweep-anim 0.8s linear infinite !important;
+            background: conic-gradient(from 0deg, rgba(168, 85, 247, 0.6) 0%, transparent 60%, transparent 100%);
+        }
+        @keyframes radar-sweep-anim {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .radar-scanner-ping {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #22d3ee;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #22d3ee;
+            animation: radar-ping-anim 2.5s infinite ease-out;
+        }
+        @keyframes radar-ping-anim {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+        </style>
+        <div id="ai-radar-section" class="max-w-7xl mx-auto px-4 py-20 reveal-on-scroll">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-950/30 text-[10px] font-mono text-cyan-400 mb-5 tracking-widest uppercase shadow-[0_0_15px_rgba(6,182,212,0.15)] cursor-default">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                    AI Readiness Assessment
+                </div>
+                <h3 class="text-3xl sm:text-5xl font-black text-white mb-4 tracking-tight">
                     1分钟 AI 自动化体检雷达
                 </h3>
-                <p class="text-slate-400">您的企业适合接入大模型与自动化工作流吗？测一测真实的渗透空间。</p>
+                <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base font-light">
+                    您的企业适合接入大模型与自动化工作流吗？只需回答4个核心维度的问题，系统将实时输出全方位的数字化诊断与 ROI 分析。
+                </p>
             </div>
             
-            <div class="glass-card p-6 sm:p-10 rounded-[32px] relative overflow-hidden border border-slate-700/50 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-                <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[80px] rounded-full pointer-events-none"></div>
+            <!-- 2-Column Desktop Grid Layout -->
+            <div class="grid lg:grid-cols-12 gap-8">
                 
-                <!-- 阶段一：问卷表单 -->
-                <div id="radar-form-container" class="relative z-10 space-y-8 transition-opacity duration-500">
-                    <div class="space-y-4">
-                        <label class="block text-slate-300 font-bold mb-2">Q1. 您的核心业务流程是否有固定的操作 SOP？</label>
-                        <div class="grid sm:grid-cols-3 gap-3">
-                            <label class="cursor-pointer">
+                <!-- Left Column: Questionnaire Form (7 cols) -->
+                <div class="lg:col-span-7 space-y-6">
+                    <!-- Q1 -->
+                    <div class="glass-card p-6 rounded-3xl border border-slate-800/80 bg-slate-900/10 hover:border-slate-700/30 transition-all duration-300 shadow-lg relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/[0.02] blur-[40px] rounded-full pointer-events-none"></div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-6 h-6 rounded-lg bg-cyan-950/60 flex items-center justify-center text-xs font-mono text-cyan-400 border border-cyan-800/40 shrink-0 font-bold">01</span>
+                            <label class="text-white font-bold text-sm sm:text-base">您的核心业务流程是否有固定的操作 SOP？</label>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q1" value="high" class="peer sr-only" checked>
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">有严格的操作文档</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">标准规范化：流程清晰且拥有详尽的操作文档或操作录屏</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
-                            <label class="cursor-pointer">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q1" value="med" class="peer sr-only">
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">只存在于老员工脑子里</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">口头传授化：流程大致存在，但无文档，仅靠老带新经验交接</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
-                            <label class="cursor-pointer">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q1" value="low" class="peer sr-only">
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">完全没有，非常随意</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">完全随机化：基本没有固定流程，完全凭借个人工作习惯与主观发挥</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
                         </div>
                     </div>
 
-                    <div class="space-y-4">
-                        <label class="block text-slate-300 font-bold mb-2">Q2. 团队每天最高频的低效劳动发生在？</label>
-                        <div class="grid sm:grid-cols-3 gap-3">
-                            <label class="cursor-pointer">
+                    <!-- Q2 -->
+                    <div class="glass-card p-6 rounded-3xl border border-slate-800/80 bg-slate-900/10 hover:border-slate-700/30 transition-all duration-300 shadow-lg relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/[0.02] blur-[40px] rounded-full pointer-events-none"></div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-6 h-6 rounded-lg bg-cyan-950/60 flex items-center justify-center text-xs font-mono text-cyan-400 border border-cyan-800/40 shrink-0 font-bold">02</span>
+                            <label class="text-white font-bold text-sm sm:text-base">团队每天最高频的低效/重复劳动发生在？</label>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q2" value="data" class="peer sr-only" checked>
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">跨系统复制粘贴数据</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">跨系统数据搬运：手工复制粘贴，跨表单数据采集与录入</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
-                            <label class="cursor-pointer">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q2" value="service" class="peer sr-only">
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">重复客户咨询与客诉响应</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">海量重复客群响应：日常回复类似咨询、客诉、微信跟单</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
-                            <label class="cursor-pointer">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q2" value="content" class="peer sr-only">
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">枯燥的内容与营销图文创作</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">套路化内容宣发：枯燥的推文撰写、产品图文排版与分发</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
                         </div>
                     </div>
 
-                    <div class="space-y-4">
-                        <label class="block text-slate-300 font-bold mb-2">Q3. 目前的业务核心数据主要沉淀在哪里？</label>
-                        <div class="grid sm:grid-cols-3 gap-3">
-                            <label class="cursor-pointer">
+                    <!-- Q3 -->
+                    <div class="glass-card p-6 rounded-3xl border border-slate-800/80 bg-slate-900/10 hover:border-slate-700/30 transition-all duration-300 shadow-lg relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/[0.02] blur-[40px] rounded-full pointer-events-none"></div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-6 h-6 rounded-lg bg-cyan-950/60 flex items-center justify-center text-xs font-mono text-cyan-400 border border-cyan-800/40 shrink-0 font-bold">03</span>
+                            <label class="text-white font-bold text-sm sm:text-base">目前的业务核心数据主要沉淀与存储在哪里？</label>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q3" value="saas" class="peer sr-only" checked>
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">成体系的 SaaS 软件里</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">结构化系统：统一沉淀在支持 API 接口的成熟 SaaS 或自研系统</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
-                            <label class="cursor-pointer">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q3" value="excel" class="peer sr-only">
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">大量的独立 Excel 表格中</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">本地表单：零散存储在员工各自电脑本地的大量 Excel 档案中</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
-                            <label class="cursor-pointer">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q3" value="chat" class="peer sr-only">
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">零散在微信/企微群里</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">非结构化沟通：零散在微信聊天群、企微记录或私人对话中</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
                         </div>
                     </div>
-                    
-                    <div class="text-center pt-4">
-                        <button type="button" onclick="startAIRadar()" class="px-8 py-3.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(6,182,212,0.4)] flex items-center justify-center gap-2 mx-auto hover:scale-105">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            启动深度诊断分析
+
+                    <!-- Q4 -->
+                    <div class="glass-card p-6 rounded-3xl border border-slate-800/80 bg-slate-900/10 hover:border-slate-700/30 transition-all duration-300 shadow-lg relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/[0.02] blur-[40px] rounded-full pointer-events-none"></div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-6 h-6 rounded-lg bg-cyan-950/60 flex items-center justify-center text-xs font-mono text-cyan-400 border border-cyan-800/40 shrink-0 font-bold">04</span>
+                            <label class="text-white font-bold text-sm sm:text-base">您目前对 AI 与自动化落地提效的决心与预算？</label>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
+                                <input type="radio" name="radar-q4" value="high" class="peer sr-only" checked>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">战略级推进：预算明确，希望创始人级别深度定制以实现重构</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
+                            </label>
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
+                                <input type="radio" name="radar-q4" value="med" class="peer sr-only">
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">项目级试水：小规模轻量起步，先验证具体提效 ROI 再扩大追加</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
+                            </label>
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
+                                <input type="radio" name="radar-q4" value="low" class="peer sr-only">
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">观望级评估：目前仅做研究观望，暂无实际业务落地的改造预算</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Button to Trigger Diagnosis -->
+                    <div class="text-left pt-2">
+                        <button type="button" id="start-radar-btn" onclick="startAIRadar()" class="px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl transition-all shadow-[0_0_25px_rgba(6,182,212,0.4)] flex items-center gap-2 hover:scale-[1.02]">
+                            <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span id="start-radar-btn-text">启动深度诊断分析</span>
                         </button>
                     </div>
                 </div>
-
-                <!-- 阶段二：扫描动画 (默认隐藏) -->
-                <div id="radar-loading-container" class="hidden relative z-10 flex flex-col items-center justify-center py-12 text-center">
-                    <div class="w-16 h-16 relative mb-6">
-                        <div class="absolute inset-0 border-t-2 border-cyan-500 rounded-full animate-spin"></div>
-                        <div class="absolute inset-2 border-r-2 border-purple-500 rounded-full animate-spin" style="animation-direction: reverse; animation-duration: 0.8s;"></div>
-                        <div class="absolute inset-4 border-b-2 border-blue-500 rounded-full animate-spin" style="animation-duration: 1.2s;"></div>
-                    </div>
-                    <h4 class="text-cyan-400 font-mono text-lg mb-2">System Analyzing...</h4>
-                    <div id="radar-terminal" class="font-mono text-xs text-slate-500 h-6 text-left w-64 mx-auto overflow-hidden">
-                        > 正在读取业务特征...
-                    </div>
-                </div>
-
-                <!-- 阶段三：诊断结果 (默认隐藏) -->
-                <div id="radar-result-container" class="hidden relative z-10 transition-opacity duration-500">
-                    <div class="text-center mb-8">
-                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-cyan-900/30 border border-cyan-500/50 text-cyan-400 mb-4 shadow-[0_0_30px_rgba(6,182,212,0.3)]">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                        </div>
-                        <h4 class="text-2xl font-bold text-white mb-2">诊断完成，潜力确认</h4>
-                        <p class="text-slate-400 text-sm">您的业务具备极佳的自动化改造土壤。</p>
-                    </div>
-                    
-                    <div class="bg-slate-900/50 rounded-2xl p-6 border border-slate-700 mb-8 max-w-2xl mx-auto">
-                        <div class="mb-6">
-                            <div class="flex justify-between items-end mb-2">
-                                <span class="text-slate-300 font-bold text-sm">AI 自动化渗透率预估</span>
-                                <span id="radar-score-text" class="text-3xl font-black text-cyan-400 font-mono tracking-tighter">0%</span>
-                            </div>
-                            <div class="h-3 w-full bg-slate-800 rounded-full overflow-hidden">
-                                <div id="radar-progress-bar" class="h-full bg-gradient-to-r from-cyan-500 to-purple-500 w-0 transition-all duration-1000 ease-out"></div>
-                            </div>
-                        </div>
+                
+                <!-- Right Column: Interactive Visual Panel (5 cols) -->
+                <div class="lg:col-span-5">
+                    <div class="glass-card p-6 sm:p-8 rounded-[32px] border border-slate-700/50 shadow-2xl lg:sticky lg:top-28 relative overflow-hidden bg-slate-900/20">
+                        <div class="absolute -top-20 -right-20 w-48 h-48 bg-cyan-500/10 blur-[80px] rounded-full pointer-events-none"></div>
                         
-                        <div class="space-y-4">
-                            <div class="bg-cyan-950/20 border border-cyan-900/50 rounded-xl p-4 flex gap-4 items-start">
-                                <div class="text-2xl pt-1">🎯</div>
-                                <div>
-                                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">最优先切入场景</p>
-                                    <p id="radar-scenario-text" class="text-cyan-100 font-medium text-sm"></p>
+                        <!-- Visual Container with fixed aspect ratio to prevent layouts shifting -->
+                        <div class="relative w-full h-[250px] mb-6 flex items-center justify-center bg-slate-950/60 rounded-2xl border border-slate-800/80 overflow-hidden shadow-inner">
+                            
+                            <!-- State 1: Active Radar Scanner -->
+                            <div id="radar-scanner-wrapper" class="absolute inset-0 flex items-center justify-center transition-all duration-500">
+                                <div class="radar-scanner-container">
+                                    <div id="radar-scanner-sweep" class="radar-scanner-sweep"></div>
+                                    <div class="radar-scanner-grid"></div>
+                                    <div class="radar-scanner-cross-h"></div>
+                                    <div class="radar-scanner-cross-v"></div>
+                                    <div class="radar-scanner-ping" style="top: 25%; left: 35%; animation-delay: 0.2s;"></div>
+                                    <div class="radar-scanner-ping" style="top: 65%; left: 60%; animation-delay: 1s;"></div>
+                                    <div class="radar-scanner-ping" style="top: 45%; left: 75%; animation-delay: 1.8s;"></div>
+                                </div>
+                                <div class="absolute bottom-4 left-0 right-0 text-center">
+                                    <span class="text-[9px] font-mono text-cyan-400 tracking-widest animate-pulse uppercase">Radar Scanner Active</span>
                                 </div>
                             </div>
-                            <div class="bg-slate-800/40 rounded-xl p-4 flex gap-4 items-start">
-                                <div class="text-2xl pt-1">💡</div>
-                                <div>
-                                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">实施建议</p>
-                                    <p id="radar-advice-text" class="text-slate-300 text-sm leading-relaxed"></p>
+
+                            <!-- State 2: Dynamic Terminal Logs -->
+                            <div id="radar-terminal-wrapper" class="hidden absolute inset-0 p-5 flex flex-col justify-between font-mono text-[10px] text-left bg-slate-950/90 rounded-2xl border border-slate-800">
+                                <div class="space-y-1.5 text-cyan-500 overflow-y-auto no-scrollbar h-[180px] pr-2">
+                                    <div id="radar-log-output" class="whitespace-pre-line leading-relaxed"></div>
+                                </div>
+                                <div class="flex justify-between items-center text-[8px] text-slate-500 border-t border-slate-800/80 pt-2 shrink-0">
+                                    <span>DIAGNOSTIC PROCESS COMPILING...</span>
+                                    <span class="animate-pulse text-cyan-400">●</span>
+                                </div>
+                            </div>
+
+                            <!-- State 3: Radar Chart Canvas -->
+                            <div id="radar-chart-wrapper" class="hidden absolute inset-3 flex items-center justify-center">
+                                <div class="w-full h-full relative" style="min-height: 220px;">
+                                    <canvas id="radar-chart"></canvas>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="text-center">
-                        <button type="button" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})" class="px-8 py-3.5 bg-white text-slate-900 hover:bg-slate-200 font-bold rounded-xl transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                            向主理人发送诊断报告并咨询
-                        </button>
-                        <button type="button" onclick="resetAIRadar()" class="block w-full text-center mt-4 text-slate-500 text-xs hover:text-slate-300 transition-colors">重新测试</button>
+
+                        <!-- Diagnostic Details & Call to Action (Dynamic Display) -->
+                        <div id="radar-result-details" class="hidden space-y-5 transition-all duration-500">
+                            <div class="flex justify-between items-end pb-3 border-b border-slate-800/80">
+                                <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">AI 自动化渗透率预估</span>
+                                <span id="radar-score-text" class="text-3xl font-black text-cyan-400 font-mono tracking-tighter shadow-cyan-400/20">0%</span>
+                            </div>
+                            
+                            <!-- Dimension score progress bars -->
+                            <div class="space-y-2.5 pt-1">
+                                <h5 class="text-[10px] text-slate-400 font-bold uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
+                                    <span>📊</span> 评估维度细分
+                                </h5>
+                                <div class="space-y-2">
+                                    <div>
+                                        <div class="flex justify-between text-[11px] mb-1">
+                                            <span class="text-slate-400">SOP 标准化</span>
+                                            <span id="score-sop" class="text-cyan-400 font-mono font-bold">0%</span>
+                                        </div>
+                                        <div class="w-full bg-slate-950/80 rounded-full h-1.5 border border-slate-800/80 overflow-hidden">
+                                            <div id="bar-sop" class="bg-gradient-to-r from-cyan-500 to-blue-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-[11px] mb-1">
+                                            <span class="text-slate-400">场景适配度</span>
+                                            <span id="score-scene" class="text-cyan-400 font-mono font-bold">0%</span>
+                                        </div>
+                                        <div class="w-full bg-slate-950/80 rounded-full h-1.5 border border-slate-800/80 overflow-hidden">
+                                            <div id="bar-scene" class="bg-gradient-to-r from-cyan-500 to-blue-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-[11px] mb-1">
+                                            <span class="text-slate-400">数字底座</span>
+                                            <span id="score-system" class="text-cyan-400 font-mono font-bold">0%</span>
+                                        </div>
+                                        <div class="w-full bg-slate-950/80 rounded-full h-1.5 border border-slate-800/80 overflow-hidden">
+                                            <div id="bar-system" class="bg-gradient-to-r from-cyan-500 to-blue-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-[11px] mb-1">
+                                            <span class="text-slate-400">ROI 可行性</span>
+                                            <span id="score-roi" class="text-cyan-400 font-mono font-bold">0%</span>
+                                        </div>
+                                        <div class="w-full bg-slate-950/80 rounded-full h-1.5 border border-slate-800/80 overflow-hidden">
+                                            <div id="bar-roi" class="bg-gradient-to-r from-cyan-500 to-blue-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dynamic ROI Metrics Grid -->
+                            <div class="grid grid-cols-3 gap-2.5 pt-1">
+                                <div class="bg-slate-950/50 border border-slate-800/60 rounded-xl p-2.5 text-center">
+                                    <span class="block text-[8px] text-slate-500 mb-0.5 font-bold uppercase tracking-wider">月度节约工时</span>
+                                    <span id="radar-roi-hours" class="text-xs sm:text-sm font-bold text-white font-mono tracking-tight">-</span>
+                                </div>
+                                <div class="bg-slate-950/50 border border-slate-800/60 rounded-xl p-2.5 text-center">
+                                    <span class="block text-[8px] text-slate-500 mb-0.5 font-bold uppercase tracking-wider">预估提效系数</span>
+                                    <span id="radar-roi-factor" class="text-xs sm:text-sm font-bold text-cyan-400 font-mono tracking-tight">-</span>
+                                </div>
+                                <div class="bg-slate-950/50 border border-slate-800/60 rounded-xl p-2.5 text-center">
+                                    <span class="block text-[8px] text-slate-500 mb-0.5 font-bold uppercase tracking-wider">实施交付周期</span>
+                                    <span id="radar-roi-timeline" class="text-xs sm:text-sm font-bold text-white font-mono tracking-tight">-</span>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <div class="bg-cyan-950/20 border border-cyan-900/40 rounded-xl p-3.5 flex gap-3 items-start hover:border-cyan-500/30 transition-colors">
+                                    <span class="text-xl shrink-0">🎯</span>
+                                    <div>
+                                        <h5 class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-0.5">优先切入场景</h5>
+                                        <p id="radar-scenario-text" class="text-cyan-300 font-semibold text-xs sm:text-sm leading-relaxed"></p>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-slate-900/40 border border-slate-800/80 rounded-xl p-3.5 flex gap-3 items-start">
+                                    <span class="text-xl shrink-0">💡</span>
+                                    <div>
+                                        <h5 class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-0.5">实施路径建议</h5>
+                                        <p id="radar-advice-text" class="text-slate-300 text-xs leading-relaxed font-light"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Recommended Tools Badge Container -->
+                            <div class="space-y-1.5 pt-1">
+                                <span class="block text-[9px] text-slate-500 font-bold uppercase tracking-wider">推荐工具集成节点</span>
+                                <div id="radar-tools-list" class="flex flex-wrap gap-1.5"></div>
+                            </div>
+
+                            <div class="pt-2 space-y-3">
+                                <button type="button" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})" class="w-full py-3.5 bg-white text-slate-950 font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(255,255,255,0.15)] flex items-center justify-center gap-2 text-xs sm:text-sm hover:bg-slate-100 hover:scale-[1.02]">
+                                    🤝 向主理人同步报告并开始合作
+                                </button>
+                                <button type="button" onclick="resetAIRadar()" class="w-full text-center text-slate-500 hover:text-slate-400 text-xs transition-colors py-1 focus:outline-none">
+                                    重置诊断选项
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Scanner Info (Shown when not compiled) -->
+                        <div id="radar-scanner-info" class="text-center space-y-3">
+                            <p class="text-xs text-slate-400 leading-relaxed font-light">
+                                雷达发现引擎就绪。请在左侧勾选您企业的实际业务形态，点击下方的 <span class="text-cyan-400 font-bold">启动深度诊断分析</span> 按钮，系统将根据数据模型实时计算出您的自动化模型画像。
+                            </p>
+                        </div>
+
+                        <!-- State 1 extra: Idle Details (Guides & Live Feeds) -->
+                        <div id="radar-idle-details" class="space-y-5 pt-5 border-t border-slate-800/80">
+                            <!-- Dimension Guide Cards -->
+                            <div>
+                                <h4 class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                                    <span>⚙️</span> 诊断覆盖维度解析
+                                </h4>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="p-3 bg-slate-950/40 border border-slate-800/80 rounded-xl hover:border-slate-700/50 transition-colors">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="text-[11px] font-bold text-slate-200">SOP规则度</span>
+                                            <span class="text-[8px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-mono font-bold">Q1</span>
+                                        </div>
+                                        <p class="text-[10px] text-slate-500 leading-normal font-light">考察业务流成熟度及固定流程规范。</p>
+                                    </div>
+                                    <div class="p-3 bg-slate-950/40 border border-slate-800/80 rounded-xl hover:border-slate-700/50 transition-colors">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="text-[11px] font-bold text-slate-200">场景适配度</span>
+                                            <span class="text-[8px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-mono font-bold">Q2</span>
+                                        </div>
+                                        <p class="text-[10px] text-slate-500 leading-normal font-light">识别并提炼高频低效的重复人工劳动。</p>
+                                    </div>
+                                    <div class="p-3 bg-slate-950/40 border border-slate-800/80 rounded-xl hover:border-slate-700/50 transition-colors">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="text-[11px] font-bold text-slate-200">数字底座</span>
+                                            <span class="text-[8px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-mono font-bold">Q3</span>
+                                        </div>
+                                        <p class="text-[10px] text-slate-500 leading-normal font-light">核算业务系统接入与 API 提供接口成熟度。</p>
+                                    </div>
+                                    <div class="p-3 bg-slate-950/40 border border-slate-800/80 rounded-xl hover:border-slate-700/50 transition-colors">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="text-[11px] font-bold text-slate-200">改造回报率</span>
+                                            <span class="text-[8px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-mono font-bold">Q4</span>
+                                        </div>
+                                        <p class="text-[10px] text-slate-500 leading-normal font-light">核算项目周期、提效预算与 ROI 转化比率。</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Live Simulated Marquee Feed -->
+                            <div class="p-3 bg-cyan-950/10 border border-cyan-950/30 rounded-2xl overflow-hidden relative">
+                                <div class="flex items-center gap-2 mb-1.5 text-[9px] font-mono text-cyan-400 tracking-wider">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+                                    <span>LIVE STREAM</span>
+                                    <span class="text-slate-600 ml-auto font-light">实时诊断快讯</span>
+                                </div>
+                                <div class="h-6 overflow-hidden relative flex items-center">
+                                    <div id="radar-live-feed" class="text-[10px] text-slate-400 flex items-center gap-1.5 font-light transition-all duration-500 truncate w-full">
+                                        ⏳ 诊断引擎就绪，等待输入触发评估...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
         <!-- ======================= 沉浸式 ROI 计算器 ======================= -->
         <div class="max-w-7xl mx-auto px-4 py-16 border-t border-slate-800/50 reveal-on-scroll">

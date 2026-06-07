@@ -64,6 +64,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (window.loadPartials) {
         await window.loadPartials();
     }
+    
+    // 初始化 AI 自动化体检雷达的事件监听器
+    if (typeof initRadarListeners === 'function') {
+        initRadarListeners();
+    }
+
     // 交付案例过滤逻辑
     const filterBtns = document.querySelectorAll('#case-filters .filter-btn');
     const caseCards = document.querySelectorAll('#case-grid .case-card');
@@ -1679,85 +1685,406 @@ function submitCaseLead(e) {
     }, 1500);
 }
 // ======================= AI 自动化体检雷达逻辑 =======================
-function startAIRadar() {
-    const formContainer = document.getElementById('radar-form-container');
-    const loadingContainer = document.getElementById('radar-loading-container');
-    const resultContainer = document.getElementById('radar-result-container');
-    const terminal = document.getElementById('radar-terminal');
+window.radarHasRun = false;
+window.radarChartInstance = null;
+let liveFeedInterval = null;
+
+function startLiveFeedSimulation() {
+    const feedEl = document.getElementById('radar-live-feed');
+    if (!feedEl) return;
+    const messages = [
+        "⏳ 诊断引擎就绪，等待输入进行评估...",
+        "📡 监测到 [广州某外贸公司] 正在评估 SOP 规则...",
+        "✨ [广州某外贸公司] 诊断完毕，AI 自动化预估：78%",
+        "📡 监测到 [北京某医疗健康机构] 正在扫描业务接口...",
+        "✨ [北京某医疗健康机构] 生成报告，月度预计省时 90 小时",
+        "📡 监测到 [杭州某电商SaaS] 正在分析场景适配...",
+        "✨ [杭州某电商SaaS] 诊断完成，提效系数达 5.5x",
+        "📡 监测到 [深圳某新媒体内容工厂] 正在校验 AI 工具链..."
+    ];
+    let idx = 0;
+    
+    if (liveFeedInterval) clearInterval(liveFeedInterval);
+    
+    liveFeedInterval = setInterval(() => {
+        if (window.radarHasRun) return; // Stop showing scrolling logs if radar has run
+        feedEl.style.opacity = '0';
+        feedEl.style.transform = 'translateY(-5px)';
+        setTimeout(() => {
+            feedEl.innerText = messages[idx];
+            feedEl.style.opacity = '1';
+            feedEl.style.transform = 'translateY(0)';
+            idx = (idx + 1) % messages.length;
+        }, 300);
+    }, 3500);
+}
+
+function drawRadarChart(sop, scene, system, roi) {
+    const canvas = document.getElementById('radar-chart');
+    if (!canvas) {
+        console.error("Canvas element 'radar-chart' not found!");
+        return;
+    }
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.error("Failed to get 2D context for canvas!");
+        return;
+    }
+
+    if (window.radarChartInstance) {
+        window.radarChartInstance.destroy();
+    }
+
+    window.radarChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: ['SOP标准化', '场景适配度', '数字底座', 'ROI可行性'],
+            datasets: [{
+                label: '评估得分',
+                data: [sop, scene, system, roi],
+                backgroundColor: 'rgba(6, 182, 212, 0.15)',
+                borderColor: '#22d3ee',
+                borderWidth: 2,
+                pointBackgroundColor: '#22d3ee',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 1.5,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                lineTension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        label: function(context) {
+                            return ' ' + context.label + ': ' + context.formattedValue + '分';
+                        }
+                    }
+                }
+            },
+            scales: {
+                r: {
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.08)'
+                    },
+                    angleLines: {
+                        color: 'rgba(255, 255, 255, 0.08)'
+                    },
+                    ticks: {
+                        display: false,
+                        stepSize: 20
+                    },
+                    pointLabels: {
+                        color: '#94a3b8',
+                        font: {
+                            size: 11,
+                            family: "'Outfit', 'Inter', system-ui, sans-serif",
+                            weight: 'bold'
+                        }
+                    },
+                    suggestedMin: 0,
+                    suggestedMax: 100
+                }
+            }
+        }
+    });
+}
+
+function updateRadarChart() {
+    if (!window.radarHasRun) return;
     
     // Get values
-    const q1 = document.querySelector('input[name="radar-q1"]:checked').value;
-    const q2 = document.querySelector('input[name="radar-q2"]:checked').value;
-    const q3 = document.querySelector('input[name="radar-q3"]:checked').value;
+    const q1 = document.querySelector('input[name="radar-q1"]:checked')?.value || 'high';
+    const q2 = document.querySelector('input[name="radar-q2"]:checked')?.value || 'data';
+    const q3 = document.querySelector('input[name="radar-q3"]:checked')?.value || 'saas';
+    const q4 = document.querySelector('input[name="radar-q4"]:checked')?.value || 'high';
+
+    // Calculate scores
+    let sop = q1 === 'high' ? 95 : (q1 === 'med' ? 60 : 25);
+    let scene = q2 === 'data' ? 90 : (q2 === 'service' ? 80 : 70);
+    let system = q3 === 'saas' ? 95 : (q3 === 'excel' ? 55 : 25);
+    let roi = q4 === 'high' ? 95 : (q4 === 'med' ? 70 : 35);
+
+    let score = Math.round((sop + scene + system + roi) / 4);
+
+    let scenario = "";
+    let advice = "";
     
-    // Transition to loading
-    formContainer.classList.add('hidden');
-    loadingContainer.classList.remove('hidden');
+    if (q2 === 'data') {
+        scenario = "【跨域数据搬运与 ETL 清洗】";
+        advice = "由于您的核心痛点是数据流转，建议立即采用 n8n Workflow 替代人工操作，将现有的 Excel 或 SaaS 数据全自动汇聚闭环。";
+    } else if (q2 === 'service') {
+        scenario = "【智能客服与售后工单自动化】";
+        advice = "针对高频沟通，建议部署基于本地私有知识库的 RAG 智能体，自动接管 80% 的常规问询，释放客服精力。";
+    } else {
+        scenario = "【自媒体矩阵内容批量生成】";
+        advice = "强烈建议引入 Dify Agent 结合 Midjourney API，基于您的品牌调性自动抓取热点并裂变生成图文内容。";
+    }
+
+    // Populate results
+    const scoreTextEl = document.getElementById('radar-score-text');
+    const scenarioTextEl = document.getElementById('radar-scenario-text');
+    const adviceTextEl = document.getElementById('radar-advice-text');
     
-    // Terminal animation
-    const msgs = [
-        "> 提取业务逻辑图谱...",
-        "> 测算 API 节点耦合度...",
-        "> 匹配 OpenClaw 大模型算力...",
-        "> 生成最终诊断报告..."
+    if (scoreTextEl) scoreTextEl.innerText = score + '%';
+    if (scenarioTextEl) scenarioTextEl.innerText = scenario;
+    if (adviceTextEl) adviceTextEl.innerText = advice;
+
+    // Update Progress Bars & Text
+    const barSop = document.getElementById('bar-sop');
+    const scoreSop = document.getElementById('score-sop');
+    if (barSop && scoreSop) {
+        barSop.style.width = sop + '%';
+        scoreSop.innerText = sop + '分';
+    }
+    const barScene = document.getElementById('bar-scene');
+    const scoreScene = document.getElementById('score-scene');
+    if (barScene && scoreScene) {
+        barScene.style.width = scene + '%';
+        scoreScene.innerText = scene + '分';
+    }
+    const barSystem = document.getElementById('bar-system');
+    const scoreSystem = document.getElementById('score-system');
+    if (barSystem && scoreSystem) {
+        barSystem.style.width = system + '%';
+        scoreSystem.innerText = system + '分';
+    }
+    const barRoi = document.getElementById('bar-roi');
+    const scoreRoi = document.getElementById('score-roi');
+    if (barRoi && scoreRoi) {
+        barRoi.style.width = roi + '%';
+        scoreRoi.innerText = roi + '分';
+    }
+
+    // Calculate dynamic ROI metrics
+    let savedHours = (sop === 95 ? 40 : (sop === 60 ? 25 : 10)) + 
+                     (system === 95 ? 40 : (system === 55 ? 20 : 10)) + 
+                     (scene === 90 ? 25 : (scene === 80 ? 20 : 15));
+    let multiplier = ((sop === 95 ? 2.5 : (sop === 60 ? 1.5 : 1.0)) + 
+                      (system === 95 ? 2.5 : (system === 55 ? 1.5 : 1.0)) + 
+                      (scene === 90 ? 1.5 : (scene === 80 ? 1.2 : 1.0))).toFixed(1) + "x";
+    let timeframe = sop === 95 ? "2-3周" : (sop === 60 ? "3-4周" : "4-6周");
+
+    const roiHoursEl = document.getElementById('radar-roi-hours');
+    const roiFactorEl = document.getElementById('radar-roi-factor');
+    const roiTimelineEl = document.getElementById('radar-roi-timeline');
+    if (roiHoursEl) roiHoursEl.innerText = savedHours + "h/月";
+    if (roiFactorEl) roiFactorEl.innerText = multiplier;
+    if (roiTimelineEl) roiTimelineEl.innerText = timeframe;
+
+    // Render Recommended Tools Badges
+    const tools = [];
+    if (q2 === 'data') {
+        tools.push({ name: 'n8n 工作流', bg: 'bg-cyan-950/40 text-cyan-400 border-cyan-800/40' });
+        tools.push({ name: 'Dify AI', bg: 'bg-purple-950/40 text-purple-400 border-purple-800/40' });
+        tools.push({ name: '飞书集成', bg: 'bg-blue-950/40 text-blue-400 border-blue-800/40' });
+    } else if (q2 === 'service') {
+        tools.push({ name: '企微 Hook', bg: 'bg-green-950/40 text-green-400 border-green-800/40' });
+        tools.push({ name: '大模型 RAG', bg: 'bg-purple-950/40 text-purple-400 border-purple-800/40' });
+        tools.push({ name: '向量数据库', bg: 'bg-pink-950/40 text-pink-400 border-pink-800/40' });
+    } else {
+        tools.push({ name: 'Midjourney API', bg: 'bg-cyan-950/40 text-cyan-400 border-cyan-800/40' });
+        tools.push({ name: 'Dify 智能体', bg: 'bg-purple-950/40 text-purple-400 border-purple-800/40' });
+        tools.push({ name: 'AIGC 引擎', bg: 'bg-rose-950/40 text-rose-400 border-rose-800/40' });
+    }
+
+    if (q3 === 'saas') {
+        tools.push({ name: 'SaaS Webhook', bg: 'bg-emerald-950/40 text-emerald-400 border-emerald-800/40' });
+    } else if (q3 === 'excel') {
+        tools.push({ name: 'Pandas 处理器', bg: 'bg-indigo-950/40 text-indigo-400 border-indigo-800/40' });
+    } else {
+        tools.push({ name: 'OCR 语义识别', bg: 'bg-amber-950/40 text-amber-400 border-amber-800/40' });
+    }
+    tools.push({ name: 'OpenClaw', bg: 'bg-cyan-950/40 text-cyan-400 border-cyan-800/40' });
+
+    const toolsList = document.getElementById('radar-tools-list');
+    if (toolsList) {
+        toolsList.innerHTML = tools.map(t => `<span class="px-2.5 py-1 text-[10px] font-mono border rounded-lg shadow-sm font-semibold uppercase ${t.bg}">${t.name}</span>`).join('');
+    }
+
+    // Update Chart
+    if (window.radarChartInstance) {
+        window.radarChartInstance.data.datasets[0].data = [sop, scene, system, roi];
+        window.radarChartInstance.update();
+    } else {
+        drawRadarChart(sop, scene, system, roi);
+    }
+}
+
+function startAIRadar() {
+    // Reset compilation flag
+    window.radarHasRun = false;
+
+    const btn = document.getElementById('start-radar-btn');
+    const btnText = document.getElementById('start-radar-btn-text');
+    if (btn) btn.disabled = true;
+    if (btnText) btnText.innerText = "诊断评估编译中...";
+
+    // 1. Hide chart, result details, scanner info AND idle details
+    const chartWrapper = document.getElementById('radar-chart-wrapper');
+    const resultDetails = document.getElementById('radar-result-details');
+    const scannerInfo = document.getElementById('radar-scanner-info');
+    const idleDetails = document.getElementById('radar-idle-details');
+    if (chartWrapper) chartWrapper.classList.add('hidden');
+    if (resultDetails) resultDetails.classList.add('hidden');
+    if (scannerInfo) scannerInfo.classList.add('hidden');
+    if (idleDetails) idleDetails.classList.add('hidden');
+
+    // 2. Show active scanner and speed up rotation
+    const scannerWrapper = document.getElementById('radar-scanner-wrapper');
+    const scannerSweep = document.getElementById('radar-scanner-sweep');
+    if (scannerWrapper) scannerWrapper.classList.remove('hidden');
+    if (scannerSweep) scannerSweep.classList.add('scanning');
+
+    // 3. Show Terminal Wrapper and clear it
+    const terminalWrapper = document.getElementById('radar-terminal-wrapper');
+    const logOutput = document.getElementById('radar-log-output');
+    if (terminalWrapper) terminalWrapper.classList.remove('hidden');
+    if (logOutput) logOutput.innerText = '';
+
+    // Get current selections
+    const q1 = document.querySelector('input[name="radar-q1"]:checked')?.value || 'high';
+    const q2 = document.querySelector('input[name="radar-q2"]:checked')?.value || 'data';
+    const q3 = document.querySelector('input[name="radar-q3"]:checked')?.value || 'saas';
+    const q4 = document.querySelector('input[name="radar-q4"]:checked')?.value || 'high';
+
+    let sop = q1 === 'high' ? 95 : (q1 === 'med' ? 60 : 25);
+    let scene = q2 === 'data' ? 90 : (q2 === 'service' ? 80 : 70);
+    let system = q3 === 'saas' ? 95 : (q3 === 'excel' ? 55 : 25);
+    let roi = q4 === 'high' ? 95 : (q4 === 'med' ? 70 : 35);
+
+    // Dynamic terminal lines
+    const logLines = [
+        "> INITIALIZING AUTOMATION SCANNER V2.0...",
+        `> ANALYZING SOP STANDARDIZATION [Q1]: SOP Score = ${sop}%`,
+        `> EVALUATING CORE SCENE POTENTIAL [Q2]: Scene Score = ${scene}%`,
+        `> TESTING INFRASTRUCTURE FOUNDATION [Q3]: System Score = ${system}%`,
+        `> ESTIMATING INVESTMENT ROI COEFFICIENT [Q4]: ROI Score = ${roi}%`,
+        "> RUNNING ALGORITHMIC RISK CLASSIFICATION...",
+        "> GENERATING MULTI-DIMENSIONAL RADAR CHART... DONE",
+        "> DIAGNOSIS COMPILED. PLOTTING RADAR GRAPHICS..."
     ];
-    let msgIdx = 0;
-    const terminalInterval = setInterval(() => {
-        if (msgIdx < msgs.length) {
-            terminal.innerText = msgs[msgIdx];
-            msgIdx++;
+
+    let lineIdx = 0;
+    function printNextLine() {
+        if (lineIdx < logLines.length) {
+            if (logOutput) {
+                logOutput.innerText += (lineIdx > 0 ? '\n' : '') + logLines[lineIdx];
+                const logContainer = logOutput.parentElement;
+                if (logContainer) {
+                    logContainer.scrollTop = logContainer.scrollHeight;
+                }
+            }
+            lineIdx++;
+            setTimeout(printNextLine, 180); // ~180ms per line -> ~1.44s total
         } else {
-            clearInterval(terminalInterval);
+            setTimeout(completeDiagnosis, 150);
         }
-    }, 400);
-    
-    // Calculate logic
-    setTimeout(() => {
-        let score = 60; // Base score
-        if(q1 === 'high') score += 15;
-        if(q1 === 'med') score += 5;
-        if(q3 === 'saas') score += 15;
-        if(q3 === 'excel') score += 8;
-        
-        // Max out at 95%
-        if(score > 95) score = 95;
-        
-        let scenario = "";
-        let advice = "";
-        
-        if (q2 === 'data') {
-            scenario = "【跨域数据搬运与 ETL 清洗】";
-            advice = "由于您的核心痛点是数据流转，建议立即采用 n8n Workflow 替代人工操作，将现有的 Excel 或 SaaS 数据全自动汇聚闭环。";
-        } else if (q2 === 'service') {
-            scenario = "【智能客服与售后工单自动化】";
-            advice = "针对高频沟通，建议部署基于本地私有知识库的 RAG 智能体，自动接管 80% 的常规问询，释放客服精力。";
-        } else {
-            scenario = "【自媒体矩阵内容批量生成】";
-            advice = "强烈建议引入 Dify Agent 结合 Midjourney API，基于您的品牌调性自动抓取热点并裂变生成图文内容。";
-        }
-        
-        // Populate results
-        document.getElementById('radar-score-text').innerText = score + '%';
-        document.getElementById('radar-scenario-text').innerText = scenario;
-        document.getElementById('radar-advice-text').innerText = advice;
-        
-        // Show result
-        loadingContainer.classList.add('hidden');
-        resultContainer.classList.remove('hidden');
-        
-        // Animate progress bar
-        setTimeout(() => {
-            document.getElementById('radar-progress-bar').style.width = score + '%';
-        }, 100);
-        
-    }, 2000);
+    }
+
+    function completeDiagnosis() {
+        // Restore button state
+        if (btn) btn.disabled = false;
+        if (btnText) btnText.innerText = "启动深度诊断分析";
+
+        // Hide scanner and terminal
+        if (scannerWrapper) scannerWrapper.classList.add('hidden');
+        if (scannerSweep) scannerSweep.classList.remove('scanning');
+        if (terminalWrapper) terminalWrapper.classList.add('hidden');
+
+        // Reveal chart and details
+        if (chartWrapper) chartWrapper.classList.remove('hidden');
+        if (resultDetails) resultDetails.classList.remove('hidden');
+
+        // Draw Chart
+        window.radarHasRun = true;
+        updateRadarChart();
+    }
+
+    printNextLine();
 }
 
 function resetAIRadar() {
-    document.getElementById('radar-result-container').classList.add('hidden');
-    document.getElementById('radar-form-container').classList.remove('hidden');
-    document.getElementById('radar-progress-bar').style.width = '0%';
+    window.radarHasRun = false;
+    if (window.radarChartInstance) {
+        window.radarChartInstance.destroy();
+        window.radarChartInstance = null;
+    }
+
+    // Hide chart, details and terminal
+    const chartWrapper = document.getElementById('radar-chart-wrapper');
+    const resultDetails = document.getElementById('radar-result-details');
+    const terminalWrapper = document.getElementById('radar-terminal-wrapper');
+    const scannerWrapper = document.getElementById('radar-scanner-wrapper');
+    const scannerInfo = document.getElementById('radar-scanner-info');
+    const idleDetails = document.getElementById('radar-idle-details');
+    const logOutput = document.getElementById('radar-log-output');
+
+    if (chartWrapper) chartWrapper.classList.add('hidden');
+    if (resultDetails) resultDetails.classList.add('hidden');
+    if (terminalWrapper) terminalWrapper.classList.add('hidden');
+    if (logOutput) logOutput.innerText = '';
+
+    // Show active scanner, scanner info & idle details
+    if (scannerWrapper) scannerWrapper.classList.remove('hidden');
+    if (scannerInfo) scannerInfo.classList.remove('hidden');
+    if (idleDetails) idleDetails.classList.remove('hidden');
+
+    const scannerSweep = document.getElementById('radar-scanner-sweep');
+    if (scannerSweep) scannerSweep.classList.remove('scanning');
+
+    // Reset progress bars and dynamic fields
+    const scoreSop = document.getElementById('score-sop');
+    const barSop = document.getElementById('bar-sop');
+    if (scoreSop) scoreSop.innerText = '0%';
+    if (barSop) barSop.style.width = '0%';
+
+    const scoreScene = document.getElementById('score-scene');
+    const barScene = document.getElementById('bar-scene');
+    if (scoreScene) scoreScene.innerText = '0%';
+    if (barScene) barScene.style.width = '0%';
+
+    const scoreSystem = document.getElementById('score-system');
+    const barSystem = document.getElementById('bar-system');
+    if (scoreSystem) scoreSystem.innerText = '0%';
+    if (barSystem) barSystem.style.width = '0%';
+
+    const scoreRoi = document.getElementById('score-roi');
+    const barRoi = document.getElementById('bar-roi');
+    if (scoreRoi) scoreRoi.innerText = '0%';
+    if (barRoi) barRoi.style.width = '0%';
+
+    const roiHoursEl = document.getElementById('radar-roi-hours');
+    const roiFactorEl = document.getElementById('radar-roi-factor');
+    const roiTimelineEl = document.getElementById('radar-roi-timeline');
+    if (roiHoursEl) roiHoursEl.innerText = '-';
+    if (roiFactorEl) roiFactorEl.innerText = '-';
+    if (roiTimelineEl) roiTimelineEl.innerText = '-';
+
+    const toolsList = document.getElementById('radar-tools-list');
+    if (toolsList) toolsList.innerHTML = '';
 }
+
+function initRadarListeners() {
+    const radioInputs = document.querySelectorAll('input[name^="radar-q"]');
+    radioInputs.forEach(input => {
+        input.addEventListener('change', () => {
+            if (window.radarHasRun) {
+                updateRadarChart();
+            }
+        });
+    });
+    // Start recent reports live feed scrolling
+    startLiveFeedSimulation();
+}
+
 
 // ======================= 沉浸式 ROI 计算器逻辑 =======================
 function initROICalculator() {

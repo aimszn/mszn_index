@@ -1,0 +1,27 @@
+[
+  {
+    "parameters": {
+      "resource": "message",
+      "operation": "message:send",
+      "receive_id_type": "union_id",
+      "receive_id": "on_551e229925242ce0f6e1d1ef37cb339c",
+      "text_content": "={{ $json.text }}",
+      "options": {}
+    },
+    "type": "@luka-cat-mimi/n8n-nodes-feishu.feishuNode",
+    "typeVersion": 1,
+    "position": [
+      1616,
+      1376
+    ],
+    "id": "5f596359-3d7c-4a2b-9141-f7de6c8a1244",
+    "name": "发送消息",
+    "webhookId": "e9c4e650-cfc1-4dec-a748-2741b66fc676",
+    "credentials": {
+      "feishuNodeCredentialsApi": {
+        "id": "If9TK6lvjtkG9I1x",
+        "name": "麻升智能"
+      }
+    }
+  }
+]

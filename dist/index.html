@@ -1255,144 +1255,467 @@ details > summary::-webkit-details-marker {
         </div>
 
         <!-- ======================= AI 自动化体检雷达 (Readiness Assessment) ======================= -->
-        <div id="ai-radar-section" class="max-w-4xl mx-auto px-4 py-16 reveal-on-scroll">
-            <div class="text-center mb-10">
-                <h3 class="text-2xl sm:text-3xl font-bold text-white mb-4 tracking-tight flex items-center justify-center gap-3">
-                    <span class="w-3 h-3 rounded-full bg-cyan-500 animate-ping absolute"></span>
-                    <span class="w-3 h-3 rounded-full bg-cyan-400 relative z-10"></span>
+        <style>
+        /* ============================================
+           AI 自动化体检雷达 - 动态雷达扫描仪及卡片样式
+           ============================================ */
+        .radar-scanner-container {
+            position: relative;
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border: 2px solid rgba(6, 182, 212, 0.25);
+            box-shadow: 0 0 35px rgba(6, 182, 212, 0.15);
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        .radar-scanner-grid {
+            position: absolute;
+            inset: 12px;
+            border-radius: 50%;
+            border: 1px dashed rgba(6, 182, 212, 0.2);
+        }
+        .radar-scanner-grid::before {
+            content: '';
+            position: absolute;
+            inset: 35px;
+            border-radius: 50%;
+            border: 1px dashed rgba(6, 182, 212, 0.15);
+        }
+        .radar-scanner-grid::after {
+            content: '';
+            position: absolute;
+            inset: 70px;
+            border-radius: 50%;
+            border: 1px dashed rgba(6, 182, 212, 0.1);
+        }
+        .radar-scanner-cross-h {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(6, 182, 212, 0.25), transparent);
+        }
+        .radar-scanner-cross-v {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(6, 182, 212, 0.25), transparent);
+        }
+        .radar-scanner-sweep {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50%;
+            height: 50%;
+            background: conic-gradient(from 0deg, rgba(6, 182, 212, 0.45) 0%, transparent 60%, transparent 100%);
+            transform-origin: top left;
+            border-radius: 100% 0 0 0;
+            animation: radar-sweep-anim 3.5s linear infinite;
+        }
+        .radar-scanner-sweep.scanning {
+            animation: radar-sweep-anim 0.8s linear infinite !important;
+            background: conic-gradient(from 0deg, rgba(168, 85, 247, 0.6) 0%, transparent 60%, transparent 100%);
+        }
+        @keyframes radar-sweep-anim {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .radar-scanner-ping {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #22d3ee;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #22d3ee;
+            animation: radar-ping-anim 2.5s infinite ease-out;
+        }
+        @keyframes radar-ping-anim {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+        </style>
+        <div id="ai-radar-section" class="max-w-7xl mx-auto px-4 py-20 reveal-on-scroll">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-950/30 text-[10px] font-mono text-cyan-400 mb-5 tracking-widest uppercase shadow-[0_0_15px_rgba(6,182,212,0.15)] cursor-default">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                    AI Readiness Assessment
+                </div>
+                <h3 class="text-3xl sm:text-5xl font-black text-white mb-4 tracking-tight">
                     1分钟 AI 自动化体检雷达
                 </h3>
-                <p class="text-slate-400">您的企业适合接入大模型与自动化工作流吗？测一测真实的渗透空间。</p>
+                <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base font-light">
+                    您的企业适合接入大模型与自动化工作流吗？只需回答4个核心维度的问题，系统将实时输出全方位的数字化诊断与 ROI 分析。
+                </p>
             </div>
             
-            <div class="glass-card p-6 sm:p-10 rounded-[32px] relative overflow-hidden border border-slate-700/50 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-                <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[80px] rounded-full pointer-events-none"></div>
+            <!-- 2-Column Desktop Grid Layout -->
+            <div class="grid lg:grid-cols-12 gap-8">
                 
-                <!-- 阶段一：问卷表单 -->
-                <div id="radar-form-container" class="relative z-10 space-y-8 transition-opacity duration-500">
-                    <div class="space-y-4">
-                        <label class="block text-slate-300 font-bold mb-2">Q1. 您的核心业务流程是否有固定的操作 SOP？</label>
-                        <div class="grid sm:grid-cols-3 gap-3">
-                            <label class="cursor-pointer">
+                <!-- Left Column: Questionnaire Form (7 cols) -->
+                <div class="lg:col-span-7 space-y-6">
+                    <!-- Q1 -->
+                    <div class="glass-card p-6 rounded-3xl border border-slate-800/80 bg-slate-900/10 hover:border-slate-700/30 transition-all duration-300 shadow-lg relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/[0.02] blur-[40px] rounded-full pointer-events-none"></div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-6 h-6 rounded-lg bg-cyan-950/60 flex items-center justify-center text-xs font-mono text-cyan-400 border border-cyan-800/40 shrink-0 font-bold">01</span>
+                            <label class="text-white font-bold text-sm sm:text-base">您的核心业务流程是否有固定的操作 SOP？</label>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q1" value="high" class="peer sr-only" checked>
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">有严格的操作文档</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">标准规范化：流程清晰且拥有详尽的操作文档或操作录屏</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
-                            <label class="cursor-pointer">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q1" value="med" class="peer sr-only">
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">只存在于老员工脑子里</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">口头传授化：流程大致存在，但无文档，仅靠老带新经验交接</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
-                            <label class="cursor-pointer">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q1" value="low" class="peer sr-only">
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">完全没有，非常随意</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">完全随机化：基本没有固定流程，完全凭借个人工作习惯与主观发挥</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
                         </div>
                     </div>
 
-                    <div class="space-y-4">
-                        <label class="block text-slate-300 font-bold mb-2">Q2. 团队每天最高频的低效劳动发生在？</label>
-                        <div class="grid sm:grid-cols-3 gap-3">
-                            <label class="cursor-pointer">
+                    <!-- Q2 -->
+                    <div class="glass-card p-6 rounded-3xl border border-slate-800/80 bg-slate-900/10 hover:border-slate-700/30 transition-all duration-300 shadow-lg relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/[0.02] blur-[40px] rounded-full pointer-events-none"></div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-6 h-6 rounded-lg bg-cyan-950/60 flex items-center justify-center text-xs font-mono text-cyan-400 border border-cyan-800/40 shrink-0 font-bold">02</span>
+                            <label class="text-white font-bold text-sm sm:text-base">团队每天最高频的低效/重复劳动发生在？</label>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q2" value="data" class="peer sr-only" checked>
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">跨系统复制粘贴数据</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">跨系统数据搬运：手工复制粘贴，跨表单数据采集与录入</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
-                            <label class="cursor-pointer">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q2" value="service" class="peer sr-only">
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">重复客户咨询与客诉响应</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">海量重复客群响应：日常回复类似咨询、客诉、微信跟单</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
-                            <label class="cursor-pointer">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q2" value="content" class="peer sr-only">
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">枯燥的内容与营销图文创作</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">套路化内容宣发：枯燥的推文撰写、产品图文排版与分发</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
                         </div>
                     </div>
 
-                    <div class="space-y-4">
-                        <label class="block text-slate-300 font-bold mb-2">Q3. 目前的业务核心数据主要沉淀在哪里？</label>
-                        <div class="grid sm:grid-cols-3 gap-3">
-                            <label class="cursor-pointer">
+                    <!-- Q3 -->
+                    <div class="glass-card p-6 rounded-3xl border border-slate-800/80 bg-slate-900/10 hover:border-slate-700/30 transition-all duration-300 shadow-lg relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/[0.02] blur-[40px] rounded-full pointer-events-none"></div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-6 h-6 rounded-lg bg-cyan-950/60 flex items-center justify-center text-xs font-mono text-cyan-400 border border-cyan-800/40 shrink-0 font-bold">03</span>
+                            <label class="text-white font-bold text-sm sm:text-base">目前的业务核心数据主要沉淀与存储在哪里？</label>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q3" value="saas" class="peer sr-only" checked>
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">成体系的 SaaS 软件里</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">结构化系统：统一沉淀在支持 API 接口的成熟 SaaS 或自研系统</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
-                            <label class="cursor-pointer">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q3" value="excel" class="peer sr-only">
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">大量的独立 Excel 表格中</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">本地表单：零散存储在员工各自电脑本地的大量 Excel 档案中</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
-                            <label class="cursor-pointer">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
                                 <input type="radio" name="radar-q3" value="chat" class="peer sr-only">
-                                <div class="px-4 py-3 rounded-xl border border-slate-700 bg-slate-800/50 peer-checked:border-cyan-500 peer-checked:bg-cyan-900/30 text-slate-400 peer-checked:text-cyan-300 text-sm text-center transition-all">零散在微信/企微群里</div>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">非结构化沟通：零散在微信聊天群、企微记录或私人对话中</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
                             </label>
                         </div>
                     </div>
-                    
-                    <div class="text-center pt-4">
-                        <button type="button" onclick="startAIRadar()" class="px-8 py-3.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(6,182,212,0.4)] flex items-center justify-center gap-2 mx-auto hover:scale-105">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            启动深度诊断分析
+
+                    <!-- Q4 -->
+                    <div class="glass-card p-6 rounded-3xl border border-slate-800/80 bg-slate-900/10 hover:border-slate-700/30 transition-all duration-300 shadow-lg relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/[0.02] blur-[40px] rounded-full pointer-events-none"></div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-6 h-6 rounded-lg bg-cyan-950/60 flex items-center justify-center text-xs font-mono text-cyan-400 border border-cyan-800/40 shrink-0 font-bold">04</span>
+                            <label class="text-white font-bold text-sm sm:text-base">您目前对 AI 与自动化落地提效的决心与预算？</label>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
+                                <input type="radio" name="radar-q4" value="high" class="peer sr-only" checked>
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">战略级推进：预算明确，希望创始人级别深度定制以实现重构</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
+                            </label>
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
+                                <input type="radio" name="radar-q4" value="med" class="peer sr-only">
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">项目级试水：小规模轻量起步，先验证具体提效 ROI 再扩大追加</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
+                            </label>
+                            <label class="relative flex items-center p-3.5 rounded-xl border border-slate-800 bg-slate-950/40 hover:bg-slate-900/40 hover:border-slate-700/50 cursor-pointer transition-all group/opt">
+                                <input type="radio" name="radar-q4" value="low" class="peer sr-only">
+                                <div class="w-4 h-4 rounded-full border border-slate-700 flex items-center justify-center mr-3 peer-checked:border-cyan-400 peer-checked:bg-cyan-500/20 group-hover/opt:border-slate-500 transition-all shrink-0 relative z-10">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent peer-checked:bg-cyan-400 transition-all"></div>
+                                </div>
+                                <span class="flex-1 text-slate-300 font-medium text-xs sm:text-sm group-hover/opt:text-white peer-checked:text-cyan-400 transition-colors relative z-10">观望级评估：目前仅做研究观望，暂无实际业务落地的改造预算</span>
+                                <div class="absolute inset-0 rounded-xl border border-transparent peer-checked:border-cyan-500/30 peer-checked:bg-cyan-500/[0.02] peer-checked:shadow-[0_0_15px_rgba(6,182,212,0.05)] transition-all pointer-events-none"></div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Button to Trigger Diagnosis -->
+                    <div class="text-left pt-2">
+                        <button type="button" id="start-radar-btn" onclick="startAIRadar()" class="px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl transition-all shadow-[0_0_25px_rgba(6,182,212,0.4)] flex items-center gap-2 hover:scale-[1.02]">
+                            <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span id="start-radar-btn-text">启动深度诊断分析</span>
                         </button>
                     </div>
                 </div>
-
-                <!-- 阶段二：扫描动画 (默认隐藏) -->
-                <div id="radar-loading-container" class="hidden relative z-10 flex flex-col items-center justify-center py-12 text-center">
-                    <div class="w-16 h-16 relative mb-6">
-                        <div class="absolute inset-0 border-t-2 border-cyan-500 rounded-full animate-spin"></div>
-                        <div class="absolute inset-2 border-r-2 border-purple-500 rounded-full animate-spin" style="animation-direction: reverse; animation-duration: 0.8s;"></div>
-                        <div class="absolute inset-4 border-b-2 border-blue-500 rounded-full animate-spin" style="animation-duration: 1.2s;"></div>
-                    </div>
-                    <h4 class="text-cyan-400 font-mono text-lg mb-2">System Analyzing...</h4>
-                    <div id="radar-terminal" class="font-mono text-xs text-slate-500 h-6 text-left w-64 mx-auto overflow-hidden">
-                        > 正在读取业务特征...
-                    </div>
-                </div>
-
-                <!-- 阶段三：诊断结果 (默认隐藏) -->
-                <div id="radar-result-container" class="hidden relative z-10 transition-opacity duration-500">
-                    <div class="text-center mb-8">
-                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-cyan-900/30 border border-cyan-500/50 text-cyan-400 mb-4 shadow-[0_0_30px_rgba(6,182,212,0.3)]">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                        </div>
-                        <h4 class="text-2xl font-bold text-white mb-2">诊断完成，潜力确认</h4>
-                        <p class="text-slate-400 text-sm">您的业务具备极佳的自动化改造土壤。</p>
-                    </div>
-                    
-                    <div class="bg-slate-900/50 rounded-2xl p-6 border border-slate-700 mb-8 max-w-2xl mx-auto">
-                        <div class="mb-6">
-                            <div class="flex justify-between items-end mb-2">
-                                <span class="text-slate-300 font-bold text-sm">AI 自动化渗透率预估</span>
-                                <span id="radar-score-text" class="text-3xl font-black text-cyan-400 font-mono tracking-tighter">0%</span>
-                            </div>
-                            <div class="h-3 w-full bg-slate-800 rounded-full overflow-hidden">
-                                <div id="radar-progress-bar" class="h-full bg-gradient-to-r from-cyan-500 to-purple-500 w-0 transition-all duration-1000 ease-out"></div>
-                            </div>
-                        </div>
+                
+                <!-- Right Column: Interactive Visual Panel (5 cols) -->
+                <div class="lg:col-span-5">
+                    <div class="glass-card p-6 sm:p-8 rounded-[32px] border border-slate-700/50 shadow-2xl lg:sticky lg:top-28 relative overflow-hidden bg-slate-900/20">
+                        <div class="absolute -top-20 -right-20 w-48 h-48 bg-cyan-500/10 blur-[80px] rounded-full pointer-events-none"></div>
                         
-                        <div class="space-y-4">
-                            <div class="bg-cyan-950/20 border border-cyan-900/50 rounded-xl p-4 flex gap-4 items-start">
-                                <div class="text-2xl pt-1">🎯</div>
-                                <div>
-                                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">最优先切入场景</p>
-                                    <p id="radar-scenario-text" class="text-cyan-100 font-medium text-sm"></p>
+                        <!-- Visual Container with fixed aspect ratio to prevent layouts shifting -->
+                        <div class="relative w-full h-[250px] mb-6 flex items-center justify-center bg-slate-950/60 rounded-2xl border border-slate-800/80 overflow-hidden shadow-inner">
+                            
+                            <!-- State 1: Active Radar Scanner -->
+                            <div id="radar-scanner-wrapper" class="absolute inset-0 flex items-center justify-center transition-all duration-500">
+                                <div class="radar-scanner-container">
+                                    <div id="radar-scanner-sweep" class="radar-scanner-sweep"></div>
+                                    <div class="radar-scanner-grid"></div>
+                                    <div class="radar-scanner-cross-h"></div>
+                                    <div class="radar-scanner-cross-v"></div>
+                                    <div class="radar-scanner-ping" style="top: 25%; left: 35%; animation-delay: 0.2s;"></div>
+                                    <div class="radar-scanner-ping" style="top: 65%; left: 60%; animation-delay: 1s;"></div>
+                                    <div class="radar-scanner-ping" style="top: 45%; left: 75%; animation-delay: 1.8s;"></div>
+                                </div>
+                                <div class="absolute bottom-4 left-0 right-0 text-center">
+                                    <span class="text-[9px] font-mono text-cyan-400 tracking-widest animate-pulse uppercase">Radar Scanner Active</span>
                                 </div>
                             </div>
-                            <div class="bg-slate-800/40 rounded-xl p-4 flex gap-4 items-start">
-                                <div class="text-2xl pt-1">💡</div>
-                                <div>
-                                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">实施建议</p>
-                                    <p id="radar-advice-text" class="text-slate-300 text-sm leading-relaxed"></p>
+
+                            <!-- State 2: Dynamic Terminal Logs -->
+                            <div id="radar-terminal-wrapper" class="hidden absolute inset-0 p-5 flex flex-col justify-between font-mono text-[10px] text-left bg-slate-950/90 rounded-2xl border border-slate-800">
+                                <div class="space-y-1.5 text-cyan-500 overflow-y-auto no-scrollbar h-[180px] pr-2">
+                                    <div id="radar-log-output" class="whitespace-pre-line leading-relaxed"></div>
+                                </div>
+                                <div class="flex justify-between items-center text-[8px] text-slate-500 border-t border-slate-800/80 pt-2 shrink-0">
+                                    <span>DIAGNOSTIC PROCESS COMPILING...</span>
+                                    <span class="animate-pulse text-cyan-400">●</span>
+                                </div>
+                            </div>
+
+                            <!-- State 3: Radar Chart Canvas -->
+                            <div id="radar-chart-wrapper" class="hidden absolute inset-3 flex items-center justify-center">
+                                <div class="w-full h-full relative" style="min-height: 220px;">
+                                    <canvas id="radar-chart"></canvas>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="text-center">
-                        <button type="button" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})" class="px-8 py-3.5 bg-white text-slate-900 hover:bg-slate-200 font-bold rounded-xl transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)]">
-                            向主理人发送诊断报告并咨询
-                        </button>
-                        <button type="button" onclick="resetAIRadar()" class="block w-full text-center mt-4 text-slate-500 text-xs hover:text-slate-300 transition-colors">重新测试</button>
+
+                        <!-- Diagnostic Details & Call to Action (Dynamic Display) -->
+                        <div id="radar-result-details" class="hidden space-y-5 transition-all duration-500">
+                            <div class="flex justify-between items-end pb-3 border-b border-slate-800/80">
+                                <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">AI 自动化渗透率预估</span>
+                                <span id="radar-score-text" class="text-3xl font-black text-cyan-400 font-mono tracking-tighter shadow-cyan-400/20">0%</span>
+                            </div>
+                            
+                            <!-- Dimension score progress bars -->
+                            <div class="space-y-2.5 pt-1">
+                                <h5 class="text-[10px] text-slate-400 font-bold uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
+                                    <span>📊</span> 评估维度细分
+                                </h5>
+                                <div class="space-y-2">
+                                    <div>
+                                        <div class="flex justify-between text-[11px] mb-1">
+                                            <span class="text-slate-400">SOP 标准化</span>
+                                            <span id="score-sop" class="text-cyan-400 font-mono font-bold">0%</span>
+                                        </div>
+                                        <div class="w-full bg-slate-950/80 rounded-full h-1.5 border border-slate-800/80 overflow-hidden">
+                                            <div id="bar-sop" class="bg-gradient-to-r from-cyan-500 to-blue-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-[11px] mb-1">
+                                            <span class="text-slate-400">场景适配度</span>
+                                            <span id="score-scene" class="text-cyan-400 font-mono font-bold">0%</span>
+                                        </div>
+                                        <div class="w-full bg-slate-950/80 rounded-full h-1.5 border border-slate-800/80 overflow-hidden">
+                                            <div id="bar-scene" class="bg-gradient-to-r from-cyan-500 to-blue-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-[11px] mb-1">
+                                            <span class="text-slate-400">数字底座</span>
+                                            <span id="score-system" class="text-cyan-400 font-mono font-bold">0%</span>
+                                        </div>
+                                        <div class="w-full bg-slate-950/80 rounded-full h-1.5 border border-slate-800/80 overflow-hidden">
+                                            <div id="bar-system" class="bg-gradient-to-r from-cyan-500 to-blue-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-[11px] mb-1">
+                                            <span class="text-slate-400">ROI 可行性</span>
+                                            <span id="score-roi" class="text-cyan-400 font-mono font-bold">0%</span>
+                                        </div>
+                                        <div class="w-full bg-slate-950/80 rounded-full h-1.5 border border-slate-800/80 overflow-hidden">
+                                            <div id="bar-roi" class="bg-gradient-to-r from-cyan-500 to-blue-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dynamic ROI Metrics Grid -->
+                            <div class="grid grid-cols-3 gap-2.5 pt-1">
+                                <div class="bg-slate-950/50 border border-slate-800/60 rounded-xl p-2.5 text-center">
+                                    <span class="block text-[8px] text-slate-500 mb-0.5 font-bold uppercase tracking-wider">月度节约工时</span>
+                                    <span id="radar-roi-hours" class="text-xs sm:text-sm font-bold text-white font-mono tracking-tight">-</span>
+                                </div>
+                                <div class="bg-slate-950/50 border border-slate-800/60 rounded-xl p-2.5 text-center">
+                                    <span class="block text-[8px] text-slate-500 mb-0.5 font-bold uppercase tracking-wider">预估提效系数</span>
+                                    <span id="radar-roi-factor" class="text-xs sm:text-sm font-bold text-cyan-400 font-mono tracking-tight">-</span>
+                                </div>
+                                <div class="bg-slate-950/50 border border-slate-800/60 rounded-xl p-2.5 text-center">
+                                    <span class="block text-[8px] text-slate-500 mb-0.5 font-bold uppercase tracking-wider">实施交付周期</span>
+                                    <span id="radar-roi-timeline" class="text-xs sm:text-sm font-bold text-white font-mono tracking-tight">-</span>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <div class="bg-cyan-950/20 border border-cyan-900/40 rounded-xl p-3.5 flex gap-3 items-start hover:border-cyan-500/30 transition-colors">
+                                    <span class="text-xl shrink-0">🎯</span>
+                                    <div>
+                                        <h5 class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-0.5">优先切入场景</h5>
+                                        <p id="radar-scenario-text" class="text-cyan-300 font-semibold text-xs sm:text-sm leading-relaxed"></p>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-slate-900/40 border border-slate-800/80 rounded-xl p-3.5 flex gap-3 items-start">
+                                    <span class="text-xl shrink-0">💡</span>
+                                    <div>
+                                        <h5 class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-0.5">实施路径建议</h5>
+                                        <p id="radar-advice-text" class="text-slate-300 text-xs leading-relaxed font-light"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Recommended Tools Badge Container -->
+                            <div class="space-y-1.5 pt-1">
+                                <span class="block text-[9px] text-slate-500 font-bold uppercase tracking-wider">推荐工具集成节点</span>
+                                <div id="radar-tools-list" class="flex flex-wrap gap-1.5"></div>
+                            </div>
+
+                            <div class="pt-2 space-y-3">
+                                <button type="button" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})" class="w-full py-3.5 bg-white text-slate-950 font-bold rounded-xl transition-all shadow-[0_0_20px_rgba(255,255,255,0.15)] flex items-center justify-center gap-2 text-xs sm:text-sm hover:bg-slate-100 hover:scale-[1.02]">
+                                    🤝 向主理人同步报告并开始合作
+                                </button>
+                                <button type="button" onclick="resetAIRadar()" class="w-full text-center text-slate-500 hover:text-slate-400 text-xs transition-colors py-1 focus:outline-none">
+                                    重置诊断选项
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Scanner Info (Shown when not compiled) -->
+                        <div id="radar-scanner-info" class="text-center space-y-3">
+                            <p class="text-xs text-slate-400 leading-relaxed font-light">
+                                雷达发现引擎就绪。请在左侧勾选您企业的实际业务形态，点击下方的 <span class="text-cyan-400 font-bold">启动深度诊断分析</span> 按钮，系统将根据数据模型实时计算出您的自动化模型画像。
+                            </p>
+                        </div>
+
+                        <!-- State 1 extra: Idle Details (Guides & Live Feeds) -->
+                        <div id="radar-idle-details" class="space-y-5 pt-5 border-t border-slate-800/80">
+                            <!-- Dimension Guide Cards -->
+                            <div>
+                                <h4 class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                                    <span>⚙️</span> 诊断覆盖维度解析
+                                </h4>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="p-3 bg-slate-950/40 border border-slate-800/80 rounded-xl hover:border-slate-700/50 transition-colors">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="text-[11px] font-bold text-slate-200">SOP规则度</span>
+                                            <span class="text-[8px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-mono font-bold">Q1</span>
+                                        </div>
+                                        <p class="text-[10px] text-slate-500 leading-normal font-light">考察业务流成熟度及固定流程规范。</p>
+                                    </div>
+                                    <div class="p-3 bg-slate-950/40 border border-slate-800/80 rounded-xl hover:border-slate-700/50 transition-colors">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="text-[11px] font-bold text-slate-200">场景适配度</span>
+                                            <span class="text-[8px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-mono font-bold">Q2</span>
+                                        </div>
+                                        <p class="text-[10px] text-slate-500 leading-normal font-light">识别并提炼高频低效的重复人工劳动。</p>
+                                    </div>
+                                    <div class="p-3 bg-slate-950/40 border border-slate-800/80 rounded-xl hover:border-slate-700/50 transition-colors">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="text-[11px] font-bold text-slate-200">数字底座</span>
+                                            <span class="text-[8px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-mono font-bold">Q3</span>
+                                        </div>
+                                        <p class="text-[10px] text-slate-500 leading-normal font-light">核算业务系统接入与 API 提供接口成熟度。</p>
+                                    </div>
+                                    <div class="p-3 bg-slate-950/40 border border-slate-800/80 rounded-xl hover:border-slate-700/50 transition-colors">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="text-[11px] font-bold text-slate-200">改造回报率</span>
+                                            <span class="text-[8px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-mono font-bold">Q4</span>
+                                        </div>
+                                        <p class="text-[10px] text-slate-500 leading-normal font-light">核算项目周期、提效预算与 ROI 转化比率。</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Live Simulated Marquee Feed -->
+                            <div class="p-3 bg-cyan-950/10 border border-cyan-950/30 rounded-2xl overflow-hidden relative">
+                                <div class="flex items-center gap-2 mb-1.5 text-[9px] font-mono text-cyan-400 tracking-wider">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+                                    <span>LIVE STREAM</span>
+                                    <span class="text-slate-600 ml-auto font-light">实时诊断快讯</span>
+                                </div>
+                                <div class="h-6 overflow-hidden relative flex items-center">
+                                    <div id="radar-live-feed" class="text-[10px] text-slate-400 flex items-center gap-1.5 font-light transition-all duration-500 truncate w-full">
+                                        ⏳ 诊断引擎就绪，等待输入触发评估...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
         <!-- ======================= 沉浸式 ROI 计算器 ======================= -->
         <div class="max-w-7xl mx-auto px-4 py-16 border-t border-slate-800/50 reveal-on-scroll">
@@ -7518,6 +7841,27 @@ window.WorkspaceUI = {
         section.id = 'view-workspace';
         section.className = 'view-section fixed inset-0 z-[999999] bg-[#050505] flex text-white';
         section.style.display = 'none';
+        
+        // Inject turntable styles
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes spin-slow {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+            .animate-spin-slow {
+                animation: spin-slow 20s linear infinite;
+            }
+            .animate-pulse-subtle {
+                animation: pulse-subtle 2s infinite ease-in-out;
+            }
+            @keyframes pulse-subtle {
+                0%, 100% { opacity: 0.6; }
+                50% { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+
         const sidebarHTML = `
             <div class="w-[300px] sm:w-[350px] border-r border-slate-800 bg-[#050505] flex flex-col shrink-0">
                 <div class="p-6 border-b border-slate-800 bg-[#0a0f1c]">
@@ -7538,26 +7882,26 @@ window.WorkspaceUI = {
             </div>
         `;
 
-    const mainAreaHTML = `
-            < div class="flex-1 flex flex-col bg-[#050505]" >
-            <header class="h-[64px] border-b border-slate-800 flex items-center justify-between px-6 bg-[#0f172a]/50 backdrop-blur">
-                <div class="flex items-center gap-3">
-                    <span id="ws-current-icon" class="text-2xl"></span>
-                    <h3 id="ws-current-title" class="text-lg font-bold">请选择工具</h3>
-                    <span id="ws-current-tag" class="text-[10px] font-mono px-2 py-0.5 rounded border border-slate-700 bg-slate-800 text-slate-300">...</span>
-                </div>
-                <button class="text-xs text-slate-400 hover:text-pink-400 font-medium px-4 py-2 rounded-lg border border-slate-700 hover:border-pink-500 transition-colors">
-                    清空运行记录
-                </button>
-            </header>
-            <main id="ws-main-content" class="flex-1 overflow-hidden relative noise-overlay">
-            </main>
-        </div >
-            `;
+        const mainAreaHTML = `
+            <div class="flex-1 flex flex-col bg-[#050505]">
+                <header class="h-[64px] border-b border-slate-800 flex items-center justify-between px-6 bg-[#0f172a]/50 backdrop-blur">
+                    <div class="flex items-center gap-3">
+                        <span id="ws-current-icon" class="text-2xl"></span>
+                        <h3 id="ws-current-title" class="text-lg font-bold">请选择工具</h3>
+                        <span id="ws-current-tag" class="text-[10px] font-mono px-2 py-0.5 rounded border border-slate-700 bg-slate-800 text-slate-300">...</span>
+                    </div>
+                    <button class="text-xs text-slate-400 hover:text-pink-400 font-medium px-4 py-2 rounded-lg border border-slate-700 hover:border-pink-500 transition-colors">
+                        清空运行记录
+                    </button>
+                </header>
+                <main id="ws-main-content" class="flex-1 overflow-hidden relative noise-overlay">
+                </main>
+            </div>
+        `;
 
-    section.innerHTML = sidebarHTML + mainAreaHTML;
-    document.body.appendChild(section);
-},
+        section.innerHTML = sidebarHTML + mainAreaHTML;
+        document.body.appendChild(section);
+    },
 
 open: function(title, urlKey) {
     let ws = document.getElementById('view-workspace');
@@ -7570,19 +7914,25 @@ open: function(title, urlKey) {
     }
     
     const tools = [];
-    if (window.SITE_CONFIG_DATA && window.SITE_CONFIG_DATA.content && window.SITE_CONFIG_DATA.content.digitalEmployees) {
-        window.SITE_CONFIG_DATA.content.digitalEmployees.forEach(e => {
-            tools.push({ id: e.urlKey, title: e.title, icon: e.icon });
-        });
-    }
+    const iconMap = {
+        qinhuai: '🎭',
+        poet: '✒️',
+        ipClone: '💡',
+        tarot: '🃏',
+        gameDM: '🎲'
+    };
+    const resolvedIcon = iconMap[urlKey] || '🤖';
+
+    // Only add the current active agent to focus the immersive experience and hide other agents
+    tools.push({ id: urlKey, title: title, icon: resolvedIcon });
     
     const menuEl = document.getElementById('ws-sidebar-menu');
     if (tools.length > 0) {
         menuEl.innerHTML = tools.map(t => `
-            < button onclick = "WorkspaceUI.switchTool('${t.id}', '${t.title}', '${t.icon}')" data - ws - tool="${t.id}" class="ws-menu-btn w-full text-left p-3 rounded-xl flex items-center gap-3 text-slate-400 hover:bg-slate-800 hover:text-white transition-all font-medium" >
+            <button onclick="WorkspaceUI.switchTool('${t.id}', '${t.title}', '${t.icon}')" data-ws-tool="${t.id}" class="ws-menu-btn w-full text-left p-3 rounded-xl flex items-center gap-3 text-slate-400 hover:bg-slate-800 hover:text-white transition-all font-medium">
                 <span class="text-xl">${t.icon}</span>
                 <span class="truncate">${t.title}</span>
-            </button >
+            </button>
             `).join('');
     }
 
@@ -7590,7 +7940,7 @@ open: function(title, urlKey) {
     setTimeout(() => ws.classList.add('active'), 10);
     document.body.style.overflow = 'hidden';
 
-    WorkspaceUI.switchTool(urlKey, title, '🤖');
+    WorkspaceUI.switchTool(urlKey, title, resolvedIcon);
 },
 
 close: function() {
@@ -7622,6 +7972,7 @@ switchTool: function(id, title, icon) {
     if (['copywriter', 'localPromo', 'moments', 'article'].includes(id)) type = 'generator';
     if (['credit', 'localStore'].includes(id)) type = 'workflow';
     if (['video'].includes(id)) type = 'video-generator';
+    if (id === 'qinhuai') type = 'song-poetry';
 
     const tagEl = document.getElementById('ws-current-tag');
     if (type === 'chat') {
@@ -7640,6 +7991,10 @@ switchTool: function(id, title, icon) {
         tagEl.innerText = 'Multi-modal Video Generator';
         tagEl.className = 'text-[10px] font-mono px-2 py-0.5 rounded border border-purple-500/30 bg-purple-900/20 text-purple-400';
         WorkspaceUI.renderVideoGenerator(title, icon);
+    } else if (type === 'song-poetry') {
+        tagEl.innerText = 'n8n Workflow - 宋词点唱机';
+        tagEl.className = 'text-[10px] font-mono px-2 py-0.5 rounded border border-rose-500/30 bg-rose-900/20 text-rose-400';
+        WorkspaceUI.renderSongPoetry(title, icon);
     }
 },
 
@@ -7797,6 +8152,524 @@ renderVideoGenerator: function(title, icon) {
         </div >
     `;
 }
+,
+
+renderSongPoetry: function(title, icon) {
+    const content = document.getElementById('ws-main-content');
+    content.innerHTML = `
+        <div class="h-full flex w-full">
+            <div class="w-[320px] bg-slate-900/50 border-r border-slate-800 p-6 flex flex-col gap-5 overflow-y-auto no-scrollbar">
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">经典宋词推荐</label>
+                    <select id="poetry-preset" onchange="WorkspaceUI.applyPoetryPreset(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-rose-500 transition-colors">
+                        <option value="">-- 自定义输入 / 选择经典词作 --</option>
+                        <option value="yulinling">雨霖铃 · 寒蝉凄切 (柳永)</option>
+                        <option value="niannujiao">念奴娇 · 赤壁怀古 (苏轼)</option>
+                        <option value="shengshengman">声声慢 · 寻寻觅觅 (李清照)</option>
+                        <option value="dingfengbo">定风波 · 莫听穿林打叶声 (苏轼)</option>
+                        <option value="qingyuan_yuanxi">青玉案 · 元夕 (辛弃疾)</option>
+                        <option value="shuidiaogetou">水调歌头 · 明月几时有 (苏轼)</option>
+                        <option value="yumeiren">虞美人 · 春花秋月何时了 (李煜)</option>
+                        <option value="chaitoufeng">钗头凤 · 红酥手 (陆游)</option>
+                        <option value="busuanzi">卜算子 · 咏梅 (陆游)</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">宋词词牌名</label>
+                        <input type="text" id="poetry-title" placeholder="如：雨霖铃" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-rose-500 transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">词人</label>
+                        <input type="text" id="poetry-author" placeholder="如：柳永" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-rose-500 transition-colors">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">秦淮八艳 · 演绎歌姬</label>
+                    <select id="poetry-singer" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-rose-500 transition-colors">
+                        <option value="auto">🤖 智能算法路由 (根据意境匹配)</option>
+                        <option value="柳如是">🌸 柳如是 (儒服剑胆 - 豪放叙事/史史交响)</option>
+                        <option value="顾横波">🌸 顾横波 (一品夫人 - 豁达旷达/流行明亮)</option>
+                        <option value="董小宛">🌸 董小宛 (影梅煮茶 - 婉约细腻/极简空灵)</option>
+                        <option value="李香君">🌸 李香君 (血溅桃花 - 悲壮刚烈/戏剧高音)</option>
+                        <option value="卞玉京">🌸 卞玉京 (寻仙道骨 - 寻仙隐忍/极慢留白)</option>
+                        <option value="寇白门">🌸 寇白门 (白衣游侠 - 边塞武侠/重鼓重拍)</option>
+                        <option value="马湘兰">🌸 马湘兰 (幽兰孤影 - 理趣水墨/戏腔融合)</option>
+                        <option value="陈圆圆">🌸 陈圆圆 (倾国梨园 - 易碎凄迷/气声氛围)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">宋词内容</label>
+                    <textarea id="poetry-content" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-rose-500 h-36 resize-none font-serif leading-relaxed" placeholder="请输入宋词正文内容..."></textarea>
+                </div>
+                <button id="btn-submit-poetry" onclick="WorkspaceUI.submitSongPoetry()" class="mt-4 bg-gradient-to-r from-rose-600 to-pink-600 text-white font-bold py-3.5 rounded-xl shadow-[0_0_20px_rgba(225,29,72,0.3)] hover:shadow-[0_0_30px_rgba(225,29,72,0.5)] transition-all flex items-center justify-center gap-2 hover:scale-[1.02]">
+                    <span>🎵</span> 开始AI谱曲吟唱
+                </button>
+            </div>
+            <div class="flex-1 p-8 overflow-y-auto bg-tech-grid flex flex-col items-center justify-center relative">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-slate-950/80 z-0"></div>
+                
+                <!-- Idle View -->
+                <div id="poetry-idle-view" class="flex-grow flex flex-col lg:flex-row items-center justify-center relative z-10 gap-10 w-full max-w-5xl px-6">
+                    <!-- Left: Vinyl Player -->
+                    <div class="flex flex-col items-center gap-4">
+                        <div class="relative w-56 h-56 sm:w-72 sm:h-72">
+                            <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-rose-500/20 via-slate-900 to-pink-500/20 border border-slate-800 shadow-[0_0_40px_rgba(244,63,94,0.15)]"></div>
+                            <div class="absolute inset-3 rounded-full border border-slate-800 bg-black shadow-inner flex items-center justify-center animate-spin-slow">
+                                <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-rose-950/80 border border-rose-500/50 flex flex-col items-center justify-center p-2 text-center shadow-lg relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(244,63,94,0.3)_0%,transparent_70%)]"></div>
+                                    <span class="text-xs text-rose-300 font-bold tracking-widest relative z-10">宋词</span>
+                                    <span class="text-[9px] text-slate-400 font-mono tracking-tighter relative z-10 uppercase mt-0.5">Jukebox</span>
+                                </div>
+                            </div>
+                            <div class="absolute top-2 -right-4 w-20 h-20 origin-top-left rotate-12 transition-transform duration-1000" id="poetry-tonearm" style="transform: rotate(12deg);">
+                                <svg class="w-full h-full text-slate-400" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M10 10 L40 10 L50 60 L45 70" stroke-linecap="round"/>
+                                    <rect x="42" y="65" width="6" height="10" rx="2" fill="currentColor"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <h4 class="text-white font-bold text-base">宋词八艳点唱机</h4>
+                            <p class="text-slate-500 text-[10px] tracking-widest uppercase mt-0.5 font-mono">Song Poetry Jukebox</p>
+                        </div>
+                    </div>
+
+                    <!-- Right: Calligraphy Scroll / Lyric Display Area -->
+                    <div class="w-full lg:w-[400px] h-[360px] sm:h-[420px] bg-slate-950/60 border border-slate-800 rounded-3xl p-6 sm:p-8 flex flex-col shadow-2xl backdrop-blur-md relative overflow-hidden group hover:border-rose-500/30 transition-colors">
+                        <div class="absolute top-0 bottom-0 left-4 w-[1px] bg-rose-950/20"></div>
+                        <div class="absolute top-0 bottom-0 right-4 w-[1px] bg-rose-950/20"></div>
+                        
+                        <div class="text-xs font-mono text-rose-400/80 mb-4 flex justify-between items-center shrink-0 border-b border-slate-900 pb-2">
+                            <span>📜 实时歌词展示区域</span>
+                            <span class="text-[9px] bg-rose-950/40 px-2 py-0.5 rounded border border-rose-500/20">Live Lyrics</span>
+                        </div>
+                        
+                        <div class="flex-grow overflow-y-auto no-scrollbar flex flex-col justify-center items-center text-center font-serif py-4 w-full" id="poetry-live-lyrics">
+                            <div class="text-slate-600 italic text-sm">
+                                <p class="my-2">长河浪淘，待君填词</p>
+                                <p class="text-xs text-slate-700 mt-2 font-sans">请在左侧选择推荐词作或直接输入内容</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Processing View -->
+                <div id="poetry-processing-view" class="hidden flex-grow flex flex-col items-center justify-center relative z-10 p-8 w-full max-w-2xl mx-auto">
+                    <h4 class="text-white font-bold text-lg mb-8 tracking-wide flex items-center gap-2">
+                        <div class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></div>
+                        AIMSZN 中枢调度中，正在激活八艳矩阵...
+                    </h4>
+                    <div class="w-full space-y-4">
+                        <div class="flex items-center gap-4 bg-slate-900/60 border border-slate-800 p-4 rounded-2xl relative" id="step-node-1">
+                            <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-lg shrink-0" id="step-icon-1">✍️</div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-sm font-bold text-white">步骤一：词作意境文学分析</span>
+                                    <span class="text-[10px] text-slate-500 font-mono" id="step-status-1">排队中...</span>
+                                </div>
+                                <p class="text-[11px] text-slate-400 truncate">大模型正在对您的宋词进行流派分类与情感温度提取。</p>
+                            </div>
+                        </div>
+                        <div class="w-0.5 h-4 bg-slate-800 ml-9"></div>
+                        <div class="flex items-center gap-4 bg-slate-900/60 border border-slate-800 p-4 rounded-2xl relative" id="step-node-2">
+                            <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-lg shrink-0" id="step-icon-2">🧠</div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-sm font-bold text-white">步骤二：智能中枢调度分发</span>
+                                    <span class="text-[10px] text-slate-500 font-mono" id="step-status-2">未开始</span>
+                                </div>
+                                <p class="text-[11px] text-slate-400 truncate">匹配图谱计算中，正在选取最适合该曲风意境的数字歌姬。</p>
+                            </div>
+                        </div>
+                        <div class="w-0.5 h-4 bg-slate-800 ml-9"></div>
+                        <div class="flex items-center gap-4 bg-slate-900/60 border border-slate-800 p-4 rounded-2xl relative" id="step-node-3">
+                            <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-lg shrink-0" id="step-icon-3">🎨</div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-sm font-bold text-white">步骤三：宣发单曲企划排版</span>
+                                    <span class="text-[10px] text-slate-500 font-mono" id="step-status-3">未开始</span>
+                                </div>
+                                <p class="text-[11px] text-slate-400 truncate">根据歌姬音色与词作特色设计国风海报、概念企划手记及歌词排版。</p>
+                            </div>
+                        </div>
+                        <div class="w-0.5 h-4 bg-slate-800 ml-9"></div>
+                        <div class="flex items-center gap-4 bg-slate-900/60 border border-slate-800 p-4 rounded-2xl relative" id="step-node-4">
+                            <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-lg shrink-0" id="step-icon-4">🕊️</div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-sm font-bold text-white">步骤四：飞书工作流客户端分发</span>
+                                    <span class="text-[10px] text-slate-500 font-mono" id="step-status-4">未开始</span>
+                                </div>
+                                <p class="text-[11px] text-slate-400 truncate">成品直接灌装飞书消息节点，发送给关联的用户客户端终端。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Result View -->
+                <div id="poetry-result-view" class="hidden flex-grow flex flex-col p-2 w-full h-full min-h-0">
+                    <div class="glass-card border border-slate-700/80 rounded-2xl flex-grow flex flex-col overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.6)] min-h-0">
+                        <div class="bg-slate-900/90 px-6 py-4 border-b border-slate-800 flex justify-between items-center shrink-0">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse"></span>
+                                <span class="text-xs font-mono text-slate-300">AIMSZN_JUKEBOX_OUTPUT.md</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <button onclick="WorkspaceUI.copyPoetryResult()" class="text-xs text-slate-300 hover:text-white flex items-center gap-1 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 hover:border-slate-600 transition-colors">
+                                    📋 复制海报文案
+                                </button>
+                                <button onclick="WorkspaceUI.resetPoetryForm()" class="text-xs text-rose-400 hover:text-rose-300 flex items-center gap-1 bg-rose-950/30 px-3 py-1.5 rounded-lg border border-rose-500/30 hover:border-rose-500/50 transition-colors">
+                                    🔄 再次点唱
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex-grow p-6 overflow-y-auto no-scrollbar bg-slate-950/40 relative font-serif min-h-0 text-slate-300" id="poetry-result-content">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    `;
+
+    // Bind dynamic preview updates
+    setTimeout(() => {
+        const titleEl = document.getElementById('poetry-title');
+        const authorEl = document.getElementById('poetry-author');
+        const contentEl = document.getElementById('poetry-content');
+        
+        if (titleEl) titleEl.addEventListener('input', WorkspaceUI.updateLiveLyrics);
+        if (authorEl) authorEl.addEventListener('input', WorkspaceUI.updateLiveLyrics);
+        if (contentEl) contentEl.addEventListener('input', WorkspaceUI.updateLiveLyrics);
+        
+        WorkspaceUI.updateLiveLyrics();
+    }, 10);
+},
+
+updateLiveLyrics: function() {
+    const titleVal = document.getElementById('poetry-title')?.value.trim() || '';
+    const authorVal = document.getElementById('poetry-author')?.value.trim() || '';
+    const contentVal = document.getElementById('poetry-content')?.value.trim() || '';
+    
+    const lyricsEl = document.getElementById('poetry-live-lyrics');
+    if (!lyricsEl) return;
+    
+    if (!titleVal && !authorVal && !contentVal) {
+        lyricsEl.innerHTML = `
+            <div class="text-slate-600 italic text-sm text-center">
+                <p class="my-2">长河浪淘，待君填词</p>
+                <p class="text-xs text-slate-700 mt-2 font-sans">请在左侧选择推荐词作或直接输入内容</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = '';
+    if (titleVal || authorVal) {
+        html += `<h3 class="text-rose-400 font-bold text-base sm:text-lg mb-1 tracking-wider text-center">《${titleVal || '未命名'}》</h3>`;
+        html += `<p class="text-slate-500 text-xs mb-6 font-sans text-center">【词人】${authorVal || '佚名'}</p>`;
+    }
+    
+    if (contentVal) {
+        const lines = contentVal.split('\n');
+        html += `<div class="space-y-2.5 max-w-xs mx-auto text-center w-full">`;
+        lines.forEach(line => {
+            const trimmed = line.trim();
+            if (trimmed !== '') {
+                html += `<p class="text-slate-200 text-sm leading-relaxed tracking-wide font-serif">${trimmed}</p>`;
+            } else {
+                html += `<div class="h-2"></div>`;
+            }
+        });
+        html += `</div>`;
+    } else {
+        html += `<p class="text-slate-600 italic text-sm text-center">请输入正文内容...</p>`;
+    }
+    
+    lyricsEl.innerHTML = html;
+},
+},
+
+applyPoetryPreset: function(presetKey) {
+    const presets = {
+        yulinling: {
+            title: "雨霖铃",
+            author: "柳永",
+            content: "寒蝉凄切，对长亭晚，骤雨初歇。都门帐饮无绪，留恋处，兰舟催发。执手相看泪眼，竟无语凝噎。念去去，千里烟波，暮霭沉沉楚天阔。\n多情自古伤离别，更那堪，冷落清秋节！今宵酒醒何处？杨柳岸，晓风残月。此去经年，应是良辰好景虚设。便纵有千种风情，更与何人说？"
+        },
+        niannujiao: {
+            title: "念奴娇",
+            author: "苏轼",
+            content: "大江东去，浪淘尽，千古风流人物。故垒西边，人道是，三国周郎赤壁。乱石穿空，惊涛拍岸，卷起千堆雪。江山如画，一时多少豪杰。\n遥想公瑾当年，小乔初嫁了，雄姿英发。羽扇纶巾，谈笑间，樯橹灰飞烟灭。故国神游，多情应笑我，早生华发。人生如梦，一尊还酹江月。"
+        },
+        shengshengman: {
+            title: "声声慢",
+            author: "李清照",
+            content: "寻寻觅觅，冷冷清清，凄凄惨惨戚戚。乍暖还寒时候，最难将息。三杯两盏淡酒，怎敌他、晚来风急！雁过也，正伤心，却是旧时相识。\n满地黄花堆积，憔悴损，如今有谁堪摘？守着窗儿，独自怎生得黑！梧桐更兼细雨，到黄昏、点点滴滴。这次第，怎一个愁字了得！"
+        },
+        dingfengbo: {
+            title: "定风波",
+            author: "苏轼",
+            content: "莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。\n料峭春风吹酒醒，微冷，山头斜照却相迎。回首向来萧瑟处，归去，也无风雨也无晴。"
+        },
+        qingyuan_yuanxi: {
+            title: "青玉案",
+            author: "辛弃疾",
+            content: "东风夜放花千树。更吹落、星如雨。宝马雕车香满路。凤箫声动，玉壶光转，一夜鱼龙舞。\n蛾儿雪柳黄金缕。笑语盈盈暗香去。众里寻他千百度。蓦然回首，那人却在，灯火阑珊处。"
+        },
+        shuidiaogetou: {
+            title: "水调歌头",
+            author: "苏轼",
+            content: "明月几时有？把酒问青天。不知天上宫阙，今夕是何年。我欲乘风归去，又恐琼楼玉宇，高处不胜寒。起舞弄清影，何似在人间。\n转朱阁，低绮户，照无眠。不应有恨，何事长向别时圆？人有悲欢离合，月有阴晴圆缺，此事古难全。但愿人长久，千里共婵娟。"
+        },
+        yumeiren: {
+            title: "虞美人",
+            author: "李煜",
+            content: "春花秋月何时了？往事知多少。小楼昨夜又东风，故国不堪回首月明中。\n雕栏玉砌应犹在，只是朱颜改。问君能有几多愁？恰似一江春水向东流。"
+        },
+        chaitoufeng: {
+            title: "钗头凤",
+            author: "陆游",
+            content: "红酥手，黄縢酒，满城春色宫墙柳。东风恶，欢情薄。一怀愁绪，几年离索。错、错、错。\n春如旧，人空瘦，泪痕红浥鲛绡透。桃花落，闲池阁。山盟虽在，锦书难托。莫、莫、莫！"
+        },
+        busuanzi: {
+            title: "卜算子",
+            author: "陆游",
+            content: "驿外断桥边，寂寞开无主。已是黄昏独自愁，更著风和雨。\n无意苦争春，一任群芳妒。零落成泥碾作尘，只有香如故。"
+        }
+    };
+    
+    if (!presetKey) {
+        document.getElementById('poetry-title').value = '';
+        document.getElementById('poetry-author').value = '';
+        document.getElementById('poetry-content').value = '';
+    } else {
+        const data = presets[presetKey];
+        if (data) {
+            document.getElementById('poetry-title').value = data.title;
+            document.getElementById('poetry-author').value = data.author;
+            document.getElementById('poetry-content').value = data.content;
+        }
+    }
+    WorkspaceUI.updateLiveLyrics();
+},
+
+submitSongPoetry: async function() {
+    const titleVal = document.getElementById('poetry-title').value.trim();
+    const authorVal = document.getElementById('poetry-author').value.trim();
+    const contentVal = document.getElementById('poetry-content').value.trim();
+    const singerVal = document.getElementById('poetry-singer').value;
+
+    if (!titleVal || !authorVal || !contentVal) {
+        alert('请完整填写词牌名、词人及宋词内容！');
+        return;
+    }
+
+    // Tonearm pivots onto record
+    const tonearm = document.getElementById('poetry-tonearm');
+    if (tonearm) {
+        tonearm.style.transform = 'rotate(28deg)';
+    }
+
+    const btn = document.getElementById('btn-submit-poetry');
+    btn.disabled = true;
+    btn.innerHTML = `<span>⏳</span> 正在发送请求...`;
+
+    const idleView = document.getElementById('poetry-idle-view');
+    const processingView = document.getElementById('poetry-processing-view');
+    const resultView = document.getElementById('poetry-result-view');
+
+    idleView.classList.add('hidden');
+    resultView.classList.add('hidden');
+    processingView.classList.remove('hidden');
+
+    const updateStep = (stepNum, statusText, colorClass, iconHtml = null) => {
+        const node = document.getElementById(`step-node-${stepNum}`);
+        const status = document.getElementById(`step-status-${stepNum}`);
+        const icon = document.getElementById(`step-icon-${stepNum}`);
+        if (node) {
+            node.className = `flex items-center gap-4 bg-slate-900/60 border ${colorClass} p-4 rounded-2xl transition-all duration-500 shadow-lg`;
+        }
+        if (status) {
+            status.innerText = statusText;
+            status.className = `text-[10px] font-mono ${colorClass.includes('rose') || colorClass.includes('emerald') ? 'text-rose-400 font-bold' : 'text-slate-500'}`;
+        }
+        if (icon && iconHtml) {
+            icon.innerHTML = iconHtml;
+        }
+    };
+
+    // Begin Pipeline
+    updateStep(1, '进行中...', 'border-rose-500/40 bg-slate-900', '<div class="animate-spin text-sm">⏳</div>');
+
+    let textPrompt = `【词牌名】：${titleVal}\n【词人】：${authorVal}\n【内容】：${contentVal}`;
+    if (singerVal !== 'auto') {
+        textPrompt += `\n【演唱风格】：用${singerVal}的风格唱`;
+    }
+
+    const payload = {
+        message: {
+            content: textPrompt
+        }
+    };
+
+    const baseWebhookUrl = window.MSZN_GLOBAL_CONFIG?.api?.n8nWebhook || 'http://192.168.1.58:5678/webhook/efficiency-diagnosis';
+    const qinhuaiWebhookUrl = baseWebhookUrl.replace(/efficiency-diagnosis$/, 'adc2a0fe-3e76-4161-8b9d-e92005f59e56');
+
+    let responseData = null;
+    let fetchError = null;
+
+    try {
+        const fetchPromise = fetch(qinhuaiWebhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('TIMEOUT')), 45000));
+        
+        const [response] = await Promise.all([
+            Promise.race([fetchPromise, timeoutPromise]),
+            new Promise(resolve => setTimeout(resolve, 2500))
+        ]);
+
+        if (response && response.ok) {
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                responseData = await response.json();
+            } else {
+                responseData = await response.text();
+            }
+        } else {
+            throw new Error(`API returned status ${response ? response.status : 'unknown'}`);
+        }
+    } catch (err) {
+        console.error('Webhook execution failed:', err);
+        fetchError = err;
+    }
+
+    // Transition Step Animations
+    updateStep(1, '✅ 已完成', 'border-emerald-500/30', '✍️');
+    
+    updateStep(2, '进行中...', 'border-rose-500/40 bg-slate-900', '<div class="animate-spin text-sm">⏳</div>');
+    await new Promise(r => setTimeout(r, 2000));
+    updateStep(2, '✅ 已完成', 'border-emerald-500/30', '🧠');
+
+    updateStep(3, '进行中...', 'border-rose-500/40 bg-slate-900', '<div class="animate-spin text-sm">⏳</div>');
+    await new Promise(r => setTimeout(r, 2000));
+    updateStep(3, '✅ 已完成', 'border-emerald-500/30', '🎨');
+
+    updateStep(4, '进行中...', 'border-rose-500/40 bg-slate-900', '<div class="animate-spin text-sm">⏳</div>');
+    await new Promise(r => setTimeout(r, 1500));
+    updateStep(4, '✅ 已完成', 'border-emerald-500/30', '🕊️');
+
+    // Switch to Result View
+    processingView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+    btn.disabled = false;
+    btn.innerHTML = `<span>🎵</span> 开始AI谱曲吟唱`;
+
+    const resultContent = document.getElementById('poetry-result-content');
+    
+    let parsedHtml = '';
+    if (responseData) {
+        let textContent = '';
+        if (typeof responseData === 'string') {
+            textContent = responseData;
+        } else if (typeof responseData === 'object') {
+            textContent = responseData.output || responseData.text || responseData.content || JSON.stringify(responseData, null, 2);
+        }
+        
+        parsedHtml = formatMarkdown(textContent);
+    }
+
+    function formatMarkdown(text) {
+        if (!text) return '';
+        let escaped = text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+
+        let lines = escaped.split('\n');
+        let formattedLines = lines.map(line => {
+            let trimmed = line.trim();
+            if (trimmed.startsWith('###')) {
+                return `<h4 class="text-base sm:text-lg font-bold text-rose-300 mt-4 mb-2 font-serif text-center">${trimmed.replace(/^###\s*/, '')}</h4>`;
+            }
+            if (trimmed.startsWith('##')) {
+                return `<h3 class="text-lg sm:text-xl font-black text-white mt-6 mb-3 border-b border-slate-800 pb-2 font-serif text-center">${trimmed.replace(/^##\s*/, '')}</h3>`;
+            }
+            if (trimmed.startsWith('#')) {
+                return `<h2 class="text-xl sm:text-2xl font-black text-rose-400 mt-8 mb-4 font-serif text-center">${trimmed.replace(/^#\s*/, '')}</h2>`;
+            }
+            if (trimmed.startsWith('-') || trimmed.startsWith('*')) {
+                return `<li class="text-slate-300 text-xs sm:text-sm font-sans list-none flex items-center justify-center gap-2 mb-1.5"><span class="text-rose-500">✦</span> ${trimmed.replace(/^[-*]\s*/, '')}</li>`;
+            }
+            if (trimmed === '') {
+                return `<div class="h-4"></div>`;
+            }
+            if (trimmed.includes('━━')) {
+                return `<div class="text-center text-slate-400 text-xs tracking-widest my-4 py-1.5 bg-slate-900/40 border border-slate-800/50 rounded-xl max-w-sm mx-auto font-mono">${trimmed}</div>`;
+            }
+            return `<p class="text-slate-300 text-sm leading-loose my-1 text-center font-serif">${trimmed}</p>`;
+        });
+
+        return `<div class="max-w-2xl mx-auto py-4 px-2 space-y-1">${formattedLines.join('')}</div>`;
+    }
+
+    if (!parsedHtml || parsedHtml.trim() === '' || fetchError) {
+        const errorMsg = fetchError ? `<p class="text-rose-400 text-xs font-mono mb-4 bg-rose-950/20 p-3 rounded-xl border border-rose-500/20">系统级通信延迟（已自动转为飞书队列）: ${fetchError.message}</p>` : '';
+        parsedHtml = `
+            <div class="space-y-6 max-w-xl mx-auto py-8">
+                <div class="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-3xl mx-auto mb-4 animate-bounce">🕊️</div>
+                <h3 class="text-white text-xl font-bold text-center">宋词八艳工作流已成功触发！</h3>
+                ${errorMsg}
+                <div class="bg-slate-900/80 border border-slate-800 p-6 rounded-2xl space-y-4 text-slate-300 text-sm leading-relaxed font-sans shadow-inner">
+                    <p>✨ <b>任务已进入自动化管线：</b> 我们已向您的飞书客户端发送了该单曲编排任务。</p>
+                    <p><b>【提交内容摘要】：</b></p>
+                    <ul class="list-disc pl-5 space-y-1 text-xs text-slate-400 font-mono">
+                        <li>词牌名称：${titleVal}</li>
+                        <li>词作作者：${authorVal}</li>
+                        <li>指定演绎：${singerVal === 'auto' ? '中枢智能匹配' : singerVal}</li>
+                    </ul>
+                    <p class="text-xs text-slate-400 mt-2">由于 AI 大模型音乐谱曲与飞书机器人灌装需要约 1-2 分钟，最终生成的【概念单曲宣发卡片】将直接推送到关联的飞书客户端，请耐心等待。</p>
+                </div>
+            </div>
+        `;
+    }
+
+    resultContent.innerHTML = parsedHtml;
+},
+
+copyPoetryResult: function() {
+    const content = document.getElementById('poetry-result-content');
+    if (!content) return;
+    const text = content.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        alert('海报文案已成功复制到剪贴板！');
+    }).catch(err => {
+        console.error('Copy failed:', err);
+    });
+},
+
+resetPoetryForm: function() {
+    document.getElementById('poetry-preset').value = '';
+    WorkspaceUI.applyPoetryPreset('');
+    
+    const tonearm = document.getElementById('poetry-tonearm');
+    if (tonearm) {
+        tonearm.style.transform = 'rotate(12deg)';
+    }
+
+    const idleView = document.getElementById('poetry-idle-view');
+    const processingView = document.getElementById('poetry-processing-view');
+    const resultView = document.getElementById('poetry-result-view');
+    
+    idleView.classList.remove('hidden');
+    processingView.classList.add('hidden');
+    resultView.classList.add('hidden');
+}
 };
 
     </script>
@@ -7867,6 +8740,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (window.loadPartials) {
         await window.loadPartials();
     }
+    
+    // 初始化 AI 自动化体检雷达的事件监听器
+    if (typeof initRadarListeners === 'function') {
+        initRadarListeners();
+    }
+
     // 交付案例过滤逻辑
     const filterBtns = document.querySelectorAll('#case-filters .filter-btn');
     const caseCards = document.querySelectorAll('#case-grid .case-card');
@@ -9482,85 +10361,406 @@ function submitCaseLead(e) {
     }, 1500);
 }
 // ======================= AI 自动化体检雷达逻辑 =======================
-function startAIRadar() {
-    const formContainer = document.getElementById('radar-form-container');
-    const loadingContainer = document.getElementById('radar-loading-container');
-    const resultContainer = document.getElementById('radar-result-container');
-    const terminal = document.getElementById('radar-terminal');
+window.radarHasRun = false;
+window.radarChartInstance = null;
+let liveFeedInterval = null;
+
+function startLiveFeedSimulation() {
+    const feedEl = document.getElementById('radar-live-feed');
+    if (!feedEl) return;
+    const messages = [
+        "⏳ 诊断引擎就绪，等待输入进行评估...",
+        "📡 监测到 [广州某外贸公司] 正在评估 SOP 规则...",
+        "✨ [广州某外贸公司] 诊断完毕，AI 自动化预估：78%",
+        "📡 监测到 [北京某医疗健康机构] 正在扫描业务接口...",
+        "✨ [北京某医疗健康机构] 生成报告，月度预计省时 90 小时",
+        "📡 监测到 [杭州某电商SaaS] 正在分析场景适配...",
+        "✨ [杭州某电商SaaS] 诊断完成，提效系数达 5.5x",
+        "📡 监测到 [深圳某新媒体内容工厂] 正在校验 AI 工具链..."
+    ];
+    let idx = 0;
+    
+    if (liveFeedInterval) clearInterval(liveFeedInterval);
+    
+    liveFeedInterval = setInterval(() => {
+        if (window.radarHasRun) return; // Stop showing scrolling logs if radar has run
+        feedEl.style.opacity = '0';
+        feedEl.style.transform = 'translateY(-5px)';
+        setTimeout(() => {
+            feedEl.innerText = messages[idx];
+            feedEl.style.opacity = '1';
+            feedEl.style.transform = 'translateY(0)';
+            idx = (idx + 1) % messages.length;
+        }, 300);
+    }, 3500);
+}
+
+function drawRadarChart(sop, scene, system, roi) {
+    const canvas = document.getElementById('radar-chart');
+    if (!canvas) {
+        console.error("Canvas element 'radar-chart' not found!");
+        return;
+    }
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.error("Failed to get 2D context for canvas!");
+        return;
+    }
+
+    if (window.radarChartInstance) {
+        window.radarChartInstance.destroy();
+    }
+
+    window.radarChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: ['SOP标准化', '场景适配度', '数字底座', 'ROI可行性'],
+            datasets: [{
+                label: '评估得分',
+                data: [sop, scene, system, roi],
+                backgroundColor: 'rgba(6, 182, 212, 0.15)',
+                borderColor: '#22d3ee',
+                borderWidth: 2,
+                pointBackgroundColor: '#22d3ee',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 1.5,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                lineTension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        label: function(context) {
+                            return ' ' + context.label + ': ' + context.formattedValue + '分';
+                        }
+                    }
+                }
+            },
+            scales: {
+                r: {
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.08)'
+                    },
+                    angleLines: {
+                        color: 'rgba(255, 255, 255, 0.08)'
+                    },
+                    ticks: {
+                        display: false,
+                        stepSize: 20
+                    },
+                    pointLabels: {
+                        color: '#94a3b8',
+                        font: {
+                            size: 11,
+                            family: "'Outfit', 'Inter', system-ui, sans-serif",
+                            weight: 'bold'
+                        }
+                    },
+                    suggestedMin: 0,
+                    suggestedMax: 100
+                }
+            }
+        }
+    });
+}
+
+function updateRadarChart() {
+    if (!window.radarHasRun) return;
     
     // Get values
-    const q1 = document.querySelector('input[name="radar-q1"]:checked').value;
-    const q2 = document.querySelector('input[name="radar-q2"]:checked').value;
-    const q3 = document.querySelector('input[name="radar-q3"]:checked').value;
+    const q1 = document.querySelector('input[name="radar-q1"]:checked')?.value || 'high';
+    const q2 = document.querySelector('input[name="radar-q2"]:checked')?.value || 'data';
+    const q3 = document.querySelector('input[name="radar-q3"]:checked')?.value || 'saas';
+    const q4 = document.querySelector('input[name="radar-q4"]:checked')?.value || 'high';
+
+    // Calculate scores
+    let sop = q1 === 'high' ? 95 : (q1 === 'med' ? 60 : 25);
+    let scene = q2 === 'data' ? 90 : (q2 === 'service' ? 80 : 70);
+    let system = q3 === 'saas' ? 95 : (q3 === 'excel' ? 55 : 25);
+    let roi = q4 === 'high' ? 95 : (q4 === 'med' ? 70 : 35);
+
+    let score = Math.round((sop + scene + system + roi) / 4);
+
+    let scenario = "";
+    let advice = "";
     
-    // Transition to loading
-    formContainer.classList.add('hidden');
-    loadingContainer.classList.remove('hidden');
+    if (q2 === 'data') {
+        scenario = "【跨域数据搬运与 ETL 清洗】";
+        advice = "由于您的核心痛点是数据流转，建议立即采用 n8n Workflow 替代人工操作，将现有的 Excel 或 SaaS 数据全自动汇聚闭环。";
+    } else if (q2 === 'service') {
+        scenario = "【智能客服与售后工单自动化】";
+        advice = "针对高频沟通，建议部署基于本地私有知识库的 RAG 智能体，自动接管 80% 的常规问询，释放客服精力。";
+    } else {
+        scenario = "【自媒体矩阵内容批量生成】";
+        advice = "强烈建议引入 Dify Agent 结合 Midjourney API，基于您的品牌调性自动抓取热点并裂变生成图文内容。";
+    }
+
+    // Populate results
+    const scoreTextEl = document.getElementById('radar-score-text');
+    const scenarioTextEl = document.getElementById('radar-scenario-text');
+    const adviceTextEl = document.getElementById('radar-advice-text');
     
-    // Terminal animation
-    const msgs = [
-        "> 提取业务逻辑图谱...",
-        "> 测算 API 节点耦合度...",
-        "> 匹配 OpenClaw 大模型算力...",
-        "> 生成最终诊断报告..."
+    if (scoreTextEl) scoreTextEl.innerText = score + '%';
+    if (scenarioTextEl) scenarioTextEl.innerText = scenario;
+    if (adviceTextEl) adviceTextEl.innerText = advice;
+
+    // Update Progress Bars & Text
+    const barSop = document.getElementById('bar-sop');
+    const scoreSop = document.getElementById('score-sop');
+    if (barSop && scoreSop) {
+        barSop.style.width = sop + '%';
+        scoreSop.innerText = sop + '分';
+    }
+    const barScene = document.getElementById('bar-scene');
+    const scoreScene = document.getElementById('score-scene');
+    if (barScene && scoreScene) {
+        barScene.style.width = scene + '%';
+        scoreScene.innerText = scene + '分';
+    }
+    const barSystem = document.getElementById('bar-system');
+    const scoreSystem = document.getElementById('score-system');
+    if (barSystem && scoreSystem) {
+        barSystem.style.width = system + '%';
+        scoreSystem.innerText = system + '分';
+    }
+    const barRoi = document.getElementById('bar-roi');
+    const scoreRoi = document.getElementById('score-roi');
+    if (barRoi && scoreRoi) {
+        barRoi.style.width = roi + '%';
+        scoreRoi.innerText = roi + '分';
+    }
+
+    // Calculate dynamic ROI metrics
+    let savedHours = (sop === 95 ? 40 : (sop === 60 ? 25 : 10)) + 
+                     (system === 95 ? 40 : (system === 55 ? 20 : 10)) + 
+                     (scene === 90 ? 25 : (scene === 80 ? 20 : 15));
+    let multiplier = ((sop === 95 ? 2.5 : (sop === 60 ? 1.5 : 1.0)) + 
+                      (system === 95 ? 2.5 : (system === 55 ? 1.5 : 1.0)) + 
+                      (scene === 90 ? 1.5 : (scene === 80 ? 1.2 : 1.0))).toFixed(1) + "x";
+    let timeframe = sop === 95 ? "2-3周" : (sop === 60 ? "3-4周" : "4-6周");
+
+    const roiHoursEl = document.getElementById('radar-roi-hours');
+    const roiFactorEl = document.getElementById('radar-roi-factor');
+    const roiTimelineEl = document.getElementById('radar-roi-timeline');
+    if (roiHoursEl) roiHoursEl.innerText = savedHours + "h/月";
+    if (roiFactorEl) roiFactorEl.innerText = multiplier;
+    if (roiTimelineEl) roiTimelineEl.innerText = timeframe;
+
+    // Render Recommended Tools Badges
+    const tools = [];
+    if (q2 === 'data') {
+        tools.push({ name: 'n8n 工作流', bg: 'bg-cyan-950/40 text-cyan-400 border-cyan-800/40' });
+        tools.push({ name: 'Dify AI', bg: 'bg-purple-950/40 text-purple-400 border-purple-800/40' });
+        tools.push({ name: '飞书集成', bg: 'bg-blue-950/40 text-blue-400 border-blue-800/40' });
+    } else if (q2 === 'service') {
+        tools.push({ name: '企微 Hook', bg: 'bg-green-950/40 text-green-400 border-green-800/40' });
+        tools.push({ name: '大模型 RAG', bg: 'bg-purple-950/40 text-purple-400 border-purple-800/40' });
+        tools.push({ name: '向量数据库', bg: 'bg-pink-950/40 text-pink-400 border-pink-800/40' });
+    } else {
+        tools.push({ name: 'Midjourney API', bg: 'bg-cyan-950/40 text-cyan-400 border-cyan-800/40' });
+        tools.push({ name: 'Dify 智能体', bg: 'bg-purple-950/40 text-purple-400 border-purple-800/40' });
+        tools.push({ name: 'AIGC 引擎', bg: 'bg-rose-950/40 text-rose-400 border-rose-800/40' });
+    }
+
+    if (q3 === 'saas') {
+        tools.push({ name: 'SaaS Webhook', bg: 'bg-emerald-950/40 text-emerald-400 border-emerald-800/40' });
+    } else if (q3 === 'excel') {
+        tools.push({ name: 'Pandas 处理器', bg: 'bg-indigo-950/40 text-indigo-400 border-indigo-800/40' });
+    } else {
+        tools.push({ name: 'OCR 语义识别', bg: 'bg-amber-950/40 text-amber-400 border-amber-800/40' });
+    }
+    tools.push({ name: 'OpenClaw', bg: 'bg-cyan-950/40 text-cyan-400 border-cyan-800/40' });
+
+    const toolsList = document.getElementById('radar-tools-list');
+    if (toolsList) {
+        toolsList.innerHTML = tools.map(t => `<span class="px-2.5 py-1 text-[10px] font-mono border rounded-lg shadow-sm font-semibold uppercase ${t.bg}">${t.name}</span>`).join('');
+    }
+
+    // Update Chart
+    if (window.radarChartInstance) {
+        window.radarChartInstance.data.datasets[0].data = [sop, scene, system, roi];
+        window.radarChartInstance.update();
+    } else {
+        drawRadarChart(sop, scene, system, roi);
+    }
+}
+
+function startAIRadar() {
+    // Reset compilation flag
+    window.radarHasRun = false;
+
+    const btn = document.getElementById('start-radar-btn');
+    const btnText = document.getElementById('start-radar-btn-text');
+    if (btn) btn.disabled = true;
+    if (btnText) btnText.innerText = "诊断评估编译中...";
+
+    // 1. Hide chart, result details, scanner info AND idle details
+    const chartWrapper = document.getElementById('radar-chart-wrapper');
+    const resultDetails = document.getElementById('radar-result-details');
+    const scannerInfo = document.getElementById('radar-scanner-info');
+    const idleDetails = document.getElementById('radar-idle-details');
+    if (chartWrapper) chartWrapper.classList.add('hidden');
+    if (resultDetails) resultDetails.classList.add('hidden');
+    if (scannerInfo) scannerInfo.classList.add('hidden');
+    if (idleDetails) idleDetails.classList.add('hidden');
+
+    // 2. Show active scanner and speed up rotation
+    const scannerWrapper = document.getElementById('radar-scanner-wrapper');
+    const scannerSweep = document.getElementById('radar-scanner-sweep');
+    if (scannerWrapper) scannerWrapper.classList.remove('hidden');
+    if (scannerSweep) scannerSweep.classList.add('scanning');
+
+    // 3. Show Terminal Wrapper and clear it
+    const terminalWrapper = document.getElementById('radar-terminal-wrapper');
+    const logOutput = document.getElementById('radar-log-output');
+    if (terminalWrapper) terminalWrapper.classList.remove('hidden');
+    if (logOutput) logOutput.innerText = '';
+
+    // Get current selections
+    const q1 = document.querySelector('input[name="radar-q1"]:checked')?.value || 'high';
+    const q2 = document.querySelector('input[name="radar-q2"]:checked')?.value || 'data';
+    const q3 = document.querySelector('input[name="radar-q3"]:checked')?.value || 'saas';
+    const q4 = document.querySelector('input[name="radar-q4"]:checked')?.value || 'high';
+
+    let sop = q1 === 'high' ? 95 : (q1 === 'med' ? 60 : 25);
+    let scene = q2 === 'data' ? 90 : (q2 === 'service' ? 80 : 70);
+    let system = q3 === 'saas' ? 95 : (q3 === 'excel' ? 55 : 25);
+    let roi = q4 === 'high' ? 95 : (q4 === 'med' ? 70 : 35);
+
+    // Dynamic terminal lines
+    const logLines = [
+        "> INITIALIZING AUTOMATION SCANNER V2.0...",
+        `> ANALYZING SOP STANDARDIZATION [Q1]: SOP Score = ${sop}%`,
+        `> EVALUATING CORE SCENE POTENTIAL [Q2]: Scene Score = ${scene}%`,
+        `> TESTING INFRASTRUCTURE FOUNDATION [Q3]: System Score = ${system}%`,
+        `> ESTIMATING INVESTMENT ROI COEFFICIENT [Q4]: ROI Score = ${roi}%`,
+        "> RUNNING ALGORITHMIC RISK CLASSIFICATION...",
+        "> GENERATING MULTI-DIMENSIONAL RADAR CHART... DONE",
+        "> DIAGNOSIS COMPILED. PLOTTING RADAR GRAPHICS..."
     ];
-    let msgIdx = 0;
-    const terminalInterval = setInterval(() => {
-        if (msgIdx < msgs.length) {
-            terminal.innerText = msgs[msgIdx];
-            msgIdx++;
+
+    let lineIdx = 0;
+    function printNextLine() {
+        if (lineIdx < logLines.length) {
+            if (logOutput) {
+                logOutput.innerText += (lineIdx > 0 ? '\n' : '') + logLines[lineIdx];
+                const logContainer = logOutput.parentElement;
+                if (logContainer) {
+                    logContainer.scrollTop = logContainer.scrollHeight;
+                }
+            }
+            lineIdx++;
+            setTimeout(printNextLine, 180); // ~180ms per line -> ~1.44s total
         } else {
-            clearInterval(terminalInterval);
+            setTimeout(completeDiagnosis, 150);
         }
-    }, 400);
-    
-    // Calculate logic
-    setTimeout(() => {
-        let score = 60; // Base score
-        if(q1 === 'high') score += 15;
-        if(q1 === 'med') score += 5;
-        if(q3 === 'saas') score += 15;
-        if(q3 === 'excel') score += 8;
-        
-        // Max out at 95%
-        if(score > 95) score = 95;
-        
-        let scenario = "";
-        let advice = "";
-        
-        if (q2 === 'data') {
-            scenario = "【跨域数据搬运与 ETL 清洗】";
-            advice = "由于您的核心痛点是数据流转，建议立即采用 n8n Workflow 替代人工操作，将现有的 Excel 或 SaaS 数据全自动汇聚闭环。";
-        } else if (q2 === 'service') {
-            scenario = "【智能客服与售后工单自动化】";
-            advice = "针对高频沟通，建议部署基于本地私有知识库的 RAG 智能体，自动接管 80% 的常规问询，释放客服精力。";
-        } else {
-            scenario = "【自媒体矩阵内容批量生成】";
-            advice = "强烈建议引入 Dify Agent 结合 Midjourney API，基于您的品牌调性自动抓取热点并裂变生成图文内容。";
-        }
-        
-        // Populate results
-        document.getElementById('radar-score-text').innerText = score + '%';
-        document.getElementById('radar-scenario-text').innerText = scenario;
-        document.getElementById('radar-advice-text').innerText = advice;
-        
-        // Show result
-        loadingContainer.classList.add('hidden');
-        resultContainer.classList.remove('hidden');
-        
-        // Animate progress bar
-        setTimeout(() => {
-            document.getElementById('radar-progress-bar').style.width = score + '%';
-        }, 100);
-        
-    }, 2000);
+    }
+
+    function completeDiagnosis() {
+        // Restore button state
+        if (btn) btn.disabled = false;
+        if (btnText) btnText.innerText = "启动深度诊断分析";
+
+        // Hide scanner and terminal
+        if (scannerWrapper) scannerWrapper.classList.add('hidden');
+        if (scannerSweep) scannerSweep.classList.remove('scanning');
+        if (terminalWrapper) terminalWrapper.classList.add('hidden');
+
+        // Reveal chart and details
+        if (chartWrapper) chartWrapper.classList.remove('hidden');
+        if (resultDetails) resultDetails.classList.remove('hidden');
+
+        // Draw Chart
+        window.radarHasRun = true;
+        updateRadarChart();
+    }
+
+    printNextLine();
 }
 
 function resetAIRadar() {
-    document.getElementById('radar-result-container').classList.add('hidden');
-    document.getElementById('radar-form-container').classList.remove('hidden');
-    document.getElementById('radar-progress-bar').style.width = '0%';
+    window.radarHasRun = false;
+    if (window.radarChartInstance) {
+        window.radarChartInstance.destroy();
+        window.radarChartInstance = null;
+    }
+
+    // Hide chart, details and terminal
+    const chartWrapper = document.getElementById('radar-chart-wrapper');
+    const resultDetails = document.getElementById('radar-result-details');
+    const terminalWrapper = document.getElementById('radar-terminal-wrapper');
+    const scannerWrapper = document.getElementById('radar-scanner-wrapper');
+    const scannerInfo = document.getElementById('radar-scanner-info');
+    const idleDetails = document.getElementById('radar-idle-details');
+    const logOutput = document.getElementById('radar-log-output');
+
+    if (chartWrapper) chartWrapper.classList.add('hidden');
+    if (resultDetails) resultDetails.classList.add('hidden');
+    if (terminalWrapper) terminalWrapper.classList.add('hidden');
+    if (logOutput) logOutput.innerText = '';
+
+    // Show active scanner, scanner info & idle details
+    if (scannerWrapper) scannerWrapper.classList.remove('hidden');
+    if (scannerInfo) scannerInfo.classList.remove('hidden');
+    if (idleDetails) idleDetails.classList.remove('hidden');
+
+    const scannerSweep = document.getElementById('radar-scanner-sweep');
+    if (scannerSweep) scannerSweep.classList.remove('scanning');
+
+    // Reset progress bars and dynamic fields
+    const scoreSop = document.getElementById('score-sop');
+    const barSop = document.getElementById('bar-sop');
+    if (scoreSop) scoreSop.innerText = '0%';
+    if (barSop) barSop.style.width = '0%';
+
+    const scoreScene = document.getElementById('score-scene');
+    const barScene = document.getElementById('bar-scene');
+    if (scoreScene) scoreScene.innerText = '0%';
+    if (barScene) barScene.style.width = '0%';
+
+    const scoreSystem = document.getElementById('score-system');
+    const barSystem = document.getElementById('bar-system');
+    if (scoreSystem) scoreSystem.innerText = '0%';
+    if (barSystem) barSystem.style.width = '0%';
+
+    const scoreRoi = document.getElementById('score-roi');
+    const barRoi = document.getElementById('bar-roi');
+    if (scoreRoi) scoreRoi.innerText = '0%';
+    if (barRoi) barRoi.style.width = '0%';
+
+    const roiHoursEl = document.getElementById('radar-roi-hours');
+    const roiFactorEl = document.getElementById('radar-roi-factor');
+    const roiTimelineEl = document.getElementById('radar-roi-timeline');
+    if (roiHoursEl) roiHoursEl.innerText = '-';
+    if (roiFactorEl) roiFactorEl.innerText = '-';
+    if (roiTimelineEl) roiTimelineEl.innerText = '-';
+
+    const toolsList = document.getElementById('radar-tools-list');
+    if (toolsList) toolsList.innerHTML = '';
 }
+
+function initRadarListeners() {
+    const radioInputs = document.querySelectorAll('input[name^="radar-q"]');
+    radioInputs.forEach(input => {
+        input.addEventListener('change', () => {
+            if (window.radarHasRun) {
+                updateRadarChart();
+            }
+        });
+    });
+    // Start recent reports live feed scrolling
+    startLiveFeedSimulation();
+}
+
 
 // ======================= 沉浸式 ROI 计算器逻辑 =======================
 function initROICalculator() {
