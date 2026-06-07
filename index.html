@@ -59,7 +59,14 @@
                     'rounded-t-[2rem]',
                     'sm:rounded-[2rem]',
                     'hidden',
-                    'flex'
+                    'flex',
+                    'grid', 'grid-cols-2', 'gap-4', 'gap-8',
+                    'col-span-2', 'sm:col-span-1',
+                    'w-24', 'h-24', 'w-20', 'h-20',
+                    'bg-slate-950/40', 'border-slate-800/80',
+                    'text-cyan-400', 'text-purple-400', 'text-emerald-400', 'text-red-400',
+                    'rounded-2xl', 'rounded-3xl',
+                    'bg-gradient-to-r', 'from-red-500', 'to-emerald-500'
                 ]
             }
         };
@@ -96,8 +103,6 @@
     <!-- 全局安全防盗水印层 -->
     <div id="security-watermark"></div>
 
-    <!-- Tailwind CDN 动态注入安全白名单 -->
-    <div class="hidden md:grid-cols-5 md:col-span-2 md:col-span-3 sm:w-[600px] md:w-[800px] lg:w-[1000px] xl:w-[1200px] sm:h-[95vh] z-[99999] z-[150] z-[9990] opacity-100 opacity-0 translate-x-0 translate-x-full translate-y-10 items-end sm:items-center justify-end p-0 sm:p-4 rounded-t-[2rem] sm:rounded-[2rem]"></div>
 
     <script>
         window.addEventListener('error', function(e) {
@@ -135,7 +140,7 @@
     <script src="js/app.js?v=4"></script>
     <script src="js/dify.js"></script>
     <script src="js/workspace.js"></script>
-    <script src="js/cases.js?v=6"></script>
+    <script src="js/cases.js?v=7"></script>
 
 </body>
 
