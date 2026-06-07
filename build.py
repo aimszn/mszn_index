@@ -35,21 +35,20 @@ def build():
         partial_id = match.group(1)
 
 
-        # 映射 ID → 文件路径
         partial_map = {
-            'nav':       'partials/nav.html',
-            'home':      'partials/home/home.html',
-            'masheng':   'partials/masheng/masheng.html',
-            'moying':    'partials/moying/moying.html',
-            'cases':     'partials/cases.html',
-            'solutions': 'partials/solutions.html',
-            'arsenal':   'partials/arsenal.html',
-            'blog':      'partials/blog.html',
-            'dashboard': 'partials/dashboard.html',
-            'trust':     'partials/trust.html',
-            'contact':   'partials/contact.html',
-            'footer':    'partials/footer.html',
-            'modals':    'partials/modals.html',
+            'nav':       'partials/nav.txt',
+            'home':      'partials/home/home.txt',
+            'masheng':   'partials/masheng/masheng.txt',
+            'moying':    'partials/moying/moying.txt',
+            'cases':     'partials/cases.txt',
+            'solutions': 'partials/solutions.txt',
+            'arsenal':   'partials/arsenal.txt',
+            'blog':      'partials/blog.txt',
+            'dashboard': 'partials/dashboard.txt',
+            'trust':     'partials/trust.txt',
+            'contact':   'partials/contact.txt',
+            'footer':    'partials/footer.txt',
+            'modals':    'partials/modals.txt',
         }
 
         name = partial_id.replace('partial-', '')

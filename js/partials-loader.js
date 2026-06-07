@@ -6,19 +6,19 @@
 (function () {
     // 需要加载的 partial 映射：placeholder ID → 文件路径
     const PARTIALS = {
-        'partial-nav':       'partials/nav.html',
-        'partial-home':      'partials/home/home.html',
-        'partial-masheng':   'partials/masheng/masheng.html',
-        'partial-moying':    'partials/moying/moying.html',
-        'partial-cases':     'partials/cases.html',
-        'partial-solutions': 'partials/solutions.html',
-        'partial-arsenal':   'partials/arsenal.html',
-        'partial-blog':      'partials/blog.html',
-        'partial-dashboard': 'partials/dashboard.html',
-        'partial-trust':     'partials/trust.html',
-        'partial-contact':   'partials/contact.html',
-        'partial-footer':    'partials/footer.html',
-        'partial-modals':    'partials/modals.html',
+        'partial-nav':       'partials/nav.txt',
+        'partial-home':      'partials/home/home.txt',
+        'partial-masheng':   'partials/masheng/masheng.txt',
+        'partial-moying':    'partials/moying/moying.txt',
+        'partial-cases':     'partials/cases.txt',
+        'partial-solutions': 'partials/solutions.txt',
+        'partial-arsenal':   'partials/arsenal.txt',
+        'partial-blog':      'partials/blog.txt',
+        'partial-dashboard': 'partials/dashboard.txt',
+        'partial-trust':     'partials/trust.txt',
+        'partial-contact':   'partials/contact.txt',
+        'partial-footer':    'partials/footer.txt',
+        'partial-modals':    'partials/modals.txt',
     };
 
     let loadPromise = null;

@@ -577,3 +577,206 @@ details > summary::-webkit-details-marker {
     border: 1px solid #1e293b;
     font-size: 0.85em;
 }
+
+/* ============================================
+   麻升智能工作室 - 底部区域 (Footer) 布局
+   ============================================ */
+.ms-footer-container {
+    background-color: #020617 !important; /* bg-slate-950 */
+    border-top: 1px solid #0f172a !important; /* border-slate-900 */
+    padding-top: 5rem !important; /* pt-20 */
+    padding-bottom: 2.5rem !important; /* pb-10 */
+    position: relative !important;
+    overflow: hidden !important;
+    z-index: 20 !important;
+    display: block !important;
+}
+.ms-footer-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+    margin-bottom: 4rem !important;
+    width: 100% !important;
+}
+.ms-footer-col {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+.ms-footer-bottom {
+    border-top: 1px solid rgba(30, 41, 59, 0.8) !important; /* border-slate-800/80 */
+    padding-top: 2rem !important; /* pt-8 */
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+@media (min-width: 768px) {
+    .ms-footer-grid {
+        grid-template-columns: repeat(12, 1fr) !important;
+    }
+    .ms-footer-c1 { grid-column: span 5 !important; }
+    .ms-footer-c2 { grid-column: span 2 !important; }
+    .ms-footer-c3 { grid-column: span 2 !important; }
+    .ms-footer-c4 { grid-column: span 3 !important; }
+    .ms-footer-bottom {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+}
+
+/* ==========================================================================
+   麻升智能工作室 - 底部区域 (Footer) 强制保底样式 (防止 Tailwind JIT 动态解析失效)
+   ========================================================================== */
+.ms-footer-container h4 {
+    color: #ffffff !important;
+    font-size: 0.75rem !important; /* text-xs */
+    font-weight: 700 !important; /* font-bold */
+    letter-spacing: 0.1em !important; /* tracking-widest */
+    text-transform: uppercase !important; /* uppercase */
+    margin-bottom: 1.5rem !important; /* mb-6 */
+}
+.ms-footer-container p {
+    color: #94a3b8 !important; /* text-slate-400 */
+    font-size: 0.875rem !important; /* text-sm */
+    line-height: 1.625 !important; /* leading-relaxed */
+}
+.ms-footer-container ul {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+}
+.ms-footer-container li {
+    margin-bottom: 1rem !important; /* space-y-4 */
+}
+.ms-footer-container li:last-child {
+    margin-bottom: 0 !important;
+}
+.ms-footer-container a, .ms-footer-container button {
+    color: #94a3b8 !important; /* text-slate-400 */
+    font-size: 0.875rem !important; /* text-sm */
+    transition: color 0.2s !important;
+}
+.ms-footer-container a:hover, .ms-footer-container button:hover {
+    color: #22d3ee !important; /* hover:text-cyan-400 */
+}
+.ms-footer-container .ms-footer-c2 a:hover, .ms-footer-container .ms-footer-c2 button:hover {
+    color: #22d3ee !important; /* hover:text-cyan-400 */
+}
+.ms-footer-container .ms-footer-c3 a:hover, .ms-footer-container .ms-footer-c3 button:hover {
+    color: #ffffff !important; /* hover:text-white */
+}
+.ms-footer-container .ms-footer-c4 a:hover, .ms-footer-container .ms-footer-c4 button:hover {
+    color: #ffffff !important; /* hover:text-white */
+}
+
+/* Flex layout helper classes */
+.ms-footer-container .flex {
+    display: flex !important;
+}
+.ms-footer-container .flex-wrap {
+    flex-wrap: wrap !important;
+}
+.ms-footer-container .items-center {
+    align-items: center !important;
+}
+.ms-footer-container .gap-3 {
+    gap: 0.75rem !important;
+}
+.ms-footer-container .gap-2 {
+    gap: 0.5rem !important;
+}
+
+/* Status Pill */
+.ms-footer-status {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.625rem !important;
+    padding: 0.5rem 0.75rem !important;
+    border-radius: 0.5rem !important;
+    background-color: rgba(34, 197, 94, 0.1) !important;
+    border: 1px solid rgba(34, 197, 94, 0.2) !important;
+    color: #4ade80 !important; /* green-400 */
+    font-size: 0.75rem !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.1) !important;
+    cursor: default !important;
+}
+.ms-footer-status-dot {
+    position: relative !important;
+    display: flex !important;
+    height: 0.625rem !important;
+    width: 0.625rem !important;
+}
+.ms-footer-status-ping {
+    position: absolute !important;
+    display: inline-flex !important;
+    height: 100% !important;
+    width: 100% !important;
+    border-radius: 9999px !important;
+    background-color: #4ade80 !important;
+    opacity: 0.75 !important;
+    animation: ms-ping 1s cubic-bezier(0, 0, 0.2, 1) infinite !important;
+}
+.ms-footer-status-core {
+    position: relative !important;
+    display: inline-flex !important;
+    border-radius: 9999px !important;
+    height: 0.625rem !important;
+    width: 0.625rem !important;
+    background-color: #22c55e !important;
+}
+@keyframes ms-ping {
+    75%, 100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* Social buttons styling */
+.ms-footer-social-btn {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    border-radius: 9999px !important;
+    background-color: #0f172a !important; /* slate-900 */
+    border: 1px solid #1e293b !important; /* slate-800 */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #94a3b8 !important; /* slate-400 */
+    transition: all 0.2s !important;
+}
+.ms-footer-social-btn:hover {
+    background-color: #1e293b !important; /* slate-800 */
+}
+.ms-footer-social-btn[data-platform="wechat"]:hover {
+    color: #07c160 !important;
+    border-color: rgba(7, 193, 96, 0.5) !important;
+}
+.ms-footer-social-btn[data-platform="videoChannel"]:hover {
+    color: #e6a23c !important;
+    border-color: rgba(230, 162, 60, 0.5) !important;
+}
+.ms-footer-social-btn[data-platform="xiaohongshu"]:hover {
+    color: #ff2442 !important;
+    border-color: rgba(255, 36, 66, 0.5) !important;
+}
+.ms-footer-social-btn[data-platform="douyin"]:hover {
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+}
+.ms-footer-social-btn#footer-mailto:hover {
+    color: #22d3ee !important;
+    border-color: rgba(34, 211, 238, 0.5) !important;
+}
+
+/* Bottom copyright area */
+.ms-footer-bottom p, .ms-footer-bottom div {
+    color: #64748b !important; /* slate-500 */
+    font-size: 0.75rem !important; /* text-xs */
+    font-family: 'JetBrains Mono', monospace !important; /* font-mono */
+}
+
+
