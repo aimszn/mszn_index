@@ -1571,66 +1571,6 @@ function openCaseModal(cardElement) {
         if (cmMetricsPanel) {
             cmMetricsPanel.innerHTML = getPersonalizedMetricsHTML(title, category);
         }
-        if (cmMetricsPanel) {
-            cmMetricsPanel.innerHTML = `
-                <h4 class="text-slate-400 text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 mb-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-500"></span> 运行指标监视器 (Metrics)
-                </h4>
-                <div class="flex flex-wrap gap-4 w-full" style="display: flex !important; flex-wrap: wrap !important; width: 100% !important; min-height: 250px;">
-                    <!-- Circular Confidence Gauge -->
-                    <div style="flex: 1 1 calc(50% - 1rem); min-width: 140px; background-color: rgba(2, 6, 23, 0.4); border: 1px solid rgba(30, 41, 59, 0.8); border-radius: 1.5rem; padding: 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <p class="text-slate-500 text-[9px] font-bold uppercase tracking-wider mb-2">AI 准确率 (Confidence)</p>
-                        <div style="width: 6rem; height: 6rem; border-radius: 50%; border: 6px solid #1e293b; border-top-color: #22d3ee; display: flex; align-items: center; justify-content: center;">
-                            <div style="text-align: center;">
-                                <span id="cm-metric-confidence-val" class="text-lg font-black text-white font-mono">95.2</span>
-                                <span class="text-[9px] text-cyan-400 font-mono">%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Automation Level -->
-                    <div style="flex: 1 1 calc(50% - 1rem); min-width: 140px; background-color: rgba(2, 6, 23, 0.4); border: 1px solid rgba(30, 41, 59, 0.8); border-radius: 1.5rem; padding: 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <p class="text-slate-500 text-[9px] font-bold uppercase tracking-wider mb-2">自动化等级 (Level)</p>
-                        <div style="width: 5rem; height: 5rem; border-radius: 50%; background-color: rgba(88, 28, 135, 0.2); border: 1px solid rgba(168, 85, 247, 0.2); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
-                            <div style="position: absolute; top: -2px; width: 6px; height: 6px; border-radius: 50%; background-color: #a855f7;"></div>
-                            <span id="cm-metric-level-val" class="text-3xl font-black text-purple-400 font-mono">L4</span>
-                            <span class="text-[8px] text-purple-300 font-light mt-1 tracking-wider uppercase font-bold">Autonomous</span>
-                        </div>
-                    </div>
-
-                    <!-- Active Nodes -->
-                    <div style="flex: 1 1 calc(50% - 1rem); min-width: 140px; background-color: rgba(2, 6, 23, 0.4); border: 1px solid rgba(30, 41, 59, 0.8); border-radius: 1.5rem; padding: 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <p class="text-slate-500 text-[9px] font-bold uppercase tracking-wider mb-1">活跃节点数 (Nodes)</p>
-                        <div style="display: flex; align-items: baseline; gap: 4px; margin-top: 4px;">
-                            <span id="cm-metric-nodes-val" class="text-3xl font-black text-emerald-400 font-mono">12</span>
-                            <span class="text-[9px] text-slate-500 font-mono uppercase font-bold">Nodes</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 6px; margin-top: 8px; background-color: rgba(6, 78, 59, 0.25); border: 1px solid rgba(16, 185, 129, 0.2); padding: 2px 12px; border-radius: 9999px;">
-                            <span style="width: 4px; height: 4px; border-radius: 50%; background-color: #34d399;"></span>
-                            <span class="text-[8px] text-emerald-400 font-mono uppercase font-bold">All Active</span>
-                        </div>
-                    </div>
-
-                    <!-- Latency / Response Time Performance -->
-                    <div style="flex: 1 1 calc(50% - 1rem); min-width: 140px; background-color: rgba(2, 6, 23, 0.4); border: 1px solid rgba(30, 41, 59, 0.8); border-radius: 1.5rem; padding: 1rem; display: flex; flex-direction: column; justify-content: center;">
-                        <p class="text-slate-500 text-[9px] font-bold uppercase tracking-wider mb-2">时效提升 (Latency Savings)</p>
-                        <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
-                            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-family: monospace;">
-                                <span class="text-slate-400">Before:</span>
-                                <span id="cm-metric-latency-before" class="text-red-400 font-bold">60分钟</span>
-                            </div>
-                            <div style="width: 100%; background-color: #0f172a; border-radius: 9999px; height: 6px; overflow: hidden;">
-                                <div style="background: linear-gradient(to right, #ef4444, #10b981); height: 100%; width: 99.6%;" id="cm-metric-latency-bar"></div>
-                            </div>
-                            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-family: monospace;">
-                                <span class="text-slate-400">After:</span>
-                                <span id="cm-metric-latency-after" class="text-emerald-400 font-bold">25秒</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
 
         // Populate Metrics
         const confValEl = document.getElementById('cm-metric-confidence-val');
