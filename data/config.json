@@ -54,7 +54,7 @@
     }
   },
   "api": {
-    "n8nWebhook": "http://192.168.1.58:5678/webhook/efficiency-diagnosis",
+    "n8nWebhook": "http://192.168.1.58:5678/webhook-test/efficiency-diagnosis",
     "newsletterWebhook": "https://your-n8n-instance.com/webhook/newsletter-subscribe"
   },
   "difyChatbot": {

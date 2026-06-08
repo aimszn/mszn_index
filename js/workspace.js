@@ -99,6 +99,7 @@ open: function(title, urlKey) {
 
 close: function() {
     WorkspaceUI.stopPoetryAudio(); // 关闭工作台时停止试听音频
+    WorkspaceUI.stopResultPlayers(); // 停止结果界面的音视频播放
     const ws = document.getElementById('view-workspace');
     if (ws) {
         ws.classList.remove('active');
@@ -112,6 +113,7 @@ close: function() {
 switchTool: function(id, title, icon) {
     if (id !== 'qinhuai') {
         WorkspaceUI.stopPoetryAudio(); // 切换到其他工具时停止试听音频
+        WorkspaceUI.stopResultPlayers(); // 停止结果界面的音视频播放
     }
     document.querySelectorAll('.ws-menu-btn').forEach(btn => {
         if (btn.getAttribute('data-ws-tool') === id) {
@@ -984,6 +986,28 @@ submitSongPoetry: async function() {
     let responseData = null;
     let fetchError = null;
 
+    // Asynchronous dynamic progress animation while fetch is loading
+    let stepTimer1 = null;
+    let stepTimer2 = null;
+    let stepTimer3 = null;
+
+    updateStep(1, '进行中...', 'border-rose-500/40 bg-slate-900', '<div class="animate-spin text-sm">⏳</div>');
+
+    stepTimer1 = setTimeout(() => {
+        updateStep(1, '✅ 已完成', 'border-emerald-500/30', '✍️');
+        updateStep(2, '进行中...', 'border-rose-500/40 bg-slate-900', '<div class="animate-spin text-sm">⏳</div>');
+        
+        stepTimer2 = setTimeout(() => {
+            updateStep(2, '✅ 已完成', 'border-emerald-500/30', '🧠');
+            updateStep(3, '进行中...', 'border-rose-500/40 bg-slate-900', '<div class="animate-spin text-sm">⏳</div>');
+            
+            stepTimer3 = setTimeout(() => {
+                updateStep(3, '✅ 已完成', 'border-emerald-500/30', '🎨');
+                updateStep(4, '进行中...', 'border-rose-500/40 bg-slate-900', '<div class="animate-spin text-sm">⏳</div>');
+            }, 10000); // 10s wait for formatting card
+        }, 8000); // 8s wait for character agent routing
+    }, 3500); // 3.5s wait for first analysis step
+
     try {
         const fetchPromise = fetch(qinhuaiWebhookUrl, {
             method: 'POST',
@@ -991,12 +1015,10 @@ submitSongPoetry: async function() {
             body: JSON.stringify(payload)
         });
 
-        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('TIMEOUT')), 45000));
+        // Raised timeout to 90 seconds to fully guarantee multi-agent LLM chain runs to completion
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('TIMEOUT')), 90000));
         
-        const [response] = await Promise.all([
-            Promise.race([fetchPromise, timeoutPromise]),
-            new Promise(resolve => setTimeout(resolve, 2500))
-        ]);
+        const response = await Promise.race([fetchPromise, timeoutPromise]);
 
         if (response && response.ok) {
             const contentType = response.headers.get('content-type');
@@ -1013,22 +1035,20 @@ submitSongPoetry: async function() {
         fetchError = err;
     }
 
-    // Transition Step Animations
-    updateStep(1, '✅ 已完成', 'border-emerald-500/30', '✍️');
-    
-    updateStep(2, '进行中...', 'border-rose-500/40 bg-slate-900', '<div class="animate-spin text-sm">⏳</div>');
-    await new Promise(r => setTimeout(r, 2000));
-    updateStep(2, '✅ 已完成', 'border-emerald-500/30', '🧠');
+    // Cancel dynamic timers when the request ends
+    if (stepTimer1) clearTimeout(stepTimer1);
+    if (stepTimer2) clearTimeout(stepTimer2);
+    if (stepTimer3) clearTimeout(stepTimer3);
 
-    updateStep(3, '进行中...', 'border-rose-500/40 bg-slate-900', '<div class="animate-spin text-sm">⏳</div>');
-    await new Promise(r => setTimeout(r, 2000));
-    updateStep(3, '✅ 已完成', 'border-emerald-500/30', '🎨');
+    // Speed-complete all remaining steps smoothly
+    const icons = { 1: '✍️', 2: '🧠', 3: '🎨', 4: '🕊️' };
+    for (let i = 1; i <= 4; i++) {
+        updateStep(i, '✅ 已完成', 'border-emerald-500/30', icons[i]);
+    }
+    // Small pause for visual smoothness
+    await new Promise(r => setTimeout(r, 600));
 
-    updateStep(4, '进行中...', 'border-rose-500/40 bg-slate-900', '<div class="animate-spin text-sm">⏳</div>');
-    await new Promise(r => setTimeout(r, 1500));
-    updateStep(4, '✅ 已完成', 'border-emerald-500/30', '🕊️');
-
-    // Switch to Result View
+        // Switch to Result View
     processingView.classList.add('hidden');
     resultView.classList.remove('hidden');
     btn.disabled = false;
@@ -1036,55 +1056,27 @@ submitSongPoetry: async function() {
 
     const resultContent = document.getElementById('poetry-result-content');
     
-    let parsedHtml = '';
-    if (responseData) {
-        let textContent = '';
-        if (typeof responseData === 'string') {
-            textContent = responseData;
-        } else if (typeof responseData === 'object') {
-            textContent = responseData.output || responseData.text || responseData.content || JSON.stringify(responseData, null, 2);
+    let isStructured = false;
+    if (responseData && typeof responseData === 'object') {
+        if (responseData.lyrics || responseData.cardText || responseData.musicPrompt || responseData.videoPrompt) {
+            isStructured = true;
         }
+    }
+
+    if (isStructured) {
+        WorkspaceUI.renderResultDashboard(titleVal, authorVal, singerVal, responseData);
+    } else {
+        // Render fallback Feishu queue view
+        let errorMsg = fetchError ? `<p class="text-rose-400 text-xs font-mono mb-4 bg-rose-950/20 p-3 rounded-xl border border-rose-500/20">系统级通信延迟（已自动转为飞书队列）: ${fetchError.message}</p>` : '';
         
-        parsedHtml = formatMarkdown(textContent);
-    }
+        // If n8n returned started message, display it as confirmation of async start
+        if (responseData && typeof responseData === 'object' && responseData.message === "Workflow was started") {
+            errorMsg = `<p class="text-emerald-400 text-xs font-mono mb-4 bg-emerald-950/20 p-3 rounded-xl border border-emerald-500/20">系统状态: 工作流已开启异步常驻运行中（Workflow was started）</p>`;
+        }
 
-    function formatMarkdown(text) {
-        if (!text) return '';
-        let escaped = text
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-
-        let lines = escaped.split('\n');
-        let formattedLines = lines.map(line => {
-            let trimmed = line.trim();
-            if (trimmed.startsWith('###')) {
-                return `<h4 class="text-base sm:text-lg font-bold text-rose-300 mt-4 mb-2 font-serif text-center">${trimmed.replace(/^###\s*/, '')}</h4>`;
-            }
-            if (trimmed.startsWith('##')) {
-                return `<h3 class="text-lg sm:text-xl font-black text-white mt-6 mb-3 border-b border-slate-800 pb-2 font-serif text-center">${trimmed.replace(/^##\s*/, '')}</h3>`;
-            }
-            if (trimmed.startsWith('#')) {
-                return `<h2 class="text-xl sm:text-2xl font-black text-rose-400 mt-8 mb-4 font-serif text-center">${trimmed.replace(/^#\s*/, '')}</h2>`;
-            }
-            if (trimmed.startsWith('-') || trimmed.startsWith('*')) {
-                return `<li class="text-slate-300 text-xs sm:text-sm font-sans list-none flex items-center justify-center gap-2 mb-1.5"><span class="text-rose-500">✦</span> ${trimmed.replace(/^[-*]\s*/, '')}</li>`;
-            }
-            if (trimmed === '') {
-                return `<div class="h-4"></div>`;
-            }
-            if (trimmed.includes('━━')) {
-                return `<div class="text-center text-slate-400 text-xs tracking-widest my-4 py-1.5 bg-slate-900/40 border border-slate-800/50 rounded-xl max-w-sm mx-auto font-mono">${trimmed}</div>`;
-            }
-            return `<p class="text-slate-300 text-sm leading-loose my-1 text-center font-serif">${trimmed}</p>`;
-        });
-
-        return `<div class="max-w-2xl mx-auto py-4 px-2 space-y-1">${formattedLines.join('')}</div>`;
-    }
-
-    if (!parsedHtml || parsedHtml.trim() === '' || fetchError) {
-        const errorMsg = fetchError ? `<p class="text-rose-400 text-xs font-mono mb-4 bg-rose-950/20 p-3 rounded-xl border border-rose-500/20">系统级通信延迟（已自动转为飞书队列）: ${fetchError.message}</p>` : '';
-        parsedHtml = `
+        const singerName = singerVal === 'auto' ? '中枢智能匹配' : singerVal;
+        
+        resultContent.innerHTML = `
             <div class="space-y-6 max-w-xl mx-auto py-8">
                 <div class="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-3xl mx-auto mb-4 animate-bounce">🕊️</div>
                 <h3 class="text-white text-xl font-bold text-center">宋词八艳工作流已成功触发！</h3>
@@ -1095,23 +1087,46 @@ submitSongPoetry: async function() {
                     <ul class="list-disc pl-5 space-y-1 text-xs text-slate-400 font-mono">
                         <li>词牌名称：${titleVal}</li>
                         <li>词作作者：${authorVal}</li>
-                        <li>指定演绎：${singerVal === 'auto' ? '中枢智能匹配' : singerVal}</li>
+                        <li>指定演绎：${singerName}</li>
                     </ul>
                     <p class="text-xs text-slate-400 mt-2">由于 AI 大模型音乐谱曲与飞书机器人灌装需要约 1-2 分钟，最终生成的【概念单曲宣发卡片】将直接推送到关联的飞书客户端，请耐心等待。</p>
+                </div>
+                <div class="text-center mt-6">
+                    <button onclick="WorkspaceUI.showMockPreview('${titleVal.replace(/'/g, "\\'")}', '${authorVal.replace(/'/g, "\\'")}', '${contentVal.replace(/\n/g, '\\n').replace(/'/g, "\\'")}', '${singerVal}')" class="px-6 py-3 rounded-xl bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white text-xs font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 mx-auto">
+                        <span>✨</span> 立即在网页中体验模拟预览版 (无需等待)
+                    </button>
                 </div>
             </div>
         `;
     }
-
-    resultContent.innerHTML = parsedHtml;
 },
 
 copyPoetryResult: function() {
-    const content = document.getElementById('poetry-result-content');
-    if (!content) return;
-    const text = content.innerText;
+    const cardEl = document.getElementById('tab-content-card');
+    const text = cardEl ? cardEl.innerText : "";
+    if (text) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert('宣发海报文案已成功复制到剪贴板！');
+        }).catch(err => {
+            console.error('Copy failed:', err);
+        });
+    } else {
+        const content = document.getElementById('poetry-result-content');
+        if (!content) return;
+        navigator.clipboard.writeText(content.innerText).then(() => {
+            alert('文案已成功复制到剪贴板！');
+        }).catch(err => {
+            console.error('Copy failed:', err);
+        });
+    }
+},
+
+copyTextFromElement: function(elementId) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    const text = el.innerText || el.textContent;
     navigator.clipboard.writeText(text).then(() => {
-        alert('海报文案已成功复制到剪贴板！');
+        alert('内容已成功复制到剪贴板！');
     }).catch(err => {
         console.error('Copy failed:', err);
     });
@@ -1133,5 +1148,376 @@ resetPoetryForm: function() {
     idleView.classList.remove('hidden');
     processingView.classList.add('hidden');
     resultView.classList.add('hidden');
+}
+,
+
+formatMarkdown: function(text) {
+    if (!text) return '';
+    let escaped = text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+    let lines = escaped.replace(/\\n/g, '\n').split('\n');
+    let formattedLines = lines.map(line => {
+        let trimmed = line.trim();
+        if (trimmed.startsWith('###')) {
+            return `<h4 class="text-base sm:text-lg font-bold text-rose-300 mt-4 mb-2 font-serif">${trimmed.replace(/^###\s*/, '')}</h4>`;
+        }
+        if (trimmed.startsWith('##')) {
+            return `<h3 class="text-lg sm:text-xl font-black text-white mt-6 mb-3 border-b border-slate-800 pb-2 font-serif">${trimmed.replace(/^##\s*/, '')}</h3>`;
+        }
+        if (trimmed.startsWith('#')) {
+            return `<h2 class="text-xl sm:text-2xl font-black text-rose-400 mt-8 mb-4 font-serif text-center">${trimmed.replace(/^#\s*/, '')}</h2>`;
+        }
+        if (trimmed.startsWith('-') || trimmed.startsWith('*')) {
+            return `<li class="text-slate-300 text-xs sm:text-sm font-sans list-none flex items-center gap-2 mb-1.5"><span class="text-rose-500">✦</span> ${trimmed.replace(/^[-*]\s*/, '')}</li>`;
+        }
+        if (trimmed === '') {
+            return `<div class="h-4"></div>`;
+        }
+        if (trimmed.includes('━━')) {
+            return `<div class="text-center text-slate-400 text-xs tracking-widest my-4 py-1.5 bg-slate-900/40 border border-slate-800/50 rounded-xl max-w-sm mx-auto font-mono">${trimmed}</div>`;
+        }
+        return `<p class="text-slate-300 text-sm leading-loose my-1 font-serif">${trimmed}</p>`;
+    });
+
+    return `<div class="max-w-2xl mx-auto py-2 px-2 space-y-1">${formattedLines.join('')}</div>`;
+},
+
+renderResultDashboard: function(title, author, singer, data) {
+    const resultContent = document.getElementById('poetry-result-content');
+    if (!resultContent) return;
+
+    const lyricsText = data.lyrics || "";
+    const musicPrompt = data.musicPrompt || "";
+    const videoPrompt = data.videoPrompt || "";
+    const cardText = data.cardText || "";
+    const singerName = singer === 'auto' ? (data.beauty || '智能中枢') : singer;
+
+    // Format lyrics
+    let formattedLyricsHtml = "";
+    if (lyricsText) {
+        const lines = lyricsText.replace(/\\n/g, '\n').split('\n');
+        const formattedLines = lines.map(line => {
+            const trimmed = line.trim();
+            if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+                return `<div class="text-center text-slate-400 text-[10px] tracking-widest my-4 py-1 bg-slate-900/50 border border-slate-800 rounded-lg max-w-[280px] mx-auto font-mono">${trimmed}</div>`;
+            }
+            if (trimmed === "") return `<div class="h-3"></div>`;
+            return `<p class="text-slate-300 text-sm leading-loose my-1 text-center font-serif">${trimmed}</p>`;
+        });
+        formattedLyricsHtml = `<div class="max-w-md mx-auto py-1 space-y-1">${formattedLines.join('')}</div>`;
+    } else {
+        formattedLyricsHtml = `<p class="text-slate-500 italic text-center">暂无歌词内容</p>`;
+    }
+
+    // Format card text (markdown compiled)
+    const formattedCardHtml = WorkspaceUI.formatMarkdown(cardText || "");
+
+    const config = window.MSZN_GLOBAL_CONFIG || {};
+    const audioUrl = config.media?.demoAudio || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+    const videoUrl = config.media?.videoB_Url || 'https://www.w3schools.com/html/mov_bbb.mp4';
+
+    // Clear existing playing visualizers
+    WorkspaceUI.stopPoetryAudio();
+
+    resultContent.innerHTML = `
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 h-full max-w-6xl mx-auto py-1 text-left">
+            <!-- Left Panel: Players (cols: 2) -->
+            <div class="lg:col-span-2 flex flex-col gap-5">
+                <!-- Album Cover & Audio Player -->
+                <div class="bg-slate-900/30 border border-slate-800/80 rounded-2xl p-5 flex flex-col items-center gap-4 relative overflow-hidden backdrop-blur shadow-xl">
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(244,63,94,0.06),transparent_50%)]"></div>
+                    
+                    <!-- Mini Vinyl Disc (Rotates when audio is playing) -->
+                    <div class="relative w-32 h-32 flex items-center justify-center">
+                        <div class="absolute inset-0 rounded-full bg-slate-950 border border-slate-800 shadow-inner flex items-center justify-center">
+                            <div id="result-vinyl-disc" class="absolute inset-2 rounded-full bg-black border border-slate-900 flex items-center justify-center animate-spin-slow" style="animation-play-state: paused; animation-duration: 20s;">
+                                <div class="w-10 h-10 rounded-full bg-rose-950/80 border border-rose-500/30 flex items-center justify-center text-[9px] text-rose-300 font-serif shadow-inner relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(244,63,94,0.3)_0%,transparent_70%)]"></div>
+                                    <span class="relative z-10 font-bold tracking-wider">AIMSZN</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Audio Title & Playback Controls -->
+                    <div class="text-center w-full">
+                        <h4 class="text-white font-bold text-xs tracking-wide">《${title}》· Suno AI 编曲试听</h4>
+                        <p class="text-slate-500 text-[9px] uppercase font-mono mt-1">演绎歌姬: ${singerName}</p>
+                    </div>
+                    
+                    <audio id="result-audio-player" src="${audioUrl}"></audio>
+                    
+                    <!-- Custom Audio Control Bar -->
+                    <div class="w-full bg-slate-950/60 border border-slate-800/80 p-2.5 rounded-xl flex items-center gap-3">
+                        <button id="result-audio-play-btn" onclick="WorkspaceUI.toggleResultAudio()" class="w-7 h-7 rounded-full bg-rose-600 hover:bg-rose-500 text-white flex items-center justify-center text-[10px] shrink-0 active:scale-95 transition-all font-bold">
+                            <span id="result-audio-play-icon">▶</span>
+                        </button>
+                        <div class="flex-grow">
+                            <div class="flex justify-between text-[8px] text-slate-500 font-mono mb-0.5">
+                                <span id="result-audio-current-time">00:00</span>
+                                <span id="result-audio-total-time">00:00</span>
+                            </div>
+                            <input type="range" id="result-audio-progress" min="0" max="100" value="0" oninput="WorkspaceUI.seekResultAudio(this.value)" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-rose-500">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Concept Video MV Player -->
+                <div class="bg-slate-900/30 border border-slate-800/80 rounded-2xl p-5 flex flex-col gap-3 relative overflow-hidden backdrop-blur shadow-xl">
+                    <h5 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> 🎬 Sora AI 概念视频 MV
+                    </h5>
+                    <div class="relative rounded-xl overflow-hidden border border-slate-800 bg-black aspect-video group">
+                        <video id="result-video-player" src="${videoUrl}" class="w-full h-full object-cover" poster="https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=800" loop></video>
+                        <!-- Custom Play Overlay -->
+                        <div id="result-video-overlay" onclick="WorkspaceUI.toggleResultVideo()" class="absolute inset-0 bg-black/40 flex items-center justify-center cursor-pointer group-hover:bg-black/30 transition-all">
+                            <div class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/30 backdrop-blur-md flex items-center justify-center text-white text-sm transition-transform group-hover:scale-105">
+                                ▶
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Panel: Tabs for Lyrics, Card, Prompts (cols: 3) -->
+            <div class="lg:col-span-3 flex flex-col h-[480px] bg-slate-900/30 border border-slate-800/80 rounded-2xl overflow-hidden backdrop-blur shadow-xl">
+                <!-- Tabs Header -->
+                <div class="bg-slate-950/80 px-4 py-1.5 border-b border-slate-800 flex items-center gap-1 shrink-0">
+                    <button onclick="WorkspaceUI.switchResultTab('lyrics')" id="tab-btn-lyrics" class="tab-btn px-3.5 py-2.5 text-xs font-bold text-rose-400 border-b-2 border-rose-500 transition-all">📜 完整歌词</button>
+                    <button onclick="WorkspaceUI.switchResultTab('card')" id="tab-btn-card" class="tab-btn px-3.5 py-2.5 text-xs font-bold text-slate-400 border-b-2 border-transparent hover:text-white transition-all">🎨 宣发海报</button>
+                    <button onclick="WorkspaceUI.switchResultTab('prompts')" id="tab-btn-prompts" class="tab-btn px-3.5 py-2.5 text-xs font-bold text-slate-400 border-b-2 border-transparent hover:text-white transition-all">⚙️ AI 提示词</button>
+                </div>
+                
+                <!-- Tab Contents Container -->
+                <div class="flex-grow p-5 overflow-y-auto no-scrollbar relative min-h-0 text-sm">
+                    <!-- Lyrics Tab -->
+                    <div id="tab-content-lyrics" class="tab-content space-y-4 text-center font-serif text-slate-300 w-full">
+                        ${formattedLyricsHtml}
+                    </div>
+                    
+                    <!-- Card Tab -->
+                    <div id="tab-content-card" class="tab-content hidden font-sans text-slate-300 w-full leading-relaxed">
+                        ${formattedCardHtml}
+                    </div>
+                    
+                    <!-- Prompts Tab -->
+                    <div id="tab-content-prompts" class="tab-content hidden space-y-4 font-sans w-full text-xs">
+                        <div>
+                          <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs font-bold text-slate-400">🎵 Suno 音乐生成提示词</span>
+                            <button onclick="WorkspaceUI.copyTextFromElement('result-music-prompt')" class="text-[9px] text-rose-400 hover:text-rose-300 bg-rose-950/20 px-2 py-0.5 rounded border border-rose-500/20">复制</button>
+                          </div>
+                          <div id="result-music-prompt" class="bg-slate-950 border border-slate-800 p-2.5 rounded-xl font-mono text-xs text-slate-300 whitespace-pre-wrap leading-relaxed select-all">
+                            ${musicPrompt}
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs font-bold text-slate-400">🎬 Sora/Runway 视频分镜提示词</span>
+                            <button onclick="WorkspaceUI.copyTextFromElement('result-video-prompt')" class="text-[9px] text-rose-400 hover:text-rose-300 bg-rose-950/20 px-2 py-0.5 rounded border border-rose-500/20">复制</button>
+                          </div>
+                          <div id="result-video-prompt" class="bg-slate-950 border border-slate-800 p-2.5 rounded-xl font-mono text-xs text-slate-300 whitespace-pre-wrap leading-relaxed select-all">
+                            ${videoPrompt}
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Bind audio duration load and tick
+    setTimeout(() => {
+        const audio = document.getElementById('result-audio-player');
+        if (audio) {
+            audio.addEventListener('loadedmetadata', () => {
+                const totalTimeEl = document.getElementById('result-audio-total-time');
+                if (totalTimeEl) {
+                    const mins = Math.floor(audio.duration / 60).toString().padStart(2, '0');
+                    const secs = Math.floor(audio.duration % 60).toString().padStart(2, '0');
+                    totalTimeEl.innerText = `${mins}:${secs}`;
+                }
+            });
+            audio.addEventListener('timeupdate', () => {
+                const progress = document.getElementById('result-audio-progress');
+                const currentTimeEl = document.getElementById('result-audio-current-time');
+                if (progress && audio.duration) {
+                    progress.value = (audio.currentTime / audio.duration) * 100;
+                }
+                if (currentTimeEl) {
+                    const mins = Math.floor(audio.currentTime / 60).toString().padStart(2, '0');
+                    const secs = Math.floor(audio.currentTime % 60).toString().padStart(2, '0');
+                    currentTimeEl.innerText = `${mins}:${secs}`;
+                }
+            });
+            audio.addEventListener('ended', () => {
+                WorkspaceUI.stopResultPlayers();
+            });
+        }
+    }, 50);
+},
+
+toggleResultAudio: function() {
+    const audio = document.getElementById('result-audio-player');
+    const playIcon = document.getElementById('result-audio-play-icon');
+    const disc = document.getElementById('result-vinyl-disc');
+    
+    if (!audio) return;
+    
+    if (audio.paused) {
+        audio.play().catch(err => console.log(err));
+        if (playIcon) playIcon.innerText = '❚❚';
+        if (disc) disc.style.animationPlayState = 'running';
+        
+        // Pause dynamic visualizer loop
+        WorkspaceUI.stopPoetryAudio();
+    } else {
+        audio.pause();
+        if (playIcon) playIcon.innerText = '▶';
+        if (disc) disc.style.animationPlayState = 'paused';
+    }
+},
+
+seekResultAudio: function(percent) {
+    const audio = document.getElementById('result-audio-player');
+    if (audio && audio.duration) {
+        audio.currentTime = (percent / 100) * audio.duration;
+    }
+},
+
+toggleResultVideo: function() {
+    const video = document.getElementById('result-video-player');
+    const overlay = document.getElementById('result-video-overlay');
+    if (!video) return;
+    
+    if (video.paused) {
+        video.play().catch(err => console.log(err));
+        if (overlay) overlay.style.display = 'none';
+    } else {
+        video.pause();
+        if (overlay) {
+            overlay.style.display = 'flex';
+            overlay.innerHTML = '<div class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/30 backdrop-blur-md flex items-center justify-center text-white text-xs transition-transform hover:scale-105">▶</div>';
+        }
+    }
+},
+
+switchResultTab: function(tabId) {
+    // Hide all contents
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+    // Show target content
+    const targetContent = document.getElementById(`tab-content-\${tabId}`);
+    if (targetContent) targetContent.classList.remove('hidden');
+
+    // Update buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('text-rose-400', 'border-rose-500');
+        btn.classList.add('text-slate-400', 'border-transparent');
+    });
+    const targetBtn = document.getElementById(`tab-btn-\${tabId}`);
+    if (targetBtn) {
+        targetBtn.classList.remove('text-slate-400', 'border-transparent');
+        targetBtn.classList.add('text-rose-400', 'border-rose-500');
+    }
+},
+
+copyTextToClipboard: function(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert('内容已成功复制到剪贴板！');
+    }).catch(err => {
+        console.error('Copy failed:', err);
+    });
+},
+
+stopResultPlayers: function() {
+    const audio = document.getElementById('result-audio-player');
+    const video = document.getElementById('result-video-player');
+    const playIcon = document.getElementById('result-audio-play-icon');
+    const disc = document.getElementById('result-vinyl-disc');
+    const overlay = document.getElementById('result-video-overlay');
+    
+    if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+    }
+    if (playIcon) playIcon.innerText = '▶';
+    if (disc) disc.style.animationPlayState = 'paused';
+    
+    if (video) {
+        video.pause();
+        video.currentTime = 0;
+    }
+    if (overlay) {
+        overlay.style.display = 'flex';
+        overlay.innerHTML = '<div class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/30 backdrop-blur-md flex items-center justify-center text-white text-xs transition-transform hover:scale-105">▶</div>';
+    }
+},
+
+showMockPreview: function(title, author, content, singer) {
+    const singerName = singer === 'auto' ? '柳如是' : singer;
+    const cleanContent = content.replace(/\\n/g, '\n').replace(/\\'/g, "'");
+
+    // Create high quality mock data
+    const mockLyrics = `[Instrumental Intro: Guqin and Pipa]
+
+[Verse: Whispery and Narrative]
+${cleanContent.split('\n')[0] || ""}
+朱阁影梅孤自叹，
+残香冷雨落花残。
+
+[Pre-Chorus: Building Tension]
+${cleanContent.split('\n')[1] || ""}
+乱世风沙吹泪眼，
+红豆馆中画幽兰。
+
+[Chorus: Explosive Belting]
+${cleanContent}
+看破红尘终不悔，
+宁为玉碎入青天！
+
+[Instrumental Interlude: Dramatic Taiko and Strings]
+
+[Bridge: Classic Yunbai]
+(念白：跨时空对《${title}》的解读)
+在这万里楚天之下，我读到这首《${title}》。
+千百年来的凄清孤高，今日且由我为你重抚一曲古琴，同醉斜阳。
+
+[Chorus: Heroic Kunqu Ornaments]
+此去经年终有梦，
+血溅桃花笑江南。
+
+[Outro: Silence and Fade]
+啊—— 
+琴音散落，烟雨茫茫。`;
+
+    const mockCard = `# 《${title}》
+## A Digital Humanities Epic
+**Vocal 演绎** ｜ ${singerName}  
+**Genre 曲风** ｜ 东方史诗 / 极简国风  
+
+### ✦ ━━ 企划手记 ━━ ✦
+在浩瀚的历史长河中，这首《${title}》所蕴含 of 意境，由${singerName}来演绎，实乃天作之合。她那独特的声线质感与极具张力的演唱，将词中的凄美与风骨表现得淋漓尽致，堪称数字人文的史诗级碰撞。
+
+### ✦ ━━ 浅吟叙卷 ━━ ✦
+${cleanContent.split('\n').map(line => `✦ ${line.trim()} ✦`).join('\n\n')}
+
+#秦淮八艳 #数字人文 #AI音乐 #国风大赏`;
+
+    const mockMusicPrompt = `Epic Guofeng crossover, tragic and heartbroken, pentatonic scale, Kunqu Opera infusion, Solo Guqin to Heavy Taiko, Firm female vocal, metallic resonance, Shuimo vibrato, 70 BPM.`;
+    const mockVideoPrompt = `Cinematic masterpiece. Classical Chinese beauty disguised in scholar robes playing the Guqin inside a dimly lit pavilion during a heavy autumn rain. Volumetric lighting, 8k, film grain.`;
+
+    const mockData = {
+        lyrics: mockLyrics,
+        cardText: mockCard,
+        musicPrompt: mockMusicPrompt,
+        videoPrompt: mockVideoPrompt,
+        beauty: singerName
+    };
+
+    WorkspaceUI.renderResultDashboard(title, author, singer, mockData);
 }
 };
