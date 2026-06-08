@@ -5,7 +5,7 @@
 
 /* 噪点纹理覆盖层 */
 .noise-overlay {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 /* 💎 质感升级：顶级玻璃拟态 */
@@ -778,5 +778,91 @@ details > summary::-webkit-details-marker {
     font-size: 0.75rem !important; /* text-xs */
     font-family: 'JetBrains Mono', monospace !important; /* font-mono */
 }
+
+/* ============================================
+   秦淮八艳点唱机沉浸式背景与特效
+   ============================================ */
+.bg-poetry-jukebox {
+    background: radial-gradient(circle at 50% 35%, #160d26 0%, #090610 60%, #030106 100%) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 动态发光氛围球 */
+.poetry-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.12;
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+.poetry-orb-pink {
+    background: radial-gradient(circle, #f43f5e 0%, transparent 70%);
+    width: 450px;
+    height: 450px;
+    top: 10%;
+    left: 15%;
+    animation: poetry-float-orb 15s ease-in-out infinite alternate;
+}
+
+.poetry-orb-amber {
+    background: radial-gradient(circle, #d97706 0%, transparent 70%);
+    width: 500px;
+    height: 500px;
+    bottom: 15%;
+    right: 15%;
+    animation: poetry-float-orb 20s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes poetry-float-orb {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(60px, -40px) scale(1.15); }
+}
+
+/* 飘落的粉色桃花瓣 */
+.petal {
+    position: absolute;
+    background: linear-gradient(135deg, #f472b6, #fda4af);
+    border-radius: 12% 75% 20% 75%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5;
+    animation: poetry-petal-fall 12s linear infinite;
+    box-shadow: 0 2px 5px rgba(244, 63, 94, 0.2);
+}
+
+@keyframes poetry-petal-fall {
+    0% {
+        transform: translateY(-50px) translateX(0) rotate(0deg) scale(0.8);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(105vh) translateX(120px) rotate(320deg) scale(1.1);
+        opacity: 0;
+    }
+}
+
+/* 音波条播放状态控制 */
+.sound-wave-bar {
+    transition: height 0.3s ease;
+}
+
+.sound-wave-bar.playing {
+    animation-play-state: running !important;
+}
+
+.sound-wave-bar.paused {
+    animation-play-state: paused !important;
+    height: 3px !important;
+}
+
 
 

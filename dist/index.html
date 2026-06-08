@@ -266,7 +266,7 @@ body.sys-error footer {
 
 /* 噪点纹理覆盖层 */
 .noise-overlay {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 /* 💎 质感升级：顶级玻璃拟态 */
@@ -1039,6 +1039,92 @@ details > summary::-webkit-details-marker {
     font-size: 0.75rem !important; /* text-xs */
     font-family: 'JetBrains Mono', monospace !important; /* font-mono */
 }
+
+/* ============================================
+   秦淮八艳点唱机沉浸式背景与特效
+   ============================================ */
+.bg-poetry-jukebox {
+    background: radial-gradient(circle at 50% 35%, #160d26 0%, #090610 60%, #030106 100%) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 动态发光氛围球 */
+.poetry-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.12;
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+.poetry-orb-pink {
+    background: radial-gradient(circle, #f43f5e 0%, transparent 70%);
+    width: 450px;
+    height: 450px;
+    top: 10%;
+    left: 15%;
+    animation: poetry-float-orb 15s ease-in-out infinite alternate;
+}
+
+.poetry-orb-amber {
+    background: radial-gradient(circle, #d97706 0%, transparent 70%);
+    width: 500px;
+    height: 500px;
+    bottom: 15%;
+    right: 15%;
+    animation: poetry-float-orb 20s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes poetry-float-orb {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(60px, -40px) scale(1.15); }
+}
+
+/* 飘落的粉色桃花瓣 */
+.petal {
+    position: absolute;
+    background: linear-gradient(135deg, #f472b6, #fda4af);
+    border-radius: 12% 75% 20% 75%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5;
+    animation: poetry-petal-fall 12s linear infinite;
+    box-shadow: 0 2px 5px rgba(244, 63, 94, 0.2);
+}
+
+@keyframes poetry-petal-fall {
+    0% {
+        transform: translateY(-50px) translateX(0) rotate(0deg) scale(0.8);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(105vh) translateX(120px) rotate(320deg) scale(1.1);
+        opacity: 0;
+    }
+}
+
+/* 音波条播放状态控制 */
+.sound-wave-bar {
+    transition: height 0.3s ease;
+}
+
+.sound-wave-bar.playing {
+    animation-play-state: running !important;
+}
+
+.sound-wave-bar.paused {
+    animation-play-state: paused !important;
+    height: 3px !important;
+}
+
 
 
 
@@ -7862,33 +7948,20 @@ window.WorkspaceUI = {
         `;
         document.head.appendChild(style);
 
-        const sidebarHTML = `
-            <div class="w-[300px] sm:w-[350px] border-r border-slate-800 bg-[#050505] flex flex-col shrink-0">
-                <div class="p-6 border-b border-slate-800 bg-[#0a0f1c]">
-                    <button onclick="WorkspaceUI.close()" class="text-slate-400 hover:text-cyan-400 text-sm font-bold flex items-center gap-2 transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                        返回官网
-                    </button>
-                    <h2 class="text-xl font-black text-white mt-6 tracking-tight">AI 兵器谱工作台</h2>
-                </div>
-                <div class="flex-1 overflow-y-auto p-4 space-y-2 no-scrollbar" id="ws-sidebar-menu">
-                </div>
-                <div class="p-4 border-t border-slate-800 bg-[#0a0f1c]">
-                    <div class="flex items-center gap-2 text-xs text-slate-500 font-mono">
-                        <div class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)] animate-pulse"></div>
-                        API 引擎挂载正常
-                    </div>
-                </div>
-            </div>
-        `;
-
         const mainAreaHTML = `
             <div class="flex-1 flex flex-col bg-[#050505]">
                 <header class="h-[64px] border-b border-slate-800 flex items-center justify-between px-6 bg-[#0f172a]/50 backdrop-blur">
-                    <div class="flex items-center gap-3">
-                        <span id="ws-current-icon" class="text-2xl"></span>
-                        <h3 id="ws-current-title" class="text-lg font-bold">请选择工具</h3>
-                        <span id="ws-current-tag" class="text-[10px] font-mono px-2 py-0.5 rounded border border-slate-700 bg-slate-800 text-slate-300">...</span>
+                    <div class="flex items-center gap-4">
+                        <button onclick="WorkspaceUI.close()" class="text-slate-400 hover:text-rose-400 text-xs font-bold flex items-center gap-2 transition-all bg-slate-900/40 hover:bg-rose-950/20 border border-slate-800 hover:border-rose-500/30 px-3.5 py-1.5 rounded-xl">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                            返回官网
+                        </button>
+                        <div class="h-4 w-[1px] bg-slate-800"></div>
+                        <div class="flex items-center gap-3">
+                            <span id="ws-current-icon" class="text-2xl"></span>
+                            <h3 id="ws-current-title" class="text-lg font-bold">请选择工具</h3>
+                            <span id="ws-current-tag" class="text-[10px] font-mono px-2 py-0.5 rounded border border-slate-700 bg-slate-800 text-slate-300">...</span>
+                        </div>
                     </div>
                     <button class="text-xs text-slate-400 hover:text-pink-400 font-medium px-4 py-2 rounded-lg border border-slate-700 hover:border-pink-500 transition-colors">
                         清空运行记录
@@ -7899,7 +7972,7 @@ window.WorkspaceUI = {
             </div>
         `;
 
-        section.innerHTML = sidebarHTML + mainAreaHTML;
+        section.innerHTML = mainAreaHTML;
         document.body.appendChild(section);
     },
 
@@ -7927,7 +8000,7 @@ open: function(title, urlKey) {
     tools.push({ id: urlKey, title: title, icon: resolvedIcon });
     
     const menuEl = document.getElementById('ws-sidebar-menu');
-    if (tools.length > 0) {
+    if (menuEl && tools.length > 0) {
         menuEl.innerHTML = tools.map(t => `
             <button onclick="WorkspaceUI.switchTool('${t.id}', '${t.title}', '${t.icon}')" data-ws-tool="${t.id}" class="ws-menu-btn w-full text-left p-3 rounded-xl flex items-center gap-3 text-slate-400 hover:bg-slate-800 hover:text-white transition-all font-medium">
                 <span class="text-xl">${t.icon}</span>
@@ -7944,6 +8017,7 @@ open: function(title, urlKey) {
 },
 
 close: function() {
+    WorkspaceUI.stopPoetryAudio(); // 关闭工作台时停止试听音频
     const ws = document.getElementById('view-workspace');
     if (ws) {
         ws.classList.remove('active');
@@ -7955,6 +8029,9 @@ close: function() {
 },
 
 switchTool: function(id, title, icon) {
+    if (id !== 'qinhuai') {
+        WorkspaceUI.stopPoetryAudio(); // 切换到其他工具时停止试听音频
+    }
     document.querySelectorAll('.ws-menu-btn').forEach(btn => {
         if (btn.getAttribute('data-ws-tool') === id) {
             btn.classList.add('bg-slate-800', 'text-white', 'border', 'border-slate-700');
@@ -7975,6 +8052,16 @@ switchTool: function(id, title, icon) {
     if (id === 'qinhuai') type = 'song-poetry';
 
     const tagEl = document.getElementById('ws-current-tag');
+    
+    const contentEl = document.getElementById('ws-main-content');
+    if (contentEl) {
+        if (type === 'song-poetry') {
+            contentEl.classList.add('bg-poetry-jukebox');
+        } else {
+            contentEl.classList.remove('bg-poetry-jukebox');
+        }
+    }
+
     if (type === 'chat') {
         tagEl.innerText = 'Dify LLMOps - Chat';
         tagEl.className = 'text-[10px] font-mono px-2 py-0.5 rounded border border-blue-500/30 bg-blue-900/20 text-blue-400';
@@ -8158,7 +8245,8 @@ renderSongPoetry: function(title, icon) {
     const content = document.getElementById('ws-main-content');
     content.innerHTML = `
         <div class="h-full flex w-full">
-            <div class="w-[320px] bg-slate-900/50 border-r border-slate-800 p-6 flex flex-col gap-5 overflow-y-auto no-scrollbar">
+            <!-- Left Sidebar Panel -->
+            <div class="w-[320px] bg-slate-900/50 border-r border-slate-800 p-6 flex flex-col gap-5 overflow-y-auto no-scrollbar shrink-0">
                 <div>
                     <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">经典宋词推荐</label>
                     <select id="poetry-preset" onchange="WorkspaceUI.applyPoetryPreset(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-rose-500 transition-colors">
@@ -8198,31 +8286,52 @@ renderSongPoetry: function(title, icon) {
                         <option value="陈圆圆">🌸 陈圆圆 (倾国梨园 - 易碎凄迷/气声氛围)</option>
                     </select>
                 </div>
+                
+                <!-- 歌姬风采卡 -->
+                <div id="singer-profile-card" class="p-3.5 rounded-xl border border-rose-950/20 bg-rose-950/5 flex items-start gap-2.5 transition-all duration-300">
+                    <div class="w-8 h-8 rounded-full bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-base shrink-0 animate-pulse-subtle">🌸</div>
+                    <div class="flex-1 min-w-0">
+                        <h5 id="singer-profile-name" class="text-xs font-bold text-rose-300 tracking-wider">智能中枢匹配</h5>
+                        <p id="singer-profile-style" class="text-[9px] font-mono text-rose-400/80 mt-0.5">声线特征：自动路由倾向</p>
+                        <p id="singer-profile-desc" class="text-[10px] text-slate-400 leading-relaxed mt-1">根据词作词牌的情感倾向与意境深度，自动选取最契合的数字歌姬进行声线合成与编排。</p>
+                    </div>
+                </div>
+
                 <div>
                     <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">宋词内容</label>
                     <textarea id="poetry-content" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-rose-500 h-36 resize-none font-serif leading-relaxed" placeholder="请输入宋词正文内容..."></textarea>
                 </div>
-                <button id="btn-submit-poetry" onclick="WorkspaceUI.submitSongPoetry()" class="mt-4 bg-gradient-to-r from-rose-600 to-pink-600 text-white font-bold py-3.5 rounded-xl shadow-[0_0_20px_rgba(225,29,72,0.3)] hover:shadow-[0_0_30px_rgba(225,29,72,0.5)] transition-all flex items-center justify-center gap-2 hover:scale-[1.02]">
+                <button id="btn-submit-poetry" onclick="WorkspaceUI.submitSongPoetry()" class="mt-4 bg-gradient-to-r from-rose-600 to-pink-600 text-white font-bold py-3.5 rounded-xl shadow-[0_0_20px_rgba(225,29,72,0.3)] hover:shadow-[0_0_30px_rgba(225,29,72,0.5)] transition-all flex items-center justify-center gap-2">
                     <span>🎵</span> 开始AI谱曲吟唱
                 </button>
             </div>
-            <div class="flex-1 p-8 overflow-y-auto bg-tech-grid flex flex-col items-center justify-center relative">
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-slate-950/80 z-0"></div>
+
+            <!-- Right Content Area (containing Idle, Processing, and Result Views) -->
+            <div class="flex-1 flex flex-col relative overflow-hidden justify-center items-center">
+                <!-- Ambient Orbs and Petals -->
+                <div class="poetry-orb poetry-orb-pink"></div>
+                <div class="poetry-orb poetry-orb-amber"></div>
                 
+                <div class="petal" style="left: 10%; animation-delay: 0s; width: 12px; height: 12px;"></div>
+                <div class="petal" style="left: 30%; animation-delay: 2s; width: 14px; height: 10px;"></div>
+                <div class="petal" style="left: 55%; animation-delay: 5s; width: 10px; height: 12px;"></div>
+                <div class="petal" style="left: 75%; animation-delay: 1.5s; width: 15px; height: 11px;"></div>
+                <div class="petal" style="left: 90%; animation-delay: 3.5s; width: 11px; height: 13px;"></div>
+
                 <!-- Idle View -->
-                <div id="poetry-idle-view" class="flex-grow flex flex-col lg:flex-row items-center justify-center relative z-10 gap-10 w-full max-w-5xl px-6">
+                <div id="poetry-idle-view" class="flex flex-col lg:flex-row items-center justify-center relative z-10 gap-16 lg:gap-24 w-full max-w-[1300px] px-8 transition-all duration-500">
                     <!-- Left: Vinyl Player -->
-                    <div class="flex flex-col items-center gap-4">
-                        <div class="relative w-56 h-56 sm:w-72 sm:h-72">
-                            <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-rose-500/20 via-slate-900 to-pink-500/20 border border-slate-800 shadow-[0_0_40px_rgba(244,63,94,0.15)]"></div>
-                            <div class="absolute inset-3 rounded-full border border-slate-800 bg-black shadow-inner flex items-center justify-center animate-spin-slow">
-                                <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-rose-950/80 border border-rose-500/50 flex flex-col items-center justify-center p-2 text-center shadow-lg relative overflow-hidden">
+                    <div class="flex flex-col items-center gap-8">
+                        <div class="relative w-72 h-72 sm:w-[360px] sm:h-[360px] lg:w-[440px] lg:h-[440px] xl:w-[480px] xl:h-[480px] cursor-pointer group/vinyl" onclick="WorkspaceUI.togglePoetryAudio()">
+                            <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-rose-500/20 via-slate-900 to-pink-500/20 border border-slate-800 shadow-[0_0_60px_rgba(244,63,94,0.25)]"></div>
+                            <div id="poetry-vinyl-disc" class="absolute inset-4 rounded-full border border-slate-800 bg-black shadow-inner flex items-center justify-center animate-spin-slow" style="animation-play-state: paused; animation-duration: 25s;">
+                                <div class="w-24 h-24 sm:w-32 sm:h-32 lg:w-[160px] lg:h-[160px] xl:w-[180px] xl:h-[180px] rounded-full bg-rose-950/80 border border-rose-500/50 flex flex-col items-center justify-center p-2 text-center shadow-lg relative overflow-hidden">
                                     <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(244,63,94,0.3)_0%,transparent_70%)]"></div>
-                                    <span class="text-xs text-rose-300 font-bold tracking-widest relative z-10">宋词</span>
-                                    <span class="text-[9px] text-slate-400 font-mono tracking-tighter relative z-10 uppercase mt-0.5">Jukebox</span>
+                                    <span class="text-xs sm:text-sm lg:text-lg text-rose-300 font-bold tracking-widest relative z-10">宋词</span>
+                                    <span class="text-[9px] sm:text-[10px] lg:text-xs text-slate-400 font-mono tracking-tighter relative z-10 uppercase mt-1">Jukebox</span>
                                 </div>
                             </div>
-                            <div class="absolute top-2 -right-4 w-20 h-20 origin-top-left rotate-12 transition-transform duration-1000" id="poetry-tonearm" style="transform: rotate(12deg);">
+                            <div class="absolute top-2 -right-8 lg:-right-10 xl:-right-12 w-28 h-28 sm:w-36 sm:h-36 lg:w-52 lg:h-52 xl:w-56 xl:h-56 origin-top-left rotate-12 transition-transform duration-1000" id="poetry-tonearm" style="transform: rotate(12deg);">
                                 <svg class="w-full h-full text-slate-400" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M10 10 L40 10 L50 60 L45 70" stroke-linecap="round"/>
                                     <rect x="42" y="65" width="6" height="10" rx="2" fill="currentColor"/>
@@ -8230,25 +8339,53 @@ renderSongPoetry: function(title, icon) {
                             </div>
                         </div>
                         <div class="text-center">
-                            <h4 class="text-white font-bold text-base">宋词八艳点唱机</h4>
-                            <p class="text-slate-500 text-[10px] tracking-widest uppercase mt-0.5 font-mono">Song Poetry Jukebox</p>
+                            <h4 class="text-white font-bold text-lg sm:text-xl lg:text-2xl">宋词八艳点唱机</h4>
+                            <p class="text-slate-500 text-xs sm:text-sm tracking-widest uppercase mt-1.5 font-mono">Song Poetry Jukebox</p>
+                        </div>
+                        
+                        <!-- 黑胶播放控制器台 -->
+                        <div class="w-full max-w-[280px] sm:max-w-[360px] lg:max-w-[440px] xl:max-w-[480px] bg-slate-950/40 border border-slate-800/80 p-4 lg:p-5 rounded-2xl flex flex-col gap-3 relative z-10 mt-1 backdrop-blur-md">
+                            <div class="flex items-center justify-between">
+                                <button id="poetry-play-btn" onclick="WorkspaceUI.togglePoetryAudio()" class="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-rose-600 hover:bg-rose-500 text-white flex items-center justify-center shadow-lg transition-all active:scale-95 text-sm lg:text-base shrink-0 font-bold">
+                                    <span id="play-btn-icon">▶</span>
+                                </button>
+                                <div class="flex-grow mx-3.5">
+                                    <div class="flex justify-between text-[10px] lg:text-xs text-slate-500 font-mono mb-1">
+                                        <span id="poetry-current-time">00:00</span>
+                                        <span id="poetry-total-time">03:00</span>
+                                    </div>
+                                    <input type="range" id="poetry-progress-bar" min="0" max="180" value="0" oninput="WorkspaceUI.seekPoetryAudio(this.value)" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-rose-500">
+                                </div>
+                            </div>
+                            
+                            <!-- 动态音波条 -->
+                            <div class="flex items-end justify-center gap-1.5 h-6 lg:h-8 pt-0.5" id="poetry-visualizer">
+                                <div class="sound-wave-bar paused" style="height: 3px; width: 5px; animation: soundWave 0.8s ease-in-out infinite alternate;"></div>
+                                <div class="sound-wave-bar paused" style="height: 3px; width: 5px; animation: soundWave 1.1s ease-in-out infinite alternate; animation-delay: 0.15s;"></div>
+                                <div class="sound-wave-bar paused" style="height: 3px; width: 5px; animation: soundWave 0.9s ease-in-out infinite alternate; animation-delay: 0.3s;"></div>
+                                <div class="sound-wave-bar paused" style="height: 3px; width: 5px; animation: soundWave 1.3s ease-in-out infinite alternate; animation-delay: 0.05s;"></div>
+                                <div class="sound-wave-bar paused" style="height: 3px; width: 5px; animation: soundWave 0.7s ease-in-out infinite alternate; animation-delay: 0.4s;"></div>
+                                <div class="sound-wave-bar paused" style="height: 3px; width: 5px; animation: soundWave 1.0s ease-in-out infinite alternate; animation-delay: 0.2s;"></div>
+                                <div class="sound-wave-bar paused" style="height: 3px; width: 5px; animation: soundWave 1.2s ease-in-out infinite alternate; animation-delay: 0.35s;"></div>
+                                <div class="sound-wave-bar paused" style="height: 3px; width: 5px; animation: soundWave 0.8s ease-in-out infinite alternate; animation-delay: 0.1s;"></div>
+                            </div>
                         </div>
                     </div>
-
+ 
                     <!-- Right: Calligraphy Scroll / Lyric Display Area -->
-                    <div class="w-full lg:w-[400px] h-[360px] sm:h-[420px] bg-slate-950/60 border border-slate-800 rounded-3xl p-6 sm:p-8 flex flex-col shadow-2xl backdrop-blur-md relative overflow-hidden group hover:border-rose-500/30 transition-colors">
-                        <div class="absolute top-0 bottom-0 left-4 w-[1px] bg-rose-950/20"></div>
-                        <div class="absolute top-0 bottom-0 right-4 w-[1px] bg-rose-950/20"></div>
+                    <div class="w-full lg:w-[560px] xl:w-[640px] h-[380px] sm:h-[480px] lg:h-[600px] xl:h-[640px] bg-slate-950/60 border border-slate-800 rounded-3xl p-8 lg:p-10 flex flex-col shadow-2xl backdrop-blur-md relative overflow-hidden group hover:border-rose-500/30 transition-colors">
+                        <div class="absolute top-0 bottom-0 left-5 w-[1px] bg-rose-950/20"></div>
+                        <div class="absolute top-0 bottom-0 right-5 w-[1px] bg-rose-950/20"></div>
                         
-                        <div class="text-xs font-mono text-rose-400/80 mb-4 flex justify-between items-center shrink-0 border-b border-slate-900 pb-2">
+                        <div class="text-xs lg:text-sm font-mono text-rose-400/80 mb-4 flex justify-between items-center shrink-0 border-b border-slate-900 pb-3">
                             <span>📜 实时歌词展示区域</span>
-                            <span class="text-[9px] bg-rose-950/40 px-2 py-0.5 rounded border border-rose-500/20">Live Lyrics</span>
+                            <span class="text-[9px] lg:text-xs bg-rose-950/40 px-2.5 py-0.5 rounded border border-rose-500/20">Live Lyrics</span>
                         </div>
                         
-                        <div class="flex-grow overflow-y-auto no-scrollbar flex flex-col justify-center items-center text-center font-serif py-4 w-full" id="poetry-live-lyrics">
-                            <div class="text-slate-600 italic text-sm">
-                                <p class="my-2">长河浪淘，待君填词</p>
-                                <p class="text-xs text-slate-700 mt-2 font-sans">请在左侧选择推荐词作或直接输入内容</p>
+                        <div class="flex-grow overflow-y-auto no-scrollbar flex flex-col justify-center items-center text-center font-serif py-6 w-full" id="poetry-live-lyrics">
+                            <div class="text-slate-600 italic text-base lg:text-lg">
+                                <p class="my-4">长河浪淘，待君填词</p>
+                                <p class="text-sm lg:text-base text-slate-700 mt-4 font-sans">请在左侧选择推荐词作或直接输入内容</p>
                             </div>
                         </div>
                     </div>
@@ -8328,7 +8465,6 @@ renderSongPoetry: function(title, icon) {
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     `;
@@ -8338,12 +8474,15 @@ renderSongPoetry: function(title, icon) {
         const titleEl = document.getElementById('poetry-title');
         const authorEl = document.getElementById('poetry-author');
         const contentEl = document.getElementById('poetry-content');
+        const singerEl = document.getElementById('poetry-singer');
         
         if (titleEl) titleEl.addEventListener('input', WorkspaceUI.updateLiveLyrics);
         if (authorEl) authorEl.addEventListener('input', WorkspaceUI.updateLiveLyrics);
         if (contentEl) contentEl.addEventListener('input', WorkspaceUI.updateLiveLyrics);
+        if (singerEl) singerEl.addEventListener('change', WorkspaceUI.updateSingerProfile);
         
         WorkspaceUI.updateLiveLyrics();
+        WorkspaceUI.updateSingerProfile();
     }, 10);
 },
 
@@ -8357,9 +8496,9 @@ updateLiveLyrics: function() {
     
     if (!titleVal && !authorVal && !contentVal) {
         lyricsEl.innerHTML = `
-            <div class="text-slate-600 italic text-sm text-center">
-                <p class="my-2">长河浪淘，待君填词</p>
-                <p class="text-xs text-slate-700 mt-2 font-sans">请在左侧选择推荐词作或直接输入内容</p>
+            <div class="text-slate-600 italic text-base sm:text-lg lg:text-xl text-center">
+                <p class="my-4">长河浪淘，待君填词</p>
+                <p class="text-sm sm:text-base text-slate-700 mt-4 font-sans">请在左侧选择推荐词作或直接输入内容</p>
             </div>
         `;
         return;
@@ -8367,28 +8506,270 @@ updateLiveLyrics: function() {
     
     let html = '';
     if (titleVal || authorVal) {
-        html += `<h3 class="text-rose-400 font-bold text-base sm:text-lg mb-1 tracking-wider text-center">《${titleVal || '未命名'}》</h3>`;
-        html += `<p class="text-slate-500 text-xs mb-6 font-sans text-center">【词人】${authorVal || '佚名'}</p>`;
+        html += `<h3 class="text-rose-400 font-bold text-xl sm:text-2xl lg:text-3xl mb-3 tracking-wider text-center">《${titleVal || '未命名'}》</h3>`;
+        html += `<p class="text-slate-500 text-sm sm:text-base mb-8 lg:mb-10 font-sans text-center">【词人】${authorVal || '佚名'}</p>`;
     }
     
     if (contentVal) {
-        const lines = contentVal.split('\n');
-        html += `<div class="space-y-2.5 max-w-xs mx-auto text-center w-full">`;
+        const lines = contentVal.split('\\n');
+        html += `<div class="space-y-4 sm:space-y-5 max-w-md mx-auto text-center w-full">`;
         lines.forEach(line => {
             const trimmed = line.trim();
             if (trimmed !== '') {
-                html += `<p class="text-slate-200 text-sm leading-relaxed tracking-wide font-serif">${trimmed}</p>`;
+                html += `<p class="text-slate-200 text-base sm:text-lg lg:text-xl lg:leading-loose leading-relaxed tracking-widest font-serif">${trimmed}</p>`;
             } else {
-                html += `<div class="h-2"></div>`;
+                html += `<div class="h-4"></div>`;
             }
         });
         html += `</div>`;
     } else {
-        html += `<p class="text-slate-600 italic text-sm text-center">请输入正文内容...</p>`;
+        html += `<p class="text-slate-600 italic text-sm sm:text-base lg:text-lg text-center">请输入正文内容...</p>`;
     }
     
     lyricsEl.innerHTML = html;
 },
+updateSingerProfile: function() {
+    const val = document.getElementById('poetry-singer')?.value || 'auto';
+    const profiles = {
+        'auto': {
+            name: "智能中枢算法路由",
+            style: "声线特征：意境与声线智能匹配",
+            desc: "大模型将自动对您的宋词进行情感温度提取，并选取最契合的数字歌姬进行声音特征灌装。"
+        },
+        '柳如是': {
+            name: "柳如是 · 儒服剑胆",
+            style: "声线特征：豪放叙事 / 史史交响",
+            desc: "秦淮之首，才情冠绝，英气挺拔。声线带有家国兴亡的悲壮与豁达，极具历史感。"
+        },
+        '顾横波': {
+            name: "顾横波 · 一品夫人",
+            style: "声线特征：豁达旷达 / 流行明亮",
+            desc: "庄重典雅，气度非凡。声线清朗亮丽，曲调如春江花月夜般开朗明快，温婉大气。"
+        },
+        '董小宛': {
+            name: "董小宛 · 影梅煮茶",
+            style: "声线特征：婉约细腻 / 极简空灵",
+            desc: "淡雅清高，琴艺精湛。声线清甜细腻，伴奏以极简古琴、古筝为主，空灵婉转。"
+        },
+        '李香君': {
+            name: "李香君 · 血溅桃花",
+            style: "声线特征：悲壮刚烈 / 戏剧高音",
+            desc: "桃花溅血，气节坚贞。声线高亢清澈，融入昆曲行腔，极具悲壮风骨与坚贞感。"
+        },
+        '卞玉京': {
+            name: "卞玉京 · 寻仙道骨",
+            style: "声线特征：道家隐忍 / 极慢留白",
+            desc: "寻仙道骨，琴心剑胆。曲调极慢，以洞箫和幽咽琴声为主，充满大音希声的禅意留白。"
+        },
+        '寇白门': {
+            name: "寇白门 · 白衣游侠",
+            style: "声线特征：边塞武侠 / 重鼓重拍",
+            desc: "侠义豪爽，白衣游侠。伴奏融合琵琶急扫与重鼓重拍，表现江湖儿女的爽朗与果断。"
+        },
+        '马湘兰': {
+            name: "马湘兰 · 幽兰孤影",
+            style: "声线特征：理趣水墨 / 戏腔融合",
+            desc: "擅画幽兰，兰心蕙质。声线带有空谷幽兰的孤高傲骨，融入昆曲念白，淡雅理趣。"
+        },
+        '陈圆圆': {
+            name: "陈圆圆 · 倾国梨园",
+            style: "声线特征：易碎凄迷 / 气声氛围",
+            desc: "倾国红颜，易碎凄美。声线带有极强的故事感与易碎感，以气声吟唱，如泣如诉。"
+        }
+    };
+    
+    const profile = profiles[val] || profiles['auto'];
+    const nameEl = document.getElementById('singer-profile-name');
+    const styleEl = document.getElementById('singer-profile-style');
+    const descEl = document.getElementById('singer-profile-desc');
+    
+    if (nameEl) nameEl.innerText = profile.name;
+    if (styleEl) styleEl.innerText = profile.style;
+    if (descEl) descEl.innerText = profile.desc;
+    
+    // Visual glow ping
+    const card = document.getElementById('singer-profile-card');
+    if (card) {
+        card.classList.remove('border-rose-950/20');
+        card.classList.add('border-rose-500/40', 'bg-rose-950/10');
+        setTimeout(() => {
+            card.classList.remove('border-rose-500/40', 'bg-rose-950/10');
+            card.classList.add('border-rose-950/20');
+        }, 300);
+    }
+},
+
+audioPlaying: false,
+audioCtx: null,
+audioTimer: null,
+playInterval: null,
+
+togglePoetryAudio: function() {
+    if (!WorkspaceUI.audioCtx) {
+        WorkspaceUI.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    
+    if (WorkspaceUI.audioCtx.state === 'suspended') {
+        WorkspaceUI.audioCtx.resume();
+    }
+    
+    const playBtn = document.getElementById('poetry-play-btn');
+    const playIcon = document.getElementById('play-btn-icon');
+    const tonearm = document.getElementById('poetry-tonearm');
+    const disc = document.getElementById('poetry-vinyl-disc');
+    const visualizerBars = document.querySelectorAll('.sound-wave-bar');
+    
+    if (WorkspaceUI.audioPlaying) {
+        // Stop playing
+        WorkspaceUI.stopPoetryAudio();
+    } else {
+        // Start playing
+        WorkspaceUI.audioPlaying = true;
+        if (playIcon) playIcon.innerText = '⏸';
+        if (playBtn) {
+            playBtn.classList.remove('bg-rose-600', 'hover:bg-rose-500');
+            playBtn.classList.add('bg-amber-600', 'hover:bg-amber-500');
+        }
+        if (tonearm) tonearm.style.transform = 'rotate(28deg)';
+        if (disc) disc.style.animationPlayState = 'running';
+        
+        visualizerBars.forEach(bar => {
+            bar.classList.remove('paused');
+            bar.classList.add('playing');
+        });
+        
+        // Procedural melodies
+        const notes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25, 783.99, 880.00]; // Pentatonic scale
+        let lastNoteIndex = -1;
+        
+        const playGuzhengPluck = (freq, delay = 0) => {
+            if (!WorkspaceUI.audioPlaying || !WorkspaceUI.audioCtx) return;
+            const ctx = WorkspaceUI.audioCtx;
+            
+            const osc = ctx.createOscillator();
+            const oscSine = ctx.createOscillator();
+            const gainNode = ctx.createGain();
+            const filter = ctx.createBiquadFilter();
+            
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, ctx.currentTime + delay);
+            
+            oscSine.type = 'sine';
+            oscSine.frequency.setValueAtTime(freq, ctx.currentTime + delay);
+            
+            // Gain Envelope
+            gainNode.gain.setValueAtTime(0, ctx.currentTime + delay);
+            gainNode.gain.linearRampToValueAtTime(0.18, ctx.currentTime + delay + 0.015); // sharp attack
+            gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + 2.5); // long decay
+            
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(1400, ctx.currentTime + delay);
+            filter.frequency.exponentialRampToValueAtTime(320, ctx.currentTime + delay + 1.8);
+            
+            // Reverb/Delay nodes
+            const delayNode = ctx.createDelay();
+            delayNode.delayTime.value = 0.45;
+            const feedbackNode = ctx.createGain();
+            feedbackNode.gain.value = 0.35;
+            
+            osc.connect(filter);
+            oscSine.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(ctx.destination);
+            
+            // Connect Reverb
+            gainNode.connect(delayNode);
+            delayNode.connect(feedbackNode);
+            feedbackNode.connect(delayNode);
+            feedbackNode.connect(ctx.destination);
+            
+            osc.start(ctx.currentTime + delay);
+            oscSine.start(ctx.currentTime + delay);
+            osc.stop(ctx.currentTime + delay + 3.0);
+            oscSine.stop(ctx.currentTime + delay + 3.0);
+        };
+        
+        const playMelodyLoop = () => {
+            if (!WorkspaceUI.audioPlaying) return;
+            
+            let idx = Math.floor(Math.random() * notes.length);
+            while (idx === lastNoteIndex) {
+                idx = Math.floor(Math.random() * notes.length);
+            }
+            lastNoteIndex = idx;
+            
+            playGuzhengPluck(notes[idx]);
+            
+            // Occasional octave pluck
+            if (Math.random() < 0.2) {
+                const octaveIdx = (idx + 4) % notes.length;
+                playGuzhengPluck(notes[octaveIdx], 0.08);
+            }
+            
+            // Next note timing
+            const timings = [0.8, 1.2, 1.6, 2.4];
+            const nextTiming = timings[Math.floor(Math.random() * timings.length)];
+            WorkspaceUI.audioTimer = setTimeout(playMelodyLoop, nextTiming * 1000);
+        };
+        
+        playMelodyLoop();
+        
+        // Timer ticking
+        WorkspaceUI.playInterval = setInterval(() => {
+            const progress = document.getElementById('poetry-progress-bar');
+            const currentTimeEl = document.getElementById('poetry-current-time');
+            if (progress) {
+                let currentVal = parseInt(progress.value) + 1;
+                if (currentVal >= 180) {
+                    currentVal = 0;
+                }
+                progress.value = currentVal;
+                
+                const mins = Math.floor(currentVal / 60).toString().padStart(2, '0');
+                const secs = (currentVal % 60).toString().padStart(2, '0');
+                if (currentTimeEl) currentTimeEl.innerText = `${mins}:${secs}`;
+            }
+        }, 1000);
+    }
+},
+
+stopPoetryAudio: function() {
+    WorkspaceUI.audioPlaying = false;
+    if (WorkspaceUI.audioTimer) {
+        clearTimeout(WorkspaceUI.audioTimer);
+        WorkspaceUI.audioTimer = null;
+    }
+    if (WorkspaceUI.playInterval) {
+        clearInterval(WorkspaceUI.playInterval);
+        WorkspaceUI.playInterval = null;
+    }
+    
+    const playIcon = document.getElementById('play-btn-icon');
+    const playBtn = document.getElementById('poetry-play-btn');
+    const tonearm = document.getElementById('poetry-tonearm');
+    const disc = document.getElementById('poetry-vinyl-disc');
+    const visualizerBars = document.querySelectorAll('.sound-wave-bar');
+    
+    if (playIcon) playIcon.innerText = '▶';
+    if (playBtn) {
+        playBtn.classList.remove('bg-amber-600', 'hover:bg-amber-500');
+        playBtn.classList.add('bg-rose-600', 'hover:bg-rose-500');
+    }
+    if (tonearm) tonearm.style.transform = 'rotate(12deg)';
+    if (disc) disc.style.animationPlayState = 'paused';
+    visualizerBars.forEach(bar => {
+        bar.classList.remove('playing');
+        bar.classList.add('paused');
+    });
+},
+
+seekPoetryAudio: function(val) {
+    const currentTimeEl = document.getElementById('poetry-current-time');
+    if (currentTimeEl) {
+        const mins = Math.floor(val / 60).toString().padStart(2, '0');
+        const secs = (val % 60).toString().padStart(2, '0');
+        currentTimeEl.innerText = `${mins}:${secs}`;
+    }
 },
 
 applyPoetryPreset: function(presetKey) {
@@ -8465,6 +8846,8 @@ submitSongPoetry: async function() {
         alert('请完整填写词牌名、词人及宋词内容！');
         return;
     }
+
+    WorkspaceUI.stopPoetryAudio(); // 提交任务时，先停止当前试听音频
 
     // Tonearm pivots onto record
     const tonearm = document.getElementById('poetry-tonearm');
@@ -8671,7 +9054,6 @@ resetPoetryForm: function() {
     resultView.classList.add('hidden');
 }
 };
-
     </script>
     <script>
 
