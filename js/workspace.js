@@ -143,6 +143,16 @@ close: function() {
     }
 },
 
+goToContact: function() {
+    WorkspaceUI.close();
+    setTimeout(() => {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, 650);
+},
+
 switchTool: function(id, title, icon) {
     if (id !== 'qinhuai') {
         WorkspaceUI.stopPoetryAudio(); // 切换到其他工具时停止试听音频
@@ -2482,8 +2492,8 @@ renderLocalPromo: function(title, icon) {
                                     <h4 class="text-white font-bold text-xs">n8n 商业增长工作流 (已装载)</h4>
                                     <p class="text-[10px] text-slate-500 mt-1">此工作流由前端意图调度分发给不同的风格文案子代理，进行排版整合后，直推飞书并回执。</p>
                                 </div>
-                                <button onclick="WorkspaceUI.downloadLocalPromoN8NJson()" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-md active:scale-95 transition-all">
-                                    <span>📥</span> 下载 n8n 营销工作流 JSON
+                                <button onclick="WorkspaceUI.goToContact()" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-md active:scale-95 transition-all">
+                                    <span>📥</span> 获取 n8n 营销工作流 JSON
                                 </button>
                             </div>
                             
@@ -2548,46 +2558,6 @@ renderLocalPromo: function(title, icon) {
                                         <span class="text-[8px] font-mono text-slate-500 mt-1 select-none">飞书通知</span>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                                
-                                <div class="flex flex-col items-center gap-1">
-                                    <div class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-sm shadow">🧠</div>
-                                    <span class="text-[8px] font-mono text-slate-500">调度中脑</span>
-                                </div>
-                                <div class="h-0.5 bg-slate-855 flex-1 mx-1.5 relative"><div class="absolute inset-0 bg-emerald-500/40 w-full"></div></div>
-
-                                <div class="flex flex-col items-center gap-1">
-                                    <div class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-sm shadow">🔀</div>
-                                    <span class="text-[8px] font-mono text-slate-500">风格流转</span>
-                                </div>
-                                <div class="h-0.5 bg-slate-850 flex-1 mx-1.5 relative"><div class="absolute inset-0 bg-emerald-500/40 w-full"></div></div>
-
-                                <div class="flex flex-col items-center gap-1">
-                                    <div class="w-8 h-8 rounded-lg bg-emerald-950/30 border border-emerald-500/50 text-emerald-400 flex items-center justify-center text-sm shadow">✍️</div>
-                                    <span class="text-[8px] font-mono text-emerald-400 font-bold" id="n8n-pipeline-active-agent">风格专家</span>
-                                </div>
-                                <div class="h-0.5 bg-slate-850 flex-1 mx-1.5 relative"><div class="absolute inset-0 bg-emerald-500/40 w-full"></div></div>
-
-                                <div class="flex flex-col items-center gap-1">
-                                    <div class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-sm shadow">📱</div>
-                                    <span class="text-[8px] font-mono text-slate-500">微信排版</span>
-                                </div>
-                                <div class="h-0.5 bg-slate-850 flex-1 mx-1.5 relative"><div class="absolute inset-0 bg-emerald-500/40 w-full"></div></div>
-
-                                <div class="flex flex-col items-center gap-1">
-                                    <div class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-sm shadow">🕊️</div>
-                                    <span class="text-[8px] font-mono text-slate-500">推送回执</span>
-                                </div>
-                            </div>
-                            
-                            <!-- JSON source area -->
-                            <div class="flex-1 overflow-hidden flex flex-col border border-slate-800 rounded-xl">
-                                <div class="bg-slate-900/80 px-4 py-2 border-b border-slate-800 flex justify-between items-center text-[10px] text-slate-500 font-mono">
-                                    <span>wechat_marketing_workflow.json</span>
-                                    <button onclick="WorkspaceUI.copyPromoN8NJson()" class="hover:text-white transition-colors">📋 复制 JSON</button>
-                                </div>
-                                <pre class="flex-1 overflow-y-auto p-4 text-[10px] font-mono text-emerald-400 bg-black/40 leading-relaxed no-scrollbar select-text" id="promo-n8n-json-box"></pre>
                             </div>
                         </div>
                     </div>
