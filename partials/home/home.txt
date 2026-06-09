@@ -527,6 +527,7 @@
                     </div>
                 </div>
             </div>
+        </div>
 
         <!-- ======================= 沉浸式 ROI 计算器 ======================= -->
         <div class="max-w-7xl mx-auto px-4 py-16 border-t border-slate-800/50 reveal-on-scroll">
