@@ -80,6 +80,6 @@
     "workplace": "https://udify.app/chat/YOUR_WORKPLACE_TOKEN",
     "tutor": "https://udify.app/chat/YOUR_TUTOR_TOKEN",
     "localPromo": "https://udify.app/chat/YOUR_PROMO_TOKEN",
-    "blogRag": "https://dify.cursormax.fun/chatbot/gEmcrq5aW9i0IoEf"
+    "blogRag": "http://192.168.1.58:5678/webhook/ai-insight-retrieval"
   }
 }

@@ -1253,7 +1253,37 @@ document.addEventListener('click', function (e) {
     else if (action === 'open-diagnosis') { e.preventDefault(); Handlers.openDiagnosis(target.getAttribute('data-type') || '申请提效诊断'); }
     else if (action === 'close-diagnosis') { e.preventDefault(); Handlers.closeDiagnosisInputModal(); }
     else if (action === 'close-diagnosis-result') { e.preventDefault(); Handlers.closeDiagnosisResult(); }
-    else if (action === 'open-agent') { e.preventDefault(); if (window.WorkspaceUI) { WorkspaceUI.open(target.getAttribute('data-title'), target.getAttribute('data-url-key')); } else { Handlers.openAgent(target.getAttribute('data-title'), target.getAttribute('data-url-key')); } }
+    else if (action === 'open-agent') {
+        e.preventDefault();
+        let initialInput = '';
+        const inputContainer = target.closest('.max-w-3xl') || target.parentElement;
+        if (inputContainer) {
+            const inputEl = inputContainer.querySelector('input[type="text"]');
+            if (inputEl) {
+                initialInput = inputEl.value.trim();
+            }
+        }
+        if (window.WorkspaceUI) {
+            WorkspaceUI.open(target.getAttribute('data-title'), target.getAttribute('data-url-key'), initialInput);
+        } else {
+            Handlers.openAgent(target.getAttribute('data-title'), target.getAttribute('data-url-key'));
+        }
+    }
+    else if (action === 'suggested-search') {
+        e.preventDefault();
+        const question = target.textContent.trim();
+        const container = target.closest('.max-w-3xl');
+        if (container) {
+            const inputEl = container.querySelector('input[type="text"]');
+            if (inputEl) {
+                inputEl.value = question;
+                const searchBtn = container.querySelector('button[data-action="open-agent"]');
+                if (searchBtn) {
+                    searchBtn.click();
+                }
+            }
+        }
+    }
     else if (action === 'close-agent') { e.preventDefault(); Handlers.closeAgent(); }
     else if (action === 'toggle-mobile') { e.preventDefault(); Handlers.toggleMobileMenu(target.getAttribute('data-state') === 'true'); }
     else if (action === 'open-music') { e.preventDefault(); Handlers.openMusic(); }
@@ -1431,6 +1461,21 @@ async function bootstrap() {
         if (SITE_CONFIG_DATA.demands && SITE_CONFIG_DATA.demands.length > 0) {
             setTimeout(() => Handlers.showSolution(SITE_CONFIG_DATA.demands[0].id), 500);
         }
+
+        // Hitting enter inside the RAG question input triggers AI retrieval
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const target = e.target;
+                if (target.tagName === 'INPUT' && target.placeholder && target.placeholder.includes('向专属知识库')) {
+                    e.preventDefault();
+                    const container = target.closest('.max-w-3xl') || target.parentElement;
+                    if (container) {
+                        const btn = container.querySelector('button[data-action="open-agent"]');
+                        if (btn) btn.click();
+                    }
+                }
+            }
+        });
     } catch (e) {
         triggerErrorBoundary(e);
     }

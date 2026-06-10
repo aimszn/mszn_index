@@ -144,7 +144,17 @@ def build():
     html = html.replace('    <script src="js/data.js"></script>\n', '')
 
     # 6. 内联其余 JS 文件 (使用正则匹配，容忍 ?v=x 等版本参数)
-    js_files = ['js/partials-loader.js', 'js/app.js', 'js/dify.js', 'js/workspace.js', 'js/cases.js']
+    js_files = [
+        'js/partials-loader.js',
+        'js/app.js',
+        'js/dify.js',
+        'js/workspace.js',
+        'js/components/workspace-song-poetry.js',
+        'js/components/workspace-poet.js',
+        'js/components/workspace-local-promo.js',
+        'js/components/workspace-blog-rag.js',
+        'js/cases.js'
+    ]
     for f in js_files:
         full_path = os.path.join(ROOT, f)
         if not os.path.exists(full_path):

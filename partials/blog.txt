@@ -34,16 +34,16 @@
                 <div
                     class="mt-5 flex flex-wrap justify-center gap-3 text-[11px] sm:text-xs text-slate-400 font-medium">
                     <span class="text-amber-500/80 font-mono font-bold mr-1">💡 试着搜索：</span>
-                    <button type="button"
+                    <button type="button" data-action="suggested-search"
                         class="hover:text-amber-400 transition-colors border-b border-transparent hover:border-amber-400/30">实体店怎样用AI引流？</button>
                     <span class="text-slate-700 hidden sm:inline">|</span>
-                    <button type="button"
+                    <button type="button" data-action="suggested-search"
                         class="hover:text-amber-400 transition-colors border-b border-transparent hover:border-amber-400/30">打工人怎样秒写周报？</button>
                     <span class="text-slate-700 hidden sm:inline">|</span>
-                    <button type="button"
+                    <button type="button" data-action="suggested-search"
                         class="hover:text-amber-400 transition-colors border-b border-transparent hover:border-amber-400/30">学生能用智能体干嘛？</button>
                     <span class="text-slate-700 hidden sm:inline">|</span>
-                    <button type="button"
+                    <button type="button" data-action="suggested-search"
                         class="hover:text-amber-400 transition-colors border-b border-transparent hover:border-amber-400/30">自媒体爆款工作流</button>
                 </div>
             </div>
