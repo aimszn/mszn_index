@@ -146,9 +146,9 @@ Object.assign(window.WorkspaceUI, {
         
         const content = document.getElementById('ws-main-content');
         content.innerHTML = `
-            <div class="h-full flex w-full font-sans bg-[#030408]">
+            <div class="h-full flex flex-col md:flex-row w-full font-sans bg-[#030408] overflow-hidden">
                 <!-- Left Configuration Scroll -->
-                <div class="w-[320px] bg-slate-950/80 border-r border-slate-900 p-6 flex flex-col gap-5 overflow-y-auto no-scrollbar shrink-0 z-10">
+                <div class="ws-sidebar-panel fixed md:relative inset-y-0 left-0 z-50 md:z-0 w-[300px] md:w-[320px] bg-[#030408] md:bg-slate-950/80 border-r border-slate-900 p-6 flex flex-col gap-5 overflow-y-auto no-scrollbar shrink-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
                     <div>
                         <label class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">结缘文人</label>
                         <select id="poet-select" onchange="WorkspaceUI.changePoet(this.value)" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors">
@@ -213,7 +213,7 @@ Object.assign(window.WorkspaceUI, {
                 </div>
 
                 <!-- Right Chat Area -->
-                <div class="flex-grow flex flex-col relative overflow-hidden bg-poetry-scroll h-full">
+                <div class="flex-grow flex flex-col relative overflow-hidden bg-poetry-scroll h-full w-full">
                     <!-- Ambient animations / Ink particles -->
                     <div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
                         <div class="absolute top-10 left-10 w-[400px] h-[400px] bg-indigo-500/5 blur-[120px] rounded-full"></div>
@@ -290,6 +290,9 @@ Object.assign(window.WorkspaceUI, {
         }
         
         WorkspaceUI.resetPoetChat(false);
+        if (window.WorkspaceUI && window.WorkspaceUI.toggleMobileSidebar) {
+            window.WorkspaceUI.toggleMobileSidebar(false);
+        }
     },
 
     updatePoetScene: function(sceneKey) {
@@ -336,6 +339,9 @@ Object.assign(window.WorkspaceUI, {
         }
         
         WorkspaceUI.appendPoetMessage(poet.name, poet.avatar, greeting, true);
+        if (window.WorkspaceUI && window.WorkspaceUI.toggleMobileSidebar) {
+            window.WorkspaceUI.toggleMobileSidebar(false);
+        }
     },
 
     appendPoetMessage: function(sender, avatar, text, isPoet) {
@@ -372,6 +378,10 @@ Object.assign(window.WorkspaceUI, {
         if (!inputArea) return;
         const text = inputArea.value.trim();
         if (!text) return;
+        
+        if (window.WorkspaceUI && window.WorkspaceUI.toggleMobileSidebar) {
+            window.WorkspaceUI.toggleMobileSidebar(false);
+        }
         
         inputArea.value = '';
         

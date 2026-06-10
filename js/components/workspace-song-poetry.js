@@ -12,9 +12,9 @@ Object.assign(window.WorkspaceUI, {
     renderSongPoetry: function(title, icon) {
         const content = document.getElementById('ws-main-content');
         content.innerHTML = `
-            <div class="h-full flex w-full">
+            <div class="h-full flex flex-col md:flex-row w-full overflow-hidden">
                 <!-- Left Sidebar Panel -->
-                <div class="w-[320px] bg-slate-900/50 border-r border-slate-800 p-6 flex flex-col gap-5 overflow-y-auto no-scrollbar shrink-0">
+                <div class="ws-sidebar-panel fixed md:relative inset-y-0 left-0 z-50 md:z-0 w-[300px] md:w-[320px] bg-[#0d1324] md:bg-slate-900/50 border-r border-slate-800 p-6 flex flex-col gap-5 overflow-y-auto no-scrollbar shrink-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
                     <div>
                         <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">经典宋词推荐</label>
                         <select id="poetry-preset" onchange="WorkspaceUI.applyPoetryPreset(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-rose-500 transition-colors">
@@ -75,7 +75,7 @@ Object.assign(window.WorkspaceUI, {
                 </div>
 
                 <!-- Right Content Area (containing Idle, Processing, and Result Views) -->
-                <div class="flex-1 flex flex-col relative overflow-hidden justify-center items-center">
+                <div class="flex-1 flex flex-col relative overflow-y-auto no-scrollbar w-full h-full justify-start md:justify-center items-center">
                     <!-- Ambient Orbs and Petals -->
                     <div class="poetry-orb poetry-orb-pink"></div>
                     <div class="poetry-orb poetry-orb-amber"></div>
@@ -85,9 +85,9 @@ Object.assign(window.WorkspaceUI, {
                     <div class="petal" style="left: 55%; animation-delay: 5s; width: 10px; height: 12px;"></div>
                     <div class="petal" style="left: 75%; animation-delay: 1.5s; width: 15px; height: 11px;"></div>
                     <div class="petal" style="left: 90%; animation-delay: 3.5s; width: 11px; height: 13px;"></div>
-
+ 
                     <!-- Idle View -->
-                    <div id="poetry-idle-view" class="flex flex-col lg:flex-row items-center justify-center relative z-10 gap-16 lg:gap-24 w-full max-w-[1300px] px-8 transition-all duration-500">
+                    <div id="poetry-idle-view" class="flex flex-col lg:flex-row items-center justify-start lg:justify-center relative z-10 gap-8 lg:gap-24 w-full max-w-[1300px] px-4 sm:px-8 py-6 lg:py-0 min-h-full lg:h-auto transition-all duration-500">
                         <!-- Left: Vinyl Player -->
                         <div class="flex flex-col items-center gap-8">
                             <div class="relative w-72 h-72 sm:w-[360px] sm:h-[360px] lg:w-[440px] lg:h-[440px] xl:w-[480px] xl:h-[480px] cursor-pointer group/vinyl" onclick="WorkspaceUI.togglePoetryAudio()">
@@ -611,7 +611,11 @@ Object.assign(window.WorkspaceUI, {
         const btn = document.getElementById('btn-submit-poetry');
         btn.disabled = true;
         btn.innerHTML = `<span>⏳</span> 正在发送请求...`;
-
+        
+        if (window.WorkspaceUI && window.WorkspaceUI.toggleMobileSidebar) {
+            window.WorkspaceUI.toggleMobileSidebar(false);
+        }
+ 
         const idleView = document.getElementById('poetry-idle-view');
         const processingView = document.getElementById('poetry-processing-view');
         const resultView = document.getElementById('poetry-result-view');

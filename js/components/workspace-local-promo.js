@@ -51,9 +51,9 @@ Object.assign(window.WorkspaceUI, {
                     animation: pulse-flow 2s linear infinite;
                 }
             </style>
-            <div class="h-full flex w-full">
+            <div class="h-full flex flex-col md:flex-row w-full overflow-hidden">
                 <!-- 左侧表单参数控制区 -->
-                <div class="w-[340px] bg-slate-900/50 border-r border-slate-800 p-6 flex flex-col gap-5 overflow-y-auto no-scrollbar shrink-0">
+                <div class="ws-sidebar-panel fixed md:relative inset-y-0 left-0 z-50 md:z-0 w-[300px] md:w-[340px] bg-[#0d1324] md:bg-slate-900/50 border-r border-slate-800 p-6 flex flex-col gap-5 overflow-y-auto no-scrollbar shrink-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
                     <div>
                         <label class="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">目标受众行业</label>
                         <select id="promo-industry" onchange="WorkspaceUI.changePromoIndustry(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors">
@@ -96,7 +96,7 @@ Object.assign(window.WorkspaceUI, {
                 </div>
 
                 <!-- 右侧模拟器/工作流渲染区 -->
-                <div class="flex-1 p-8 overflow-y-auto bg-tech-grid flex flex-col items-center justify-center relative">
+                <div class="flex-1 p-4 sm:p-8 overflow-y-auto bg-tech-grid flex flex-col items-center justify-center relative">
                     <!-- Idle View -->
                     <div id="promo-idle-view" class="w-full max-w-md bg-[#191919] border border-slate-800 rounded-[36px] shadow-[0_25px_60px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col transition-all duration-300">
                         <div class="h-6 bg-[#2c2c2c] flex items-center justify-between px-6 text-[10px] text-slate-400 select-none border-b border-[#1f1f1f]">
@@ -393,6 +393,10 @@ Object.assign(window.WorkspaceUI, {
         const btn = document.getElementById('btn-submit-promo');
         btn.disabled = true;
         btn.innerHTML = `<span>⏳</span> 正在唤醒大脑...`;
+        
+        if (window.WorkspaceUI && window.WorkspaceUI.toggleMobileSidebar) {
+            window.WorkspaceUI.toggleMobileSidebar(false);
+        }
 
         const idleView = document.getElementById('promo-idle-view');
         const processingView = document.getElementById('promo-processing-view');

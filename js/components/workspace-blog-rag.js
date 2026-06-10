@@ -89,9 +89,9 @@ Object.assign(window.WorkspaceUI, {
                     margin-bottom: 0.5rem;
                 }
             </style>
-            <div class="h-full flex w-full">
+            <div class="h-full flex flex-col md:flex-row w-full overflow-hidden">
                 <!-- Left Panel: Form Control -->
-                <div class="w-[340px] bg-slate-900/50 border-r border-slate-800 p-6 flex flex-col gap-6 overflow-y-auto no-scrollbar shrink-0">
+                <div class="ws-sidebar-panel fixed md:relative inset-y-0 left-0 z-50 md:z-0 w-[300px] md:w-[340px] bg-[#0d1324] md:bg-slate-900/50 border-r border-slate-800 p-6 flex flex-col gap-6 overflow-y-auto no-scrollbar shrink-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
                     <div>
                         <h4 class="text-sm font-bold text-white mb-1">AI 知识库检索中控</h4>
                         <p class="text-[11px] text-slate-500">连接 n8n 多智能体后端工作流，实时 analysis 并召回深度报告。</p>
@@ -122,7 +122,7 @@ Object.assign(window.WorkspaceUI, {
                 </div>
 
                 <!-- Right Panel: Status / Results -->
-                <div class="flex-1 p-8 overflow-y-auto bg-tech-grid flex flex-col relative" id="rag-right-panel">
+                <div class="flex-1 p-4 sm:p-8 overflow-y-auto bg-tech-grid flex flex-col relative" id="rag-right-panel">
                     <!-- Idle View -->
                     <div id="rag-idle-view" class="flex-1 flex flex-col items-center justify-center gap-6 text-center max-w-md mx-auto z-10 transition-all duration-300">
                         <div class="relative w-36 h-36 flex items-center justify-center">
@@ -244,6 +244,10 @@ Object.assign(window.WorkspaceUI, {
         
         submitBtn.disabled = true;
         submitBtn.innerHTML = `<span>⏳</span> 检索中...`;
+        
+        if (window.WorkspaceUI && window.WorkspaceUI.toggleMobileSidebar) {
+            window.WorkspaceUI.toggleMobileSidebar(false);
+        }
         
         const idleView = document.getElementById('rag-idle-view');
         const processingView = document.getElementById('rag-processing-view');

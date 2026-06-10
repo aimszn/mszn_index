@@ -64,8 +64,11 @@ window.WorkspaceUI = {
         document.head.appendChild(style);
 
         const mainAreaHTML = `
-            <div class="flex-1 flex flex-col bg-[#050505]">
-                <header class="h-[64px] border-b border-slate-800 flex items-center justify-between px-6 bg-[#0f172a]/50 backdrop-blur">
+            <div class="flex-1 flex flex-col bg-[#050505] relative">
+                <!-- Mobile Sidebar Backdrop -->
+                <div id="ws-mobile-backdrop" onclick="WorkspaceUI.toggleMobileSidebar(false)" class="fixed inset-0 bg-black/60 z-40 hidden transition-opacity duration-300 opacity-0"></div>
+                
+                <header class="h-[64px] border-b border-slate-800 flex items-center justify-between px-6 bg-[#0f172a]/50 backdrop-blur shrink-0">
                     <div class="flex items-center gap-4">
                         <button onclick="WorkspaceUI.close()" class="text-slate-400 hover:text-rose-400 text-xs font-bold flex items-center gap-2 transition-all bg-slate-900/40 hover:bg-rose-950/20 border border-slate-800 hover:border-rose-500/30 px-3.5 py-1.5 rounded-xl">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
@@ -78,9 +81,14 @@ window.WorkspaceUI = {
                             <span id="ws-current-tag" class="text-[10px] font-mono px-2 py-0.5 rounded border border-slate-700 bg-slate-800 text-slate-300">...</span>
                         </div>
                     </div>
-                    <button class="text-xs text-slate-400 hover:text-pink-400 font-medium px-4 py-2 rounded-lg border border-slate-700 hover:border-pink-500 transition-colors">
-                        清空运行记录
-                    </button>
+                    <div class="flex items-center gap-3">
+                        <button id="ws-mobile-toggle" onclick="WorkspaceUI.toggleMobileSidebar()" class="hidden text-xs text-slate-300 hover:text-white bg-slate-900/80 border border-slate-700 px-3.5 py-2 rounded-xl transition-all font-bold md:hidden">
+                            ⚙️ 参数配置
+                        </button>
+                        <button class="text-xs text-slate-400 hover:text-pink-400 font-medium px-4 py-2 rounded-lg border border-slate-700 hover:border-pink-500 transition-colors">
+                            清空运行记录
+                        </button>
+                    </div>
                 </header>
                 <main id="ws-main-content" class="flex-1 overflow-hidden relative noise-overlay">
                 </main>
@@ -244,6 +252,21 @@ window.WorkspaceUI = {
             tagEl.className = 'text-[10px] font-mono px-2 py-0.5 rounded border border-amber-500/30 bg-amber-900/20 text-amber-400';
             if (typeof WorkspaceUI.renderBlogRag === 'function') {
                 WorkspaceUI.renderBlogRag(title, icon, initialInput);
+            }
+        }
+
+        // Reset mobile sidebar and show/hide toggle button
+        if (typeof WorkspaceUI.toggleMobileSidebar === 'function') {
+            WorkspaceUI.toggleMobileSidebar(false);
+        }
+        const mobileToggleBtn = document.getElementById('ws-mobile-toggle');
+        if (mobileToggleBtn) {
+            if (['localPromo', 'qinhuai', 'blogRag', 'poet'].includes(id)) {
+                mobileToggleBtn.classList.remove('hidden');
+                mobileToggleBtn.classList.add('block');
+            } else {
+                mobileToggleBtn.classList.remove('block');
+                mobileToggleBtn.classList.add('hidden');
             }
         }
     },
@@ -496,5 +519,36 @@ window.WorkspaceUI = {
             console.error('Fallback copy failed:', err);
         }
         document.body.removeChild(textarea);
+    },
+
+    toggleMobileSidebar: function(forceShow) {
+        const sidebar = document.querySelector('.ws-sidebar-panel');
+        const backdrop = document.getElementById('ws-mobile-backdrop');
+        if (!sidebar) return;
+        
+        const isHidden = sidebar.classList.contains('-translate-x-full');
+        const show = (forceShow !== undefined) ? forceShow : isHidden;
+        
+        if (show) {
+            sidebar.classList.remove('-translate-x-full');
+            sidebar.classList.add('translate-x-0');
+            if (backdrop) {
+                backdrop.classList.remove('hidden');
+                setTimeout(() => {
+                    backdrop.classList.remove('opacity-0');
+                    backdrop.classList.add('opacity-100');
+                }, 10);
+            }
+        } else {
+            sidebar.classList.remove('translate-x-0');
+            sidebar.classList.add('-translate-x-full');
+            if (backdrop) {
+                backdrop.classList.remove('opacity-100');
+                backdrop.classList.add('opacity-0');
+                setTimeout(() => {
+                    backdrop.classList.add('hidden');
+                }, 300);
+            }
+        }
     }
 };
