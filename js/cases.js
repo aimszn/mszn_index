@@ -1232,14 +1232,14 @@ def analyze_reviews(asin_reviews):
     <g transform="translate(200, 75)"><circle cx="20" cy="25" r="25" fill="#1e1b4b" stroke="#0ea5e9" stroke-width="2" filter="url(#glow4)" /><text x="20" y="27" text-anchor="middle" fill="#c4b5fd" font-size="12" text-anchor="middle" font-weight="bold">n8n</text></g>
     <g transform="translate(320, 80)"><rect width="50" height="40" rx="8" fill="#0f172a" stroke="#0ea5e9" stroke-width="1.5" /><text x="25" y="24" text-anchor="middle" fill="#94a3b8" font-size="9" dominant-baseline="middle">CRM</text></g>
 </svg>`,
-        metrics: getPersonalizedMetricsHTML({
+        metrics: {
             confidence: 97.4,
             level: "L5",
             nodes: 6,
             latencyBefore: "4小时",
             latencyAfter: "2分钟",
             savedHours: 16
-        }),
+        },
         logs: [
             "[INFO] Ingestion listener active for WhatsApp/FB/Email...",
             "[DEBUG] Incoming query: \"Need quote for 2,000 units. Budget is $15k\"",
@@ -1291,14 +1291,14 @@ def analyze_reviews(asin_reviews):
     <g transform="translate(150, 75)"><circle cx="25" cy="25" r="25" fill="#1e1b4b" stroke="#06b6d4" stroke-width="2" filter="url(#glow5)" /><text x="25" y="27" text-anchor="middle" fill="#c4b5fd" font-size="9" dominant-baseline="middle" font-weight="bold">GPT Writer</text></g>
     <g transform="translate(300, 80)"><rect width="45" height="40" rx="8" fill="#0f172a" stroke="#0ea5e9" stroke-width="1.5" /><text x="22.5" y="24" text-anchor="middle" fill="#94a3b8" font-size="9" dominant-baseline="middle">Listing</text></g>
 </svg>`,
-        metrics: getPersonalizedMetricsHTML({
+        metrics: {
             confidence: 94.6,
             level: "L4",
             nodes: 8,
             latencyBefore: "2天",
             latencyAfter: "15分钟",
             savedHours: 30
-        }),
+        },
         logs: [
             "[INFO] Reading PIM CSV import: 100 new product SKUs",
             "[ACTION] GPT-4 Listing Writer processing item: \"Ergonomic Office Chair\"",
