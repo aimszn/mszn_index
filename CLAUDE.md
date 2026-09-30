@@ -131,3 +131,24 @@ python build.py              # 构建：dist/index.html (477 KB，零 fetch)
 6. **图片资源** → 放入 `assets/images/`，使用相对路径
 7. **每次修改后** → `python build.py` 更新生产版本
 8. **原始备份** → `html/mszn_index.html` 不做任何修改
+
+## 改完复测流程
+
+每次修改完成后、提 PR 之前，必须按顺序跑完以下验证，全部通过才能提 PR：
+
+1. **静态检查**
+   - 所有 `data/*.json` 可被 `json.load` 正常解析
+   - 所有 `js/*.js` 通过 `node --check`
+2. **构建检查**
+   - `python3 build.py` 退出码为 0
+   - `dist/index.html` 已包含本次改动（`git diff --stat` 确认）
+3. **引用检查**
+   - partials、data、js 中引用的本地图片/链接/片段路径在仓库内真实存在，无 404
+4. **浏览器实测**
+   - `python3 -m http.server` 起本地服务，用 Chromium/Playwright 打开
+   - 打开首页 + 本次改动影响的页面区块，console 零 error
+   - 改动点手工点一遍：弹窗能开、按钮有反应、表单能走到提交（mock）
+5. **回归确认**
+   - 只验证本次改动影响的区块 + 首页冒烟，不做全站回归
+
+验证不通过 → 修完从第 1 步重新开始；验证报告（改了什么、怎么测的、结果）随 PR 描述一起提交。
